@@ -41,3 +41,7 @@
      ```
 
 3. Git 컨벤션은 [위키](https://github.com/LikeLion-at-DGU/2026-simba-4team-WangDdabong/wiki/Convention) 참고
+
+# simba_4team
+심바톤 4팀 왕따봉
+
