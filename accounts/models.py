@@ -10,8 +10,6 @@ class Profile(models.Model):
     # epilogue = models.ForeignKey('main.Epilogue', on_delete = models.SET_NULL, null = True, blank = True)
     signup_date = models.DateTimeField(auto_now_add=True)
     name = models.CharField(max_length = 20)        #이름
-    job = models.CharField(max_length = 20)         #직업
-    birth_date = models.DateField()                 #생년월일
     mbti = models.CharField(max_length = 4)         #성향
     email = models.EmailField()                     #이메일
     point = models.IntegerField(default = 0)        #포인트 및 카운트
