@@ -13,10 +13,6 @@ def signup(request):
     """
     if request.method == 'POST': #사용자가 화면에서 '회원가입' 버튼을 눌러 데이터를 전송한 경우(처리 시작)
         if request.POST['password'] == request.POST['confirm']:
-            newwriter = User.objects.create_user(
-                username=request.POST['username'],
-                password=request.POST['password'],
-            )
 
             username = request.POST['username']
             name = request.POST['name']
@@ -28,11 +24,16 @@ def signup(request):
                     request, 'accounts/demo_signup.html', {'message' : '이미 사용 중인 아이디입니다.'}
                 )
 
-
             if Profile.objects.filter(email=email).exists():
                 return render(
                     request, 'accounts/demo_signup.html', {'message' : '이미 사용 중인 이메일입니다.'}
                 )
+
+
+            newwriter = User.objects.create_user(
+                username=request.POST['username'],
+                password=request.POST['password'],
+            )
 
             profile = Profile(
                 writer=newwriter,
