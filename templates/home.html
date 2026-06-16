@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}홈{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+<link rel="stylesheet" href="{% static 'css/review_popup.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="top-area">
+    <div class="top-info">
+        <span class="top-info-box">남은 고민 개수</span>
+        <span class="top-info-box">포인트</span>
+    </div>
+
+    <div class="categories">
+        <a href="{% url 'worrywrite' %}" class="category-card add-card">
+            <button class="category-add" type="button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="31" height="31" viewBox="0 0 31 31" fill="none">
+                    <line x1="16" y1="2" x2="16" y2="29" stroke="#AE4959" stroke-width="4" stroke-linecap="round" />
+                    <path d="M2 15H29" stroke="#AE4959" stroke-width="4" stroke-linecap="round" />
+                </svg>
+            </button>
+        </a>
+
+        <article class="category-card">
+            <img class="category-icon" src="{% static 'images/study_icon.png' %}" alt="학업">
+            <p class="category-title">학업</p>
+
+            <div class="category-meta">
+                <span class="stamp">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="26" viewBox="0 0 22 26" fill="none">
+                        <g clip-path="url(#clip_stamp_study)">
+                            <path
+                                d="M12.4855 2.71507L7.37931 3.11758C4.62643 3.33458 2.58178 5.74125 2.81247 8.49302L3.6482 18.4622C3.87889 21.214 6.29755 23.2688 9.05043 23.0518L14.1566 22.6493C16.9095 22.4323 18.9542 20.0256 18.7235 17.2739L17.8877 7.30467C17.6571 4.5529 15.2384 2.49806 12.4855 2.71507Z"
+                                fill="#C89B25" />
+                            <path
+                                d="M10.1406 11.6667C10.1406 11.2064 9.75587 10.8333 9.28125 10.8333C8.80663 10.8333 8.42188 11.2064 8.42188 11.6667C8.42188 12.1269 8.80663 12.5 9.28125 12.5C9.75587 12.5 10.1406 12.1269 10.1406 11.6667Z"
+                                fill="#3A3A3A" />
+                            <path
+                                d="M14.9531 11C14.9531 10.5398 14.5684 10.1667 14.0938 10.1667C13.6191 10.1667 13.2344 10.5398 13.2344 11C13.2344 11.4602 13.6191 11.8333 14.0938 11.8333C14.5684 11.8333 14.9531 11.4602 14.9531 11Z"
+                                fill="#3A3A3A" />
+                            <path d="M11.1719 14.8333C12.0885 15.0555 14.1281 15.2333 14.9531 14.1667" stroke="#3A3A3A"
+                                stroke-width="1.5" stroke-linecap="round" />
+                            <path d="M0.199707 2.01135C0.684386 2.30758 1.40193 3.18743 0.394671 4.33701"
+                                stroke="#3A3A3A" stroke-width="0.5" stroke-linecap="round" />
+                            <path
+                                d="M1.75952 20.6166C2.76678 19.4671 2.04924 18.5872 1.56456 18.2909C2.57181 17.1414 1.85427 16.2615 1.3696 15.9653C2.37685 14.8157 1.65931 13.9359 1.17463 13.6397C2.18188 12.4901 1.46435 11.6102 0.979667 11.314C1.98692 10.1644 1.26938 9.28453 0.784705 8.98833C1.79196 7.83873 1.07442 6.95886 0.589739 6.66266C1.59699 5.51307 0.879457 4.63322 0.394775 4.33699"
+                                stroke="#3A3A3A" stroke-width="0.5" stroke-linecap="round" />
+                            <path d="M1.75928 20.6167C2.24396 20.9129 2.9615 21.7927 1.95425 22.9423" stroke="#3A3A3A"
+                                stroke-width="0.5" stroke-linecap="round" />
+                            <path d="M1.95435 22.9423C2.43903 23.2385 3.15657 24.1184 2.14931 25.2679" stroke="#3A3A3A"
+                                stroke-width="0.5" stroke-linecap="round" />
+                            <path d="M19.2786 0.172974C18.8496 0.541222 18.2881 1.5219 19.4736 2.49863" stroke="#3A3A3A"
+                                stroke-width="0.5" stroke-linecap="round" />
+                            <path
+                                d="M20.8382 18.7783C19.6527 17.8015 20.2142 16.8209 20.6432 16.4526C19.4577 15.4759 20.0193 14.4952 20.4483 14.1269C19.2627 13.1502 19.8244 12.1695 20.2533 11.8013C19.0678 10.8245 19.6294 9.84386 20.0583 9.4756C18.8729 8.49886 19.4344 7.5182 19.8634 7.14993C18.6779 6.17321 19.2394 5.19252 19.6684 4.82428C18.4829 3.84754 19.0445 2.86686 19.4735 2.49861"
+                                stroke="#3A3A3A" stroke-width="0.5" stroke-linecap="round" />
+                            <path d="M20.8382 18.7783C20.4092 19.1465 19.8477 20.1272 21.0331 21.1039" stroke="#3A3A3A"
+                                stroke-width="0.5" stroke-linecap="round" />
+                            <path d="M21.0333 21.1039C20.6043 21.4722 20.0427 22.4529 21.2282 23.4296" stroke="#3A3A3A"
+                                stroke-width="0.5" stroke-linecap="round" />
+                            <path
+                                d="M4.56909 25.3337C5.57635 24.1841 6.58767 24.7287 6.96745 25.1446C7.97471 23.9951 8.98602 24.5396 9.36579 24.9556C10.373 23.806 11.3844 24.3505 11.7641 24.7665C12.7714 23.6169 13.7827 24.1615 14.1625 24.5775C15.1697 23.4279 16.181 23.9724 16.5608 24.3884C17.568 23.2388 18.5794 23.7834 18.9591 24.1993C19.9664 23.0497 20.9564 23.3395 21.3361 23.7555"
+                                stroke="#3A3A3A" stroke-width="0.5" stroke-linecap="round" />
+                            <path d="M4.56924 25.3337C4.18948 24.9177 3.17815 24.3732 2.1709 25.5227" stroke="#3A3A3A"
+                                stroke-width="0.5" stroke-linecap="round" />
+                            <path
+                                d="M16.9602 0.355728C15.953 1.50531 14.9416 0.960761 14.5619 0.544784C13.5547 1.69437 12.5433 1.14981 12.1636 0.733841C11.1563 1.88343 10.145 1.33887 9.76525 0.922894C8.75799 2.07248 7.74661 1.52793 7.36691 1.11195C6.35964 2.26153 5.34831 1.71698 4.96856 1.30101C3.96129 2.45059 2.94997 1.90604 2.57021 1.49006C1.56296 2.63965 0.551631 2.09509 0.171875 1.67912"
+                                stroke="#3A3A3A" stroke-width="0.5" stroke-linecap="round" />
+                            <path d="M16.9602 0.355712C17.34 0.771686 18.3513 1.31624 19.3585 0.166656" stroke="#3A3A3A"
+                                stroke-width="0.5" stroke-linecap="round" />
+                        </g>
+                        <defs>
+                            <clipPath id="clip_stamp_study">
+                                <rect width="22" height="26" fill="white" />
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </span>
+
+                <span class="count">6</span>
+
+                <span class="answer">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="23" viewBox="0 0 25 23" fill="none">
+                        <path
+                            d="M10.0634 0.343539C16.2256 -0.450609 21.8649 3.90109 22.659 10.0633L24.097 21.2211L12.9392 22.659C6.77698 23.4531 1.13772 19.1014 0.343568 12.9392C-0.45058 6.77696 3.90112 1.13769 10.0634 0.343539Z"
+                            stroke="#3A3A3A" stroke-width="0.5" />
+                    </svg>
+                    <span class="answer_text">A</span>
+                </span>
+
+                <span class="count">3</span>
+            </div>
+        </article>
+
+        <article class="category-card">
+            <img class="category-icon" src="{% static 'images/relationship_icon.png' %}" alt="인간관계">
+            <p class="title">인간 관계</p>
+
+            <div class="category-meta">
+                <span class="stamp">
+                    <!-- 위 학업 카드 stamp SVG랑 똑같이 써도 됨 -->
+                </span>
+
+                <span class="count">21</span>
+
+                <span class="answer">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="23" viewBox="0 0 25 23" fill="none">
+                        <path
+                            d="M10.0634 0.343539C16.2256 -0.450609 21.8649 3.90109 22.659 10.0633L24.097 21.2211L12.9392 22.659C6.77698 23.4531 1.13772 19.1014 0.343568 12.9392C-0.45058 6.77696 3.90112 1.13769 10.0634 0.343539Z"
+                            stroke="#3A3A3A" stroke-width="0.5" />
+                    </svg>
+                    <span class="answer_text">A</span>
+                </span>
+
+                <span class="count">17</span>
+            </div>
+        </article>
+    </div>
+</section>
+
+<section class="delivery-area">
+    <div class="daily-question">
+        <p class="ment">오늘은 어떤 고민을 전달해볼까요?</p>
+    </div>
+
+    <div class="box-character">
+        <svg xmlns="http://www.w3.org/2000/svg" width="88" height="81" viewBox="0 0 88 81" fill="none">
+            <path d="M1.5 79.0804V21.5804L14.5 2.08035L44 21.5804L74 2.08035L80.25 11.8304L86.5 21.5804V79.0804H1.5Z"
+                fill="#9F907E" />
+            <path
+                d="M44 21.5804L14.5 2.08035L1.5 21.5804V79.0804H86.5V21.5804L80.25 11.8304L74 2.08035L44 21.5804ZM1.5 21.5804H44M86.5 21.5804H44"
+                stroke="black" stroke-width="3" stroke-linecap="round" />
+            <circle cx="36" cy="49.5804" r="2.5" fill="black" />
+            <circle cx="51" cy="49.5804" r="2.5" fill="black" />
+            <path d="M33.5 43.1847C34.1667 42.3513 35.9 41.1847 37.5 43.1847" stroke="black" stroke-linecap="round" />
+            <path d="M49.5 43.1847C50.1667 42.3513 51.9 41.1847 53.5 43.1847" stroke="black" stroke-linecap="round" />
+            <path d="M36.5 59.0804C39.1667 60.747 45.6 63.0804 50 59.0804" stroke="black" stroke-width="2"
+                stroke-linecap="round" />
+        </svg>
+    </div>
+
+    <div class="worryvery-character">
+        <img src="{% static 'images/eldersheep_icon.png' %}" alt="Worryvery">
+    </div>
+</section>
+
+<!-- 후일담 팝업 -->
+<section class="review-popup" id="reviewPopup">
+    <button type="button" class="review-close" id="reviewClose">×</button>
+
+    <div class="review-content-box">
+        <p class="review-title">
+            후일담이 업로드 되었습니다!<br>
+            팝업
+        </p>
+
+        <p class="review-body">
+            후일담 감사 한마디
+        </p>
+
+    </div>
+</section>
+<!-- 출석체크 팝업 -->
+<section class="attendance-popup" id="attendancePopup">
+    <button type="button" class="popup-close" id="attendanceClose">×</button>
+
+    <div class="attendance-content-box">
+        <p class="attendance-title">
+            출석체크
+        </p>
+    </div>
+</section>
+
+<script src="{% static 'js/review_popup.js' %}"></script>
+
+{% endblock %}

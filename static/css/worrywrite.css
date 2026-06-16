@@ -1,0 +1,252 @@
+@font-face {
+    font-family: "Chunko Bold Demo";
+    src: url("../fonts/ChunkoBoldDemo.woff2") format("woff2");
+    font-weight: 900;
+    font-style: normal;
+}
+
+.write-top-area {
+    width: 100%;
+    height: 52px;
+    background: #F3EEE8;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.top-info {
+    position: absolute;
+    top: 8px;
+    right: 28px;
+
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    z-index: 20;
+}
+
+.top-info-box {
+    display: flex;
+    width: 75px;
+    height: 20px;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #D5C9BB;
+
+    color: #000;
+    font-family: Pretendard, sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+}
+
+
+
+.write-section {
+    height: calc(874px - 99px - 52px);
+    padding: 0 16px 16px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.write-page-title {
+    margin: 4px 0 18px;
+
+    color: #2B2D54;
+    text-align: center;
+    font-family: "Chunko Bold Demo", Pretendard, sans-serif;
+    font-size: 30px;
+    font-weight: 900;
+    line-height: 120%;
+}
+
+.worry-form {
+    width: 370px;
+    margin: 0 auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.textfield {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.textfield label {
+    color: #000;
+    font-family: Pretendard, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+/* 입력창 공통 */
+.worry-keyword,
+.worry-title,
+.worry-content {
+    width: 100%;
+
+    border: none;
+    outline: none;
+    border-radius: 0;
+
+    background: #D5C9BB;
+    color: #000;
+
+    font-family: Pretendard;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 150%;
+
+    padding: 14px 16px;
+}
+
+/* 키워드 박스 */
+.worry-keyword {
+    width: 370px;
+    height: 50px;
+    resize: none;
+}
+
+/* 제목 박스 */
+.worry-title {
+    width: 370px;
+    height: 50px;
+    resize: none;
+}
+
+.question-title {
+    color: #000;
+    font-family: Pretendard, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 150%;
+    margin-top: 0;
+}
+
+
+/* 내용 박스 */
+.worry-content {
+    width: 370px;
+    height: 230px;
+    border-radius: 30px 30px 0 0;
+    background: #D5C9BB;
+    resize: none;
+}
+
+/* placeholder */
+.worry-keyword::placeholder,
+.worry-title::placeholder,
+.worry-content::placeholder {
+    color: #868484;
+    font-family: Pretendard;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 150%;
+    font-style: normal;
+}
+
+.mbti-field {
+    margin-top: 8px;
+}
+
+.mbti-title {
+    margin: 0 0 12px;
+
+    color: #000;
+    font-family: Pretendard, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.mbti-field {
+    margin-top: 8px;
+}
+
+.mbti-title {
+    margin: 0 0 12px;
+
+    color: #000;
+    font-family: Pretendard, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.mbti-options {
+    display: flex;
+    gap: 14px;
+}
+
+.mbti-toggle {
+    width: 62px;
+    height: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 3px;
+
+    border-radius: 999px;
+    background: #D5C9BB;
+}
+
+.mbti-toggle.off {
+    background: #BFBFBF;
+}
+
+.mbti-toggle.off .mbti-btn {
+    color: transparent;
+    background: transparent;
+}
+
+.mbti-btn {
+    width: 30px;
+    height: 30px;
+
+    border: none;
+    border-radius: 999px;
+    background: transparent;
+
+    color: #868484;
+    font-family: Pretendard, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.mbti-btn.active {
+    background: #FFFFFF;
+    color: #3A3A3A;
+}
+
+.submit-worry {
+    display: flex;
+    width: 370px;
+    padding: 12px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 20px;
+    background: #2B2D54;
+    text-decoration: none;
+    color: #FFF;
+    font-family: Pretendard;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 150%;
+    /* 24px */
+    margin-top: 24px;
+
+    cursor: pointer;
+}

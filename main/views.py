@@ -1,3 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
-# Create your views here.
+def home(request):
+    return render(request, "home.html")
+
+def worrywrite(request):
+    if request.method == "POST":
+        return redirect("home")
+
+    return render(request, "worrywrite.html")
