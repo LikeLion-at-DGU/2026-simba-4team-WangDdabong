@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
+from django.views.decorators.csrf import csrf_exempt
 
+@csrf_exempt
 def write_worry(request):
-    if not request.user.is_authenticated:
-        return redirect("accounts:login")
+    # if not request.user.is_authenticated:
+    #     return redirect("accounts:login")
     
     new_worry = Worry()
 
@@ -15,4 +17,5 @@ def write_worry(request):
 
     new_worry.save()
 
-    return redirect("main:demo_firstpage.html")
+    # return redirect("main:demo_firstpage")
+    return render(request, "worries/demo_write_worry.html")
