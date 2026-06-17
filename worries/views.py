@@ -22,3 +22,14 @@ def write_worry(request):
     new_worry.save()
 
     return redirect("main:demo_home")
+
+"""
+[고민 리스트 조회]
+- 기능: 모든 고민글을 반환
+- 받는 값: X
+- return: 모든 Worry 객체
+"""
+def get_worries(request):
+    worries = Worry.objects.all()
+
+    return render(request, "worries/demo_list.html", {"worries": worries})
