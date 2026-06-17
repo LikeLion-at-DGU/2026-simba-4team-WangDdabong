@@ -1,0 +1,318 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}고민 목록{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/worry_list.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="list-section">
+    <h1 class="list-page-title">WORRY LIST</h1>
+
+    <div class="worry-list-wrap">
+
+        <article class="worry-card">
+            <a href="{% url 'worry_detail' %}" class="card-link-overlay" aria-label="고민 상세로 이동"></a>
+            <div class="worry-text">
+                <span class="list-title">심바톤 1팀 발표 화이팅!</span>
+                <span class="list-sub">고민 내용...</span>
+            </div>
+
+            <div class="bookmark-box">
+                <span class="bookmark-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="18" viewBox="0 0 12 18" fill="none">
+                        <path
+                            d="M0 1.5C0 0.671573 0.671573 0 1.5 0H10.5C11.3284 0 12 0.671573 12 1.5V16.4425C12 17.7697 10.4031 18.4431 9.45285 17.5165L7.04715 15.171C6.46459 14.603 5.53541 14.603 4.95285 15.171L2.54715 17.5165C1.59686 18.4431 0 17.7698 0 16.4425V1.5Z"
+                            fill="white" />
+                    </svg>
+                </span>
+                <span class="list-time">10분 전</span>
+            </div>
+
+            <div class="list-meta">
+                <span class="stamp-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="26" viewBox="0 0 22 26" fill="none">
+                        <path
+                            d="M12.4855 2.71507L7.37931 3.11758C4.62643 3.33458 2.58178 5.74125 2.81247 8.49302L3.6482 18.4622C3.87889 21.214 6.29755 23.2688 9.05043 23.0518L14.1566 22.6493C16.9095 22.4323 18.9542 20.0256 18.7235 17.2739L17.8877 7.30467C17.6571 4.5529 15.2384 2.49806 12.4855 2.71507Z"
+                            fill="#C89B25" />
+                        <circle cx="9.3" cy="11.7" r="0.9" fill="#3A3A3A" />
+                        <circle cx="14.1" cy="11" r="0.9" fill="#3A3A3A" />
+                        <path d="M11.2 14.8C12.1 15.1 14.1 15.2 15 14.2" stroke="#3A3A3A" stroke-width="1.5"
+                            stroke-linecap="round" />
+                    </svg>
+                </span>
+
+                <span class="stamp-count">11</span>
+
+                <span class="answer-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="23" viewBox="0 0 25 23" fill="none">
+                        <path
+                            d="M10.0634 0.343539C16.2256 -0.450609 21.8649 3.90109 22.659 10.0633L24.097 21.2211L12.9392 22.659C6.77698 23.4531 1.13772 19.1014 0.343568 12.9392C-0.45058 6.77696 3.90112 1.13769 10.0634 0.343539Z"
+                            stroke="#3A3A3A" stroke-width="0.5" />
+                    </svg>
+                    <span>A</span>
+                </span>
+
+                <span class="answer-count">11</span>
+            </div>
+        </article>
+        </a>
+
+        <article class="worry-card">
+            <a href="{% url 'worry_detail' %}" class="card-link-overlay" aria-label="고민 상세로 이동"></a>
+            <div class="worry-text">
+                <span class="list-title">심바톤 2팀 발표 화이팅!</span>
+                <span class="list-sub">고민 내용...</span>
+            </div>
+
+            <div class="bookmark-box">
+                <span class="bookmark-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="18" viewBox="0 0 12 18" fill="none">
+                        <path
+                            d="M0 1.5C0 0.671573 0.671573 0 1.5 0H10.5C11.3284 0 12 0.671573 12 1.5V16.4425C12 17.7697 10.4031 18.4431 9.45285 17.5165L7.04715 15.171C6.46459 14.603 5.53541 14.603 4.95285 15.171L2.54715 17.5165C1.59686 18.4431 0 17.7698 0 16.4425V1.5Z"
+                            fill="white" />
+                    </svg>
+                </span>
+                <span class="list-time">10분 전</span>
+            </div>
+
+            <div class="list-meta">
+                <span class="stamp-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="26" viewBox="0 0 22 26" fill="none">
+                        <path
+                            d="M12.4855 2.71507L7.37931 3.11758C4.62643 3.33458 2.58178 5.74125 2.81247 8.49302L3.6482 18.4622C3.87889 21.214 6.29755 23.2688 9.05043 23.0518L14.1566 22.6493C16.9095 22.4323 18.9542 20.0256 18.7235 17.2739L17.8877 7.30467C17.6571 4.5529 15.2384 2.49806 12.4855 2.71507Z"
+                            fill="#C89B25" />
+                        <circle cx="9.3" cy="11.7" r="0.9" fill="#3A3A3A" />
+                        <circle cx="14.1" cy="11" r="0.9" fill="#3A3A3A" />
+                        <path d="M11.2 14.8C12.1 15.1 14.1 15.2 15 14.2" stroke="#3A3A3A" stroke-width="1.5"
+                            stroke-linecap="round" />
+                    </svg>
+                </span>
+
+                <span class="stamp-count">11</span>
+
+                <span class="answer-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="23" viewBox="0 0 25 23" fill="none">
+                        <path
+                            d="M10.0634 0.343539C16.2256 -0.450609 21.8649 3.90109 22.659 10.0633L24.097 21.2211L12.9392 22.659C6.77698 23.4531 1.13772 19.1014 0.343568 12.9392C-0.45058 6.77696 3.90112 1.13769 10.0634 0.343539Z"
+                            stroke="#3A3A3A" stroke-width="0.5" />
+                    </svg>
+                    <span>A</span>
+                </span>
+
+                <span class="answer-count">11</span>
+            </div>
+        </article>
+        </a>
+
+        <article class="worry-card">
+            <a href="{% url 'worry_detail' %}" class="card-link-overlay" aria-label="고민 상세로 이동"></a>
+            <div class="worry-text">
+                <span class="list-title">심바톤 3팀 발표 화이팅!</span>
+                <span class="list-sub">고민 내용...</span>
+            </div>
+
+            <div class="bookmark-box">
+                <span class="bookmark-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="18" viewBox="0 0 12 18" fill="none">
+                        <path
+                            d="M0 1.5C0 0.671573 0.671573 0 1.5 0H10.5C11.3284 0 12 0.671573 12 1.5V16.4425C12 17.7697 10.4031 18.4431 9.45285 17.5165L7.04715 15.171C6.46459 14.603 5.53541 14.603 4.95285 15.171L2.54715 17.5165C1.59686 18.4431 0 17.7698 0 16.4425V1.5Z"
+                            fill="white" />
+                    </svg>
+                </span>
+                <span class="list-time">10분 전</span>
+            </div>
+
+            <div class="list-meta">
+                <span class="stamp-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="26" viewBox="0 0 22 26" fill="none">
+                        <path
+                            d="M12.4855 2.71507L7.37931 3.11758C4.62643 3.33458 2.58178 5.74125 2.81247 8.49302L3.6482 18.4622C3.87889 21.214 6.29755 23.2688 9.05043 23.0518L14.1566 22.6493C16.9095 22.4323 18.9542 20.0256 18.7235 17.2739L17.8877 7.30467C17.6571 4.5529 15.2384 2.49806 12.4855 2.71507Z"
+                            fill="#C89B25" />
+                        <circle cx="9.3" cy="11.7" r="0.9" fill="#3A3A3A" />
+                        <circle cx="14.1" cy="11" r="0.9" fill="#3A3A3A" />
+                        <path d="M11.2 14.8C12.1 15.1 14.1 15.2 15 14.2" stroke="#3A3A3A" stroke-width="1.5"
+                            stroke-linecap="round" />
+                    </svg>
+                </span>
+
+                <span class="stamp-count">11</span>
+
+                <span class="answer-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="23" viewBox="0 0 25 23" fill="none">
+                        <path
+                            d="M10.0634 0.343539C16.2256 -0.450609 21.8649 3.90109 22.659 10.0633L24.097 21.2211L12.9392 22.659C6.77698 23.4531 1.13772 19.1014 0.343568 12.9392C-0.45058 6.77696 3.90112 1.13769 10.0634 0.343539Z"
+                            stroke="#3A3A3A" stroke-width="0.5" />
+                    </svg>
+                    <span>A</span>
+                </span>
+
+                <span class="answer-count">11</span>
+            </div>
+        </article>
+        </a>
+
+        <article class="worry-card">
+            <a href="{% url 'worry_detail' %}" class="card-link-overlay" aria-label="고민 상세로 이동"></a>
+            <div class="worry-text">
+                <span class="list-title">심바톤 4팀 발표 화이팅!</span>
+                <span class="list-sub">고민 내용...</span>
+            </div>
+
+            <div class="bookmark-box">
+                <span class="bookmark-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="18" viewBox="0 0 12 18" fill="none">
+                        <path
+                            d="M0 1.5C0 0.671573 0.671573 0 1.5 0H10.5C11.3284 0 12 0.671573 12 1.5V16.4425C12 17.7697 10.4031 18.4431 9.45285 17.5165L7.04715 15.171C6.46459 14.603 5.53541 14.603 4.95285 15.171L2.54715 17.5165C1.59686 18.4431 0 17.7698 0 16.4425V1.5Z"
+                            fill="white" />
+                    </svg>
+                </span>
+                <span class="list-time">10분 전</span>
+            </div>
+
+            <div class="list-meta">
+                <span class="stamp-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="26" viewBox="0 0 22 26" fill="none">
+                        <path
+                            d="M12.4855 2.71507L7.37931 3.11758C4.62643 3.33458 2.58178 5.74125 2.81247 8.49302L3.6482 18.4622C3.87889 21.214 6.29755 23.2688 9.05043 23.0518L14.1566 22.6493C16.9095 22.4323 18.9542 20.0256 18.7235 17.2739L17.8877 7.30467C17.6571 4.5529 15.2384 2.49806 12.4855 2.71507Z"
+                            fill="#C89B25" />
+                        <circle cx="9.3" cy="11.7" r="0.9" fill="#3A3A3A" />
+                        <circle cx="14.1" cy="11" r="0.9" fill="#3A3A3A" />
+                        <path d="M11.2 14.8C12.1 15.1 14.1 15.2 15 14.2" stroke="#3A3A3A" stroke-width="1.5"
+                            stroke-linecap="round" />
+                    </svg>
+                </span>
+
+                <span class="stamp-count">11</span>
+
+                <span class="answer-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="23" viewBox="0 0 25 23" fill="none">
+                        <path
+                            d="M10.0634 0.343539C16.2256 -0.450609 21.8649 3.90109 22.659 10.0633L24.097 21.2211L12.9392 22.659C6.77698 23.4531 1.13772 19.1014 0.343568 12.9392C-0.45058 6.77696 3.90112 1.13769 10.0634 0.343539Z"
+                            stroke="#3A3A3A" stroke-width="0.5" />
+                    </svg>
+                    <span>A</span>
+                </span>
+
+                <span class="answer-count">11</span>
+            </div>
+        </article>
+        </a>
+
+        <article class="worry-card">
+            <a href="{% url 'worry_detail' %}" class="card-link-overlay" aria-label="고민 상세로 이동"></a>
+            <div class="worry-text">
+                <span class="list-title">심바톤 5팀 발표 화이팅!</span>
+                <span class="list-sub">고민 내용...</span>
+            </div>
+
+            <div class="bookmark-box">
+                <span class="bookmark-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="18" viewBox="0 0 12 18" fill="none">
+                        <path
+                            d="M0 1.5C0 0.671573 0.671573 0 1.5 0H10.5C11.3284 0 12 0.671573 12 1.5V16.4425C12 17.7697 10.4031 18.4431 9.45285 17.5165L7.04715 15.171C6.46459 14.603 5.53541 14.603 4.95285 15.171L2.54715 17.5165C1.59686 18.4431 0 17.7698 0 16.4425V1.5Z"
+                            fill="white" />
+                    </svg>
+                </span>
+                <span class="list-time">10분 전</span>
+            </div>
+
+            <div class="list-meta">
+                <span class="stamp-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="26" viewBox="0 0 22 26" fill="none">
+                        <path
+                            d="M12.4855 2.71507L7.37931 3.11758C4.62643 3.33458 2.58178 5.74125 2.81247 8.49302L3.6482 18.4622C3.87889 21.214 6.29755 23.2688 9.05043 23.0518L14.1566 22.6493C16.9095 22.4323 18.9542 20.0256 18.7235 17.2739L17.8877 7.30467C17.6571 4.5529 15.2384 2.49806 12.4855 2.71507Z"
+                            fill="#C89B25" />
+                        <circle cx="9.3" cy="11.7" r="0.9" fill="#3A3A3A" />
+                        <circle cx="14.1" cy="11" r="0.9" fill="#3A3A3A" />
+                        <path d="M11.2 14.8C12.1 15.1 14.1 15.2 15 14.2" stroke="#3A3A3A" stroke-width="1.5"
+                            stroke-linecap="round" />
+                    </svg>
+                </span>
+
+                <span class="stamp-count">11</span>
+
+                <span class="answer-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="23" viewBox="0 0 25 23" fill="none">
+                        <path
+                            d="M10.0634 0.343539C16.2256 -0.450609 21.8649 3.90109 22.659 10.0633L24.097 21.2211L12.9392 22.659C6.77698 23.4531 1.13772 19.1014 0.343568 12.9392C-0.45058 6.77696 3.90112 1.13769 10.0634 0.343539Z"
+                            stroke="#3A3A3A" stroke-width="0.5" />
+                    </svg>
+                    <span>A</span>
+                </span>
+
+                <span class="answer-count">11</span>
+            </div>
+        </article>
+        </a>
+
+        <article class="worry-card">
+            <a href="{% url 'worry_detail' %}" class="card-link-overlay" aria-label="고민 상세로 이동"></a>
+            <div class="worry-text">
+                <span class="list-title">심바톤 6팀 발표 화이팅!</span>
+                <span class="list-sub">고민 내용...</span>
+            </div>
+
+            <div class="bookmark-box">
+                <span class="bookmark-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="18" viewBox="0 0 12 18" fill="none">
+                        <path
+                            d="M0 1.5C0 0.671573 0.671573 0 1.5 0H10.5C11.3284 0 12 0.671573 12 1.5V16.4425C12 17.7697 10.4031 18.4431 9.45285 17.5165L7.04715 15.171C6.46459 14.603 5.53541 14.603 4.95285 15.171L2.54715 17.5165C1.59686 18.4431 0 17.7698 0 16.4425V1.5Z"
+                            fill="white" />
+                    </svg>
+                </span>
+                <span class="list-time">10분 전</span>
+            </div>
+
+            <div class="list-meta">
+                <span class="stamp-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="26" viewBox="0 0 22 26" fill="none">
+                        <path
+                            d="M12.4855 2.71507L7.37931 3.11758C4.62643 3.33458 2.58178 5.74125 2.81247 8.49302L3.6482 18.4622C3.87889 21.214 6.29755 23.2688 9.05043 23.0518L14.1566 22.6493C16.9095 22.4323 18.9542 20.0256 18.7235 17.2739L17.8877 7.30467C17.6571 4.5529 15.2384 2.49806 12.4855 2.71507Z"
+                            fill="#C89B25" />
+                        <circle cx="9.3" cy="11.7" r="0.9" fill="#3A3A3A" />
+                        <circle cx="14.1" cy="11" r="0.9" fill="#3A3A3A" />
+                        <path d="M11.2 14.8C12.1 15.1 14.1 15.2 15 14.2" stroke="#3A3A3A" stroke-width="1.5"
+                            stroke-linecap="round" />
+                    </svg>
+                </span>
+
+                <span class="stamp-count">11</span>
+
+                <span class="answer-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="23" viewBox="0 0 25 23" fill="none">
+                        <path
+                            d="M10.0634 0.343539C16.2256 -0.450609 21.8649 3.90109 22.659 10.0633L24.097 21.2211L12.9392 22.659C6.77698 23.4531 1.13772 19.1014 0.343568 12.9392C-0.45058 6.77696 3.90112 1.13769 10.0634 0.343539Z"
+                            stroke="#3A3A3A" stroke-width="0.5" />
+                    </svg>
+                    <span>A</span>
+                </span>
+
+                <span class="answer-count">11</span>
+            </div>
+        </article>
+        </a>
+
+        <!-- 페이지네이션 -->
+        <div class="pagination">
+            <button type="button" class="page-arrow">‹</button>
+
+            <button type="button" class="page-btn active">1</button>
+            <button type="button" class="page-btn">2</button>
+            <button type="button" class="page-btn">3</button>
+
+            <button type="button" class="page-arrow">›</button>
+        </div>
+
+        <!-- 고민 작성하기 버튼 -->
+        <a href="{% url 'worry_write' %}" class="write-worry-button">
+            고민 작성하기
+        </a>
+
+    </div>
+</section>
+
+{% endblock %}

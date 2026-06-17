@@ -17,7 +17,7 @@
     </div>
 
     <div class="categories">
-        <a href="{% url 'worrywrite' %}" class="category-card add-card">
+        <a href="{% url 'worry_write' %}" class="category-card add-card">
             <button class="category-add" type="button">
                 <svg xmlns="http://www.w3.org/2000/svg" width="31" height="31" viewBox="0 0 31 31" fill="none">
                     <line x1="16" y1="2" x2="16" y2="29" stroke="#AE4959" stroke-width="4" stroke-linecap="round" />
@@ -151,9 +151,9 @@
 
 <!-- 후일담 팝업 -->
 <section class="review-popup" id="reviewPopup">
-    <button type="button" class="review-close" id="reviewClose">×</button>
-
     <div class="review-content-box">
+        <button type="button" class="popup-close" id="reviewClose">×</button>
+
         <p class="review-title">
             후일담이 업로드 되었습니다!<br>
             팝업
@@ -162,14 +162,14 @@
         <p class="review-body">
             후일담 감사 한마디
         </p>
-
     </div>
 </section>
+
 <!-- 출석체크 팝업 -->
 <section class="attendance-popup" id="attendancePopup">
-    <button type="button" class="popup-close" id="attendanceClose">×</button>
-
     <div class="attendance-content-box">
+        <button type="button" class="popup-close" id="attendanceClose">×</button>
+
         <p class="attendance-title">
             출석체크
         </p>

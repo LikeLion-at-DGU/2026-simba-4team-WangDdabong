@@ -4,7 +4,7 @@
 {% block title %}고민 작성{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/worrywrite.css' %}">
+<link rel="stylesheet" href="{% static 'css/worry_write.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -73,7 +73,7 @@
             </div>
         </div>
 
-        <a href="{% url 'home' %}" class="submit-worry">
+        <a href="{% url 'worry_list' %}" class="submit-worry">
             고민 등록하기
         </a>
     </form>
