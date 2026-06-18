@@ -51,3 +51,15 @@ def post_bookmark(request, worry_id):
         worry.save()
 
     return redirect("worries:get_worries")
+
+def post_cheerup(request, worry_id):
+    worry = get_object_or_404(Worry, pk=worry_id)
+
+    if request.user in worry.cheerup.all():
+        worry.cheerup.remove(request.user)
+        worry.cheerup_count -= 1
+        worry.save()
+    else:
+        worry.cheerup.add(request.user)
+        worry.cheerup_count += 1
+        worry.save()
