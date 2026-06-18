@@ -8,6 +8,9 @@ from .models import *
 - return: 성공 -> demo_home 리다이렉트 / 실패(인증 에러) -> 로그인 메서드로 리다이렉트
 """
 def post_worry(request):
+    if request.method == "GET":
+        return render(request, "worries/write_worry.html")
+    
     if not request.user.is_authenticated:
         return redirect("accounts:login")
     
@@ -32,7 +35,7 @@ def post_worry(request):
 def get_worries(request):
     worries = Worry.objects.all()
 
-    return render(request, "worries/demo_list.html", {"worries": worries})
+    return render(request, "worries/worry_list.html", {"worries": worries})
 
 """
 [고민 북마크 등록/취소]

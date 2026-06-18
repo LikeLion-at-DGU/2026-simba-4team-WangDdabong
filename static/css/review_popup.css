@@ -1,0 +1,121 @@
+/* 팝업 공통 */
+.review-popup,
+.attendance-popup {
+    position: absolute;
+    left: 0;
+    top: 279px;
+
+    width: 100%;
+    height: calc(100% - 279px);
+
+    display: none;
+    z-index: 200;
+
+    background: transparent;
+}
+
+.review-popup.active,
+.attendance-popup.active {
+    display: block;
+}
+
+/* X 버튼 공통 */
+.popup-close {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    border-radius: 50%;
+    background: #FFFFFF;
+
+    color: #2B2D2F;
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1;
+
+    cursor: pointer;
+    z-index: 300;
+
+    padding: 0;
+}
+
+/* 후일담 박스 */
+.review-content-box {
+    position: relative;
+
+    width: 370px;
+    height: 280px;
+    margin: 0 auto;
+
+    background: rgba(213, 201, 187, 0.96);
+    padding: 56px 42px;
+
+    font-family: Pretendard, sans-serif;
+    color: #FFFFFF;
+}
+
+.review-title {
+    margin: 0;
+
+    color: #FFFFFF;
+    font-family: Pretendard, sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 150%;
+}
+
+.review-body {
+    margin: 58px 0 0;
+
+    color: #FFFFFF;
+    font-family: Pretendard, sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 150%;
+}
+
+/* 출석체크 박스 */
+.attendance-content-box {
+    position: relative;
+
+    width: 370px;
+    height: 280px;
+    margin: 0 auto;
+
+    background: rgba(213, 201, 187, 0.96);
+    padding: 110px 42px;
+
+    font-family: Pretendard, sans-serif;
+    color: #FFFFFF;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.attendance-title {
+    margin: 0;
+
+    color: #FFFFFF;
+    font-family: Pretendard, sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 150%;
+}
+
+/* 팝업 뜰 때 양 흐리게 */
+.delivery-area {
+    transition: opacity 150ms ease-out;
+}
+
+.delivery-area.blurred {
+    opacity: 0.3;
+}
