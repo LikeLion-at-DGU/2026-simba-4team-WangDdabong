@@ -41,6 +41,9 @@ def get_worries(request):
 - return: 성공 시 -> 기존 화면(고민 리스트)으로 리다이렉트
 """ 
 def post_bookmark(request, worry_id):
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
     worry = get_object_or_404(Worry, pk=worry_id)
 
     if request.user in worry.later_answer.all():
@@ -59,6 +62,9 @@ def post_bookmark(request, worry_id):
 - return: 성공 시 -> 기존 화면(고민 리스트)으로 리다이렉트
 """
 def post_cheerup(request, worry_id):
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
     worry = get_object_or_404(Worry, pk=worry_id)
 
     if request.user in worry.cheerup.all():
@@ -79,6 +85,9 @@ def post_cheerup(request, worry_id):
 - return: 성공 시 -> 고민 상세 화면으로 리다이렉트
 """
 def get_worry_detail(request, worry_id):
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
     worry = get_object_or_404(Worry, pk=worry_id)
 
     return render(request, "worries/demo_worry_detail.html", {"worry": worry})
