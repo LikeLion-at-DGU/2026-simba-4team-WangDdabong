@@ -33,3 +33,21 @@ def get_worries(request):
     worries = Worry.objects.all()
 
     return render(request, "worries/demo_list.html", {"worries": worries})
+
+"""
+[고민 북마크 등록/취소]
+- 기능: 고민글에 대해 북마크를 추가
+- 받는 값: worry_id
+- return: 성공 시 -> 기존 화면(고민 리스트)으로 리다이렉트
+""" 
+def post_bookmark(request, worry_id):
+    worry = get_object_or_404(Worry, pk=worry_id)
+
+    if request.user in worry.later_answer.all():
+        worry.later_answer.remove(request.user)
+        worry.save()
+    else:
+        worry.later_answer.add(request.user)
+        worry.save()
+
+    return redirect("worries:get_worries")

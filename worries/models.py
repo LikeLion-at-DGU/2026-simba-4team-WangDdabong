@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 """
 고민
@@ -14,6 +15,7 @@ class Worry(models.Model):
     is_HoF = models.BooleanField(default=False)         # 명예의 전당 등재 여부
     cheerup = models.PositiveIntegerField(default=0)    # 응원 도장 개수
     gonggam = models.PositiveIntegerField(default=0)    # 공감 도장 개수
+    later_answer = models.ManyToManyField(User, related_name="worry_later_answer", blank=True)
 
     # 20자 넘기면 ... 붙이고 요약
     def summary(self):
