@@ -17,7 +17,7 @@ from worries.models import Worry
 def mypage(request):
 
     if not request.user.is_authenticated:
-        return redirect("accounts:login")
+        return redirect("accounts:login")   #비로그인 시, 로그인 페이지로 넘어감
 
     profile = get_object_or_404(Profile, writer=request.user)
 
@@ -39,18 +39,18 @@ def mypage(request):
 def my_worry(request):
     
     if not request.user.is_authenticated:
-        return redirect("accounts:login")
+        return redirect("accounts:login")   # 비로그인 시, 로그인 페이지로 넘어감
 
-    delivery_worries = Worry.objects.filter(
+    delivery_worries = Worry.objects.filter(    # 고민 배송 중
         writer = request.user,
         is_complete = False
     )
-    public_worries = Worry.objects.filter(
+    public_worries = Worry.objects.filter(      # 공개 O
         writer = request.user, 
         is_complete = True, 
         is_HoF=True
     )
-    private_worries = Worry.objects.filter(
+    private_worries = Worry.objects.filter(     # 공개 X
         writer = request.user,
         is_complete = True,
         is_HoF = False
@@ -75,6 +75,6 @@ def my_worry(request):
 def my_answer(request):
 
     if not request.user.is_authenticated:
-        return redirect("accounts:login")
+        return redirect("accounts:login")   #비로그인 시, 로그인 페이지로 넘어감
 
     return render(request, 'writers/demo_my_answer.html')
