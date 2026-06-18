@@ -4,5 +4,7 @@ from .views import *
 app_name = "worries"
 
 urlpatterns = [
-    path("write_worry/", write_worry, name="write_worry"),
+    path("post_worry/", post_worry, name="post_worry"),
+    path("get_worries/", get_worries, name="get_worries"),
+    path("post_bookmark/", post_bookmark, name="post_bookmark"),
 ]
