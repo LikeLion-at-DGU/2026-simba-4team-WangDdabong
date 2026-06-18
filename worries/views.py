@@ -7,7 +7,7 @@ from .models import *
 - 받는 값: keyword, title, content, mbti
 - return: 성공 -> demo_home 리다이렉트 / 실패(인증 에러) -> 로그인 메서드로 리다이렉트
 """
-def write_worry(request):
+def post_worry(request):
     if not request.user.is_authenticated:
         return redirect("accounts:login")
     
