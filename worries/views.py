@@ -7,7 +7,7 @@ from .models import *
 - 받는 값: keyword, title, content, mbti
 - return: 성공 -> demo_home 리다이렉트 / 실패(인증 에러) -> 로그인 메서드로 리다이렉트
 """
-def write_worry(request):
+def post_worry(request):
     if not request.user.is_authenticated:
         return redirect("accounts:login")
     
@@ -22,3 +22,72 @@ def write_worry(request):
     new_worry.save()
 
     return redirect("main:demo_home")
+
+"""
+[고민 리스트 조회]
+- 기능: 모든 고민글을 반환
+- 받는 값: X
+- return: 모든 Worry 객체
+"""
+def get_worries(request):
+    worries = Worry.objects.all()
+
+    return render(request, "worries/demo_list.html", {"worries": worries})
+
+"""
+[고민 북마크 등록/취소]
+- 기능: 나중에 답변할 고민 북마크를 추가/삭제
+- 받는 값: worry_id
+- return: 성공 시 -> 기존 화면(고민 리스트)으로 리다이렉트
+""" 
+def post_bookmark(request, worry_id):
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
+    worry = get_object_or_404(Worry, pk=worry_id)
+
+    if request.user in worry.later_answer.all():
+        worry.later_answer.remove(request.user)
+        worry.save()
+    else:
+        worry.later_answer.add(request.user)
+        worry.save()
+
+    return redirect("worries:get_worries")
+
+"""
+[고민 응원 도장 등록/취소]
+- 기능: 고민에 대해 응원 도장 추가/삭제
+- 받는 값: worry_id
+- return: 성공 시 -> 기존 화면(고민 리스트)으로 리다이렉트
+"""
+def post_cheerup(request, worry_id):
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
+    worry = get_object_or_404(Worry, pk=worry_id)
+
+    if request.user in worry.cheerup.all():
+        worry.cheerup.remove(request.user)
+        worry.cheerup_count -= 1
+        worry.save()
+    else:
+        worry.cheerup.add(request.user)
+        worry.cheerup_count += 1
+        worry.save()
+    
+    return redirect("worries:get_worries")
+
+"""
+[고민 상세 화면 리다이렉트]
+- 기능: 고민 상세 화면으로 이동
+- 받는 값: worry_id
+- return: 성공 시 -> 고민 상세 화면으로 리다이렉트
+"""
+def get_worry_detail(request, worry_id):
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
+    worry = get_object_or_404(Worry, pk=worry_id)
+
+    return render(request, "worries/demo_worry_detail.html", {"worry": worry})
