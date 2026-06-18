@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 고민
 """
 class Worry(models.Model):
+    writer = models.ForeignKey(User, on_delete=models.CASCADE) # 작성한 사용자 정보
     keyword = models.CharField(max_length=20)                                           # 키워드
     title = models.CharField(max_length=50)                                             # 제목
     content = models.TextField()                                                        # 본문
