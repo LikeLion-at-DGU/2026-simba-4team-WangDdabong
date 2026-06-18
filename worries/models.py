@@ -1,9 +1,12 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 """
 고민
+6/17 : writer FK 수정으로 인한 models.py 수정. db 삭제했다가 다시 만듦.
 """
 class Worry(models.Model):
+    writer = models.ForeignKey(User, on_delete=models.CASCADE) # 작성한 사용자 정보
     keyword = models.CharField(max_length=20)           # 키워드
     title = models.CharField(max_length=50)             # 제목
     content = models.TextField()                        # 본문
