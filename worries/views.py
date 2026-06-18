@@ -63,6 +63,8 @@ def post_cheerup(request, worry_id):
         worry.cheerup.add(request.user)
         worry.cheerup_count += 1
         worry.save()
+    
+    return redirect("worries:get_worries")
 
 def get_worry_detail(request, worry_id):
     worry = get_object_or_404(Worry, pk=worry_id)
