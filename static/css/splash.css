@@ -1,0 +1,63 @@
+@font-face {
+    font-family: 'Chunko Bold Demo';
+    src: url('../fonts/ChunkoBoldDemo.ttf');
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 402px;
+    height: 874px;
+    margin: 0 auto;
+}
+
+.logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.splash-container {
+    width: 100%;
+    height: 100%;
+    background: #F1EBE4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.worryang {
+    width: 16px;
+    height: 13px;
+    aspect-ratio: 16/13;
+    align-self: flex-end;
+    margin-right: 275px;
+}
+
+.title {
+    width: 386px;
+    color: #2B2D54;
+    text-align: center;
+    font-family: "Chunko Bold Demo";
+    font-size: 47px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 92%;
+    /* 43.24px */
+    letter-spacing: 1.41px;
+}
+
+.title span {
+    color: #9F907E;
+    font-family: "Chunko Bold Demo";
+    font-size: 47px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 92%;
+    letter-spacing: 1.41px;
+}

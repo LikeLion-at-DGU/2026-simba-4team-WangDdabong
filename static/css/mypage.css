@@ -1,0 +1,154 @@
+@font-face {
+    font-family: 'Chunko Bold Demo';
+    src: url('../fonts/ChunkoBoldDemo.ttf');
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.mypage-container {
+    width: 100%;
+    padding: 16px 16px 100px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    background-color: #F1EBE4;
+}
+
+.point-page {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.point-btn {
+    display: flex;
+    width: 75px;
+    height: 20px;
+    justify-content: center;
+    align-items: center;
+    background: #D5C9BB;
+    color: #000;
+    font-family: Pretendard;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+    border: none;
+    /* 21px */
+}
+
+.mypage-title {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    color: #2B2D54;
+    text-align: center;
+    font-family: "Chunko Bold Demo";
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%;
+    /* 36px */
+    margin-bottom: 8px;
+    margin-top: 20px;
+
+}
+
+.profile {
+    display: flex;
+
+    width: 370px;
+    height: 210px;
+    background: #D5C9BB;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+    gap: 10px;
+}
+
+.profile-image {
+    width: 150px;
+    height: 150px;
+    aspect-ratio: 1/1;
+    background: #FFF;
+    border-radius: 99px;
+}
+
+.profile-img {
+    width: 150px;
+    height: 150px;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    align-items: flex-start;
+}
+
+.profile-name {
+    width: 74.201px;
+    height: 22.8px;
+    color: #000;
+    text-align: center;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-bottom: 15px;
+}
+
+.profile-mbti,
+.profile-worry {
+    width: 122.331px;
+    color: #000;
+    font-family: Pretendard;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+    /* 18px */
+    padding-left: 24px;
+}
+
+.menu {
+    width: 370px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.menu-list {
+    width: 370px;
+    height: 50px;
+    background: #D5C9BB;
+    display: flex;
+    align-items: center;
+    color: #000;
+    font-family: Pretendard;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+    /* 21px */
+    text-decoration: none;
+    padding-left: 25px;
+    justify-content: space-between;
+}
+
+.lock {
+    width: 30px;
+    height: 30px;
+    background: #D9D9D9;
+    margin-right: 10px;
+}

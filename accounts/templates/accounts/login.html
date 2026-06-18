@@ -1,0 +1,50 @@
+<!-- login.html : 로그인 페이지 ! -->
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}로그인{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
+
+
+<body>
+    {% block nav_bar %}
+    <div class="nav-bar">
+        <button class="back-btn" onclick="history.back()">〈</button>
+    </div>
+    {% endblock %}
+
+    {% block content %}
+    <main class="login-container">
+        <div class="greet">
+            <div class="welcome">WELCOME TO<br>
+                <div class="title">WORRY<span>VERY</span><span class=exclmark>!</span></div>
+            </div>
+            <img class="worryang2" src="../../static/images/worryang2.png" alt="워리양">
+        </div>
+
+        <form method="post" class="form-box">
+            {% csrf_token %}
+            <div class="form">
+                <label for="login-id"></label>
+                <input id="login-id" type="text" name="username" placeholder="아이디 입력" required>
+            </div>
+
+            <div class="form">
+                <label for="login-password"></label>
+                <input id="login-password" type="password" name="password" placeholder="비밀번호 입력" required>
+            </div>
+
+            <button type="submit" class="button">로그인</button>
+        </form>
+
+        <div class="newsignup">
+            <div class="signuptext">고민을 나누러 가볼까요?</div>
+            <a href="{% url 'accounts:signup' %}">회원가입</a>
+        </div>
+    </main>
+</body>
+
+</html>
+{% endblock %}

@@ -1,0 +1,39 @@
+<!-- mypage.html : 마이페이지 !-->
+{% extends 'base_nav.html' %}
+{% load static %}
+{% block title %}마이페이지{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/mypage.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="mypage-container">
+
+    <div class="point-page">
+        <button class="point-btn">포인트</button>
+    </div>
+
+    <div class="mypage-title">MY PAGE</div>
+
+    <div class="profile">
+        <div class="profile-image">
+            <img class="profile-img" src="#" alt="프로필이미지">
+        </div>
+        <div class="profile-info">
+            <div class="profile-name">이름</div>
+            <div class="profile-mbti">MBTI: </div>
+            <div class="profile-worry">오늘 고민: </div>
+        </div>
+    </div>
+
+    <div class="menu">
+        <a href="#" class="menu-list">양 성장과정 구매</a>
+        <a href="#" class="menu-list">새벽 배송<span class="lock"></span></a>
+        <a href="#" class="menu-list">내 고민</a>
+        <a href="#" class="menu-list">내 답변</a>
+        <a href="#" class="menu-list">포인트 이용내역</a>
+        <a href="#" class="menu-list">북마크</a>
+    </div>
+</main>
+{% endblock %}

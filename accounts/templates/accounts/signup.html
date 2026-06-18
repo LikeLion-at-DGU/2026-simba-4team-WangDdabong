@@ -1,0 +1,95 @@
+<!-- signup.html : 회원가입 페이지 ! -->
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}회원가입{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/signup.css' %}">
+{% endblock %}
+
+<body>
+    {% block nav_bar %}
+    <div class="nav-bar">
+        <button class="back-btn" onclick="history.back()">〈</button>
+    </div>
+    {% endblock %}
+
+    {% block content %}
+    <main class="signup-container">
+        <div class="signup-header">
+            <div class="signup-title">ABOUT YOU</div>
+
+            <div class="signup-description">여러분에게 도움을 드리기 위해 몇 가지만 작성해주세요!</div>
+        </div>
+
+        <form method="post" class="signup-form">
+            {% csrf_token %}
+
+            <div class="form-field">
+                <label class="signup-label" for="signup-id"></label>
+                <input id="signup-id" type="text" name="username" placeholder="아이디" required>
+            </div>
+
+            <div class="form-field">
+                <label class="signup-label" for="signup-password">
+
+                </label>
+                <input id="signup-password" type="password" name="password" placeholder="비밀번호" required>
+            </div>
+            <div class="form-field">
+                <label class="signup-label" for="signup-confirm"></label>
+                <input id="signup-confirm" type="password" name="confirm" placeholder="비밀번호 확인" required>
+            </div>
+
+            <div class="form-field">
+                <label class="signup-label" for="signup-name">
+
+                </label>
+                <input id="signup-name" type="text" name="name" placeholder="이름" required>
+            </div>
+
+            <div class="form-field">
+                <label class="signup-label" for="signup-mbti">
+                </label>
+
+                <select id="signup-mbti" name="mbti" required>
+                    <option value="">MBTI</option>
+
+                    <option value="ISTJ">ISTJ</option>
+                    <option value="ISFJ">ISFJ</option>
+                    <option value="INFJ">INFJ</option>
+                    <option value="INTJ">INTJ</option>
+
+                    <option value="ISTP">ISTP</option>
+                    <option value="ISFP">ISFP</option>
+                    <option value="INFP">INFP</option>
+                    <option value="INTP">INTP</option>
+
+                    <option value="ESTP">ESTP</option>
+                    <option value="ESFP">ESFP</option>
+                    <option value="ENFP">ENFP</option>
+                    <option value="ENTP">ENTP</option>
+
+                    <option value="ESTJ">ESTJ</option>
+                    <option value="ESFJ">ESFJ</option>
+                    <option value="ENFJ">ENFJ</option>
+                    <option value="ENTJ">ENTJ</option>
+                </select>
+            </div>
+
+            <div class="form-field">
+                <label class="signup-label" for="signup-email">
+
+                </label>
+                <input id="signup-email" type="email" name="email" placeholder="email" required>
+            </div>
+
+            <button type="submit" class="signup-button">
+                회원가입
+            </button>
+        </form>
+    </main>
+</body>
+
+</html>
+{% endblock %}
