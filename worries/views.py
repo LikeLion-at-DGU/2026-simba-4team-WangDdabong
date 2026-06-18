@@ -36,7 +36,7 @@ def get_worries(request):
 
 """
 [고민 북마크 등록/취소]
-- 기능: 고민글에 대해 북마크를 추가
+- 기능: 나중에 답변할 고민 북마크를 추가/삭제
 - 받는 값: worry_id
 - return: 성공 시 -> 기존 화면(고민 리스트)으로 리다이렉트
 """ 
@@ -52,6 +52,12 @@ def post_bookmark(request, worry_id):
 
     return redirect("worries:get_worries")
 
+"""
+[고민 응원 도장 등록/취소]
+- 기능: 고민에 대해 응원 도장 추가/삭제
+- 받는 값: worry_id
+- return: 성공 시 -> 기존 화면(고민 리스트)으로 리다이렉트
+"""
 def post_cheerup(request, worry_id):
     worry = get_object_or_404(Worry, pk=worry_id)
 
@@ -66,6 +72,12 @@ def post_cheerup(request, worry_id):
     
     return redirect("worries:get_worries")
 
+"""
+[고민 상세 화면 리다이렉트]
+- 기능: 고민 상세 화면으로 이동
+- 받는 값: worry_id
+- return: 성공 시 -> 고민 상세 화면으로 리다이렉트
+"""
 def get_worry_detail(request, worry_id):
     worry = get_object_or_404(Worry, pk=worry_id)
 
