@@ -110,3 +110,22 @@ def post_answer(request, worry_id):
     # 고민 답변 작성 화면 이동
     else:
         return render(request, "worries/write_answer.html", {"answer_user": request.user, "worry_user": worry.writer})
+    
+
+"""
+    [명예의 전당 리스트 함수]
+    - 기능 : 명예의 전당에 공개된 고민들 리스트 조회
+    - 받는 값 : Worry
+    - return : demo_hof_list.html 화면 표시 
+    * 유의사항 : 현재는 리스트만 구현. 추후 일반 카드와 메인 카드 구현 예정  *
+"""
+
+def hall_of_fame(request):
+    
+    hof_worries = Worry.objects.filter(is_HoF = True)   # 명예의 전당에 공개된 고민만 조회 가능
+
+    context = {
+        'hof_worries' : hof_worries,
+    }
+
+    return render(request, 'worries/demo_hof_list.html', context)
