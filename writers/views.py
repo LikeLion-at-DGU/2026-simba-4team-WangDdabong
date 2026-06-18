@@ -17,7 +17,7 @@ from worries.models import Worry
 def mypage(request):
 
     if not request.user.is_authenticated:
-        return redirect("accounts:login")   #비로그인 시, 로그인 페이지로 넘어감
+        return redirect("accounts:login")   # 비로그인 시, 로그인 페이지로 넘어감
 
     profile = get_object_or_404(Profile, writer=request.user)
 
@@ -75,6 +75,28 @@ def my_worry(request):
 def my_answer(request):
 
     if not request.user.is_authenticated:
-        return redirect("accounts:login")   #비로그인 시, 로그인 페이지로 넘어감
+        return redirect("accounts:login")   # 비로그인 시, 로그인 페이지로 넘어감
 
     return render(request, 'writers/demo_my_answer.html')
+
+
+"""
+    [북마크 함수]
+    - 기능 : 본인이 작성한 답변들을 볼 수 있음
+    - 가져오는 정보 : Worry
+    - return : demo_bookmark.html 화면 표시
+    * 유의사항 : 현재 후일담 북마크가 없어서 고민 북마크만 넣어둠. 추후에 반영 예정 *
+"""
+
+def bookmark(request):
+
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")   # 비로그인 시, 로그인 페이지로 넘어감
+    
+    worry_bookmarks = Worry.objects.filter(later_answer = request.user.id)     # 고민 북마크
+
+    context = {
+        'worry_bookmarks' : worry_bookmarks,
+    }
+
+    return render(request, 'writers/demo_bookmark.html', context)
