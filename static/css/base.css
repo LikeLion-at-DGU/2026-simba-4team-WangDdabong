@@ -8,6 +8,8 @@ body {
 }
 
 .screen {
+    display: flex;
+    flex-direction: column;
     width: 402px;
     min-height: 874px;
     margin: 0 auto;
@@ -18,7 +20,7 @@ body {
 .home {
     position: relative;
     width: 100%;
-    min-height: 100%;
+    flex: 1;
     background: #F3EEE8;
     overflow: hidden;
     display: flex;
