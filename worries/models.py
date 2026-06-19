@@ -35,3 +35,4 @@ class Answer(models.Model):
     recommendation = models.TextField()                                         # 당장 추천할 행동
     pub_date = models.DateField(auto_now_add=True)                              # 작성일
     is_satisfied = models.BooleanField(default=False)                           # 해당 답변 만족 여부
+    hit = models.PositiveBigIntegerField(default=0)                             # 고민 작성자가 해당 답변 조회한 수
