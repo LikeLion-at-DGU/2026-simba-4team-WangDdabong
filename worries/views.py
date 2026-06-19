@@ -95,7 +95,7 @@ def get_worry_detail(request, worry_id):
 """
 [고민 답변 작성]
 - 기능: POST-고민 답변 작성 / GET-고민 답변 작성 화면 이동
-- 받는 값: worry_id
+- 받는 값: worry_id + (POST의 경우: situation, my_action, recommendation)
 - return: GET 성공 시 -> 고민 답변 작성 화면 렌더링 / POST 성공 시 -> 메인 화면 리다이렉트 / 실패 시 -> 로그인 화면 이동
 """
 def post_answer(request, worry_id):
@@ -103,13 +103,23 @@ def post_answer(request, worry_id):
         return redirect("accounts:login")
 
     worry = get_object_or_404(Worry, pk=worry_id)
+
     # 고민 답변 작성 후 제출
     if request.method == "POST":
-        # 고민 작성 기능 작업 필요
+        answer = Answer()
+        answer.worry = worry
+        answer.writer = request.user
+        answer.situation = request.POST["situation"]
+        answer.my_action = request.POST["my_action"]
+        answer.recommendation = request.POST["recommendation"]
+
+        answer.save()
+
         return redirect(request, "main:home")
+
     # 고민 답변 작성 화면 이동
     else:
-        return render(request, "worries/write_answer.html", {"answer_user": request.user, "worry_user": worry.writer})
+        return render(request, "worries/demo_write_answer.html", {"answer_user": request.user, "worry_writer": worry.writer.profile, "worry": worry})
     
 
 """
@@ -129,3 +139,4 @@ def hall_of_fame(request):
     }
 
     return render(request, 'worries/demo_hof_list.html', context)
+    
