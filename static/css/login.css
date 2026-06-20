@@ -122,6 +122,7 @@ header {
     border: none;
     outline: none;
     /* 24px */
+    color: #000;
 }
 
 .form input::placeholder {

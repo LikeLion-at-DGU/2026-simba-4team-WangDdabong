@@ -140,6 +140,10 @@ button {
 .form-field select {
     width: 100%;
     text-align: left;
+    color: #000;
+}
+
+.form-field select:invalid {
     color: #BDBDBD;
 }
 
