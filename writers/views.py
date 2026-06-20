@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect , get_object_or_404
 from accounts.models import Profile
-from worries.models import Worry
+from worries.models import Worry, Answer
 
 # Create your views here.
 
@@ -68,7 +68,7 @@ def my_worry(request):
 """
     [내 답변 함수]
     - 기능 : 본인이 작성한 답변들을 볼 수 있음
-    - 가져오는 정보 : 
+    - 가져오는 정보 : Answer
     - return : demo_my_answer.html 화면 표시
 """
 
@@ -76,8 +76,14 @@ def my_answer(request):
 
     if not request.user.is_authenticated:
         return redirect("accounts:login")   # 비로그인 시, 로그인 페이지로 넘어감
+    
+    my_answers = Answer.objects.filter(writer = request.user)
 
-    return render(request, 'writers/demo_my_answer.html')
+    context = {
+        'my_answers' : my_answers,
+    }
+
+    return render(request, 'writers/demo_my_answer.html', context)
 
 
 """
