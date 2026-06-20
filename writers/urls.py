@@ -9,4 +9,7 @@ urlpatterns = [
     path('my_answer/', my_answer, name='my_anser'),
     path('bookmark/', bookmark, name='bookmark'),
     path('post_epilogue/<int:worry_id>', post_epilogue, name='post_epilogue'),
+    path('ep_bookmark/<int:epilogue_id>', ep_bookmark, name='ep_bookmark'),
+    path('post_epilogue_gonggam/<int:epilogue_id>', post_epilogue_gonggam, name='post_epilogue_gonggam'),
+    path('worry_story/<int:worry_id>', worry_story, name='worry_story'),
 ]
