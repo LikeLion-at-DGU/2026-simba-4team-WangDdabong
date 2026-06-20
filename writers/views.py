@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect , get_object_or_404
 from accounts.models import Profile
 from worries.models import Worry, Answer
+from .models import *
 
 # Create your views here.
 
@@ -106,3 +107,30 @@ def bookmark(request):
     }
 
     return render(request, 'writers/demo_bookmark.html', context)
+
+
+
+def post_epilogue(request, worry_id):
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+    
+    # 현재 사용자 == 고민 작성자인지 검증
+    if request.user != worry.writer:
+        return render("writer/demo_worry_answer.html")
+    else:
+        worry = get_object_or_404(Worry, pk=worry_id)
+        worry.is_HoF = request.POST["is_HoF"]
+        worry.save()
+
+        new_epilogue = Epilogue()
+
+        new_epilogue.worry = worry
+        new_epilogue.writer = request.user
+        new_epilogue.ep_han_madi = request.POST["ep_han_madi"]
+        new_epilogue.ep_title = request.POST["ep_title"]
+        new_epilogue.ep_content = request.POST["ep_content"]
+
+        new_epilogue.save()
+
+        return redirect("main:demo_home", {"source": "post_epilogue"})
+
