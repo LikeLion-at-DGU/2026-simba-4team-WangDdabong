@@ -95,7 +95,7 @@ def get_worry_detail(request, worry_id):
 """
 [고민 답변 작성]
 - 기능: POST-고민 답변 작성 / GET-고민 답변 작성 화면 이동
-- 받는 값: worry_id
+- 받는 값: worry_id + (POST의 경우: situation, my_action, recommendation)
 - return: GET 성공 시 -> 고민 답변 작성 화면 렌더링 / POST 성공 시 -> 메인 화면 리다이렉트 / 실패 시 -> 로그인 화면 이동
 """
 def post_answer(request, worry_id):
@@ -103,10 +103,40 @@ def post_answer(request, worry_id):
         return redirect("accounts:login")
 
     worry = get_object_or_404(Worry, pk=worry_id)
+
     # 고민 답변 작성 후 제출
     if request.method == "POST":
-        # 고민 작성 기능 작업 필요
+        answer = Answer()
+        answer.worry = worry
+        answer.writer = request.user
+        answer.situation = request.POST["situation"]
+        answer.my_action = request.POST["my_action"]
+        answer.recommendation = request.POST["recommendation"]
+
+        answer.save()
+
         return redirect(request, "main:home")
+
     # 고민 답변 작성 화면 이동
     else:
-        return render(request, "worries/write_answer.html", {"answer_user": request.user, "worry_user": worry.writer})
+        return render(request, "worries/demo_write_answer.html", {"answer_user": request.user, "worry_writer": worry.writer.profile, "worry": worry})
+    
+
+"""
+    [명예의 전당 리스트 함수]
+    - 기능 : 명예의 전당에 공개된 고민들 리스트 조회
+    - 받는 값 : Worry
+    - return : demo_hof_list.html 화면 표시 
+    * 유의사항 : 현재는 리스트만 구현. 추후 일반 카드와 메인 카드 구현 예정  *
+"""
+
+def hall_of_fame(request):
+    
+    hof_worries = Worry.objects.filter(is_HoF = True)   # 명예의 전당에 공개된 고민만 조회 가능
+
+    context = {
+        'hof_worries' : hof_worries,
+    }
+
+    return render(request, 'worries/demo_hof_list.html', context)
+    
