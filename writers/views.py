@@ -176,11 +176,11 @@ def post_epilogue_gonggam(request, epilogue_id):
     
     epilogue = get_object_or_404(Epilogue, pk=epilogue_id)
 
-    if request.user in epilogue.ep_gonggam.all():
+    if request.user in epilogue.ep_gonggam.all():   # 공감버튼이 이미 눌려있는 경우 -> 취소
         epilogue.ep_gonggam.remove(request.user)
         epilogue.ep_gonggam_count -= 1
 
-    else:
+    else:                                           # 공감버튼 안 눌려있는 경우 -> 눌림
         epilogue.ep_gonggam.add(request.user)
         epilogue.ep_gonggam_count += 1
 

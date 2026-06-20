@@ -5,4 +5,55 @@
     후일담 북마크 목록 출력
 -->
 
-    
+<!-- [고민 북마크 조회]
+    고민 제목          worry.title
+    고민 내용          worry.content
+    응원 도장 수       worry.cheerup_count
+-->
+
+<!-- [후일담 북마크 조회]
+    후일담 제목        epilogue.ep_title
+    후일담 내용        epilogue.ep_content
+    응원 도장 수       epilogue.worry.cheerup_count
+    공감 도장 수       epilogue.ep_gonggam_count
+-->
+
+<!-- [고민 상세 페이지 이동]
+    고민 카드 클릭 시 이동
+
+    호출 : worries:get_worry_detail
+    전달 값 :
+        worry.id
+-->
+
+<!-- [고민 응원 도장 등록/취소]
+    응원 도장 클릭 시 등록/취소
+
+    호출 : worries:post_cheerup
+    전달 값 :
+        worry.id
+-->
+
+<!-- [후일담 상세 페이지 이동]
+    후일담 카드 클릭 시 이동
+
+    호출 : writers:worry_story
+    전달 값 :
+        epilogue.worry.id
+-->
+
+<!-- [후일담 북마크 등록/취소]
+    북마크 클릭 시 등록/취소
+
+    호출 : writers:ep_bookmark
+    전달 값 :
+        epilogue.id
+-->
+
+<!-- [후일담 공감 도장 등록/취소]
+    공감 도장 클릭 시 등록/취소
+
+    호출 : writers:post_epilogue_gonggam
+    전달 값 :
+        epilogue.id
+-->
