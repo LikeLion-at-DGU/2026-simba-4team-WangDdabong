@@ -100,7 +100,7 @@ def bookmark(request):
     if not request.user.is_authenticated:
         return redirect("accounts:login")   # 비로그인 시, 로그인 페이지로 넘어감
     
-    worry_bookmarks = Worry.objects.filter(later_answer = request.user.id)     # 고민 북마크
+    worry_bookmarks = Worry.objects.filter(later_answer = request.user)     # 고민 북마크
 
     context = {
         'worry_bookmarks' : worry_bookmarks,
