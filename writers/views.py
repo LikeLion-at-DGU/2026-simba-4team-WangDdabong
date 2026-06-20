@@ -4,7 +4,6 @@ from accounts.models import Profile
 from worries.models import Worry, Answer
 from writers.models import Epilogue
 from .models import *
-from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
@@ -170,7 +169,7 @@ def ep_bookmark(request, epilogue_id):
     - return : 성공 -> 명예의 전당 화면으로 전환
     * 유의사항 : 해당 worry story로 전환하는게 맞을까?*
 """
-@csrf_exempt
+
 def post_epilogue_gonggam(request, epilogue_id):
     if not request.user.is_authenticated:
         return redirect("accounts:login")
