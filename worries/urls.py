@@ -10,5 +10,7 @@ urlpatterns = [
     path("post_cheerup/<int:worry_id>", post_cheerup, name="post_cheerup"),
     path("get_worry_detail/<int:worry_id>", get_worry_detail, name="get_worry_detail"),
     path("hall_of_fame/", hall_of_fame, name="hall_of_fame"),
+    path("hall_of_fame_entry/", hall_of_fame_entry, name="hall_of_fame_entry"),
+    path("hall_of_fame_card/<int:epilogue_id>", hall_of_fame_card, name="hall_of_fame_card"),
     path("post_answer/<int:worry_id>", post_answer, name="post_answer"),
 ]
