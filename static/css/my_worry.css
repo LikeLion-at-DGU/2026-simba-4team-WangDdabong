@@ -1,0 +1,214 @@
+@font-face {
+    font-family: 'Chunko Bold Demo';
+    src: url('../fonts/ChunkoBoldDemo.ttf');
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.my-worry-container {
+    width: 100%;
+    padding: 16px 16px 100px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    background-color: #F1EBE4;
+    flex: 1;
+}
+
+.my-worry-title {
+    width: 100%;
+    color: #2B2D54;
+    text-align: center;
+    font-family: "Chunko Bold Demo";
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%;
+    /* 36px */
+    margin-top: 10px;
+}
+
+.tab-bar {
+    width: 100%;
+    display: flex;
+    gap: 8px;
+    justify-content: flex-start;
+}
+
+.tab {
+    height: 30px;
+    padding: 5px 10px;
+    border-radius: 30px;
+    background: #D5C9BB;
+    border: none;
+    font-family: Pretendard;
+    font-size: 14px;
+    font-weight: 400;
+    color: #3a3a3a;
+    transition: all 0.2s;
+    padding-top: 4px;
+}
+
+.tab.active {
+    background: #9f907e;
+    color: #000000;
+}
+
+.eye-button {
+    width: 20px;
+    height: 20px;
+    background: none;
+    border: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    margin-top: 4px;
+    margin-left: 6px;
+}
+
+.eye-button.hidden {
+    display: none;
+}
+
+.worry-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.worry-list.hidden {
+    display: none;
+}
+
+
+.worry-card {
+    width: 100%;
+    height: 80px;
+    background: #D5C9BB;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 15px;
+    gap: 10px;
+    text-decoration: none;
+    position: relative;
+    border-radius: 10px;
+}
+
+.worry-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.worry-title {
+    font-family: Pretendard;
+    font-size: 16px;
+    font-weight: 400;
+    color: #000;
+    line-height: 150%;
+}
+
+.worry-preview {
+    font-family: Pretendard;
+    font-size: 12px;
+    font-weight: 400;
+    color: #868484;
+    line-height: 150%;
+}
+
+.worry-time {
+    font-family: Pretendard;
+    font-size: 10px;
+    font-weight: 400;
+    color: #868484;
+    position: absolute;
+    bottom: 11px;
+    right: 170px;
+}
+
+.worry-icons {
+    width: 141px;
+    height: 52px;
+    background: #FFF;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    flex-shrink: 0;
+    padding: 0 8px;
+    border-radius: 10px;
+}
+
+.icon {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2px;
+    position: relative;
+}
+
+.icon-count {
+    font-family: Pretendard;
+    font-size: 10px;
+    font-weight: 600;
+    color: #000;
+}
+
+.icon-bubble {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2px;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    width: 36px;
+    height: 34px;
+}
+
+.bubble-text {
+    display: flex;
+    width: auto;
+    height: auto;
+    flex-direction: column;
+    justify-content: center;
+    color: #3A3A3A;
+    text-align: center;
+    font-family: Pretendard;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: 120%;
+    /* 15.6px */
+    position: absolute;
+    top: 45%;
+    left: 47%;
+    transform: translate(-50%, -50%);
+}
+
+.stamp {
+    position: relative;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+}
+
+.stamp-body {
+
+    width: 22.059px;
+    height: 30.001px;
+    transform: rotate(-4.66deg);
+    border-radius: 8px;
+}

@@ -64,7 +64,7 @@ def my_worry(request):
         'private_worries' : private_worries,
     }
 
-    return render(request, 'writers/demo_my_worry.html', context)
+    return render(request, 'writers/my_worry.html', context)
 
 
 """
