@@ -1,1 +1,40 @@
 <!-- home.html : 홈화면 페이지 ! -->
+<!-- 렌더링 시
+     작성 가능한 고민 개수              worry_count
+     남은 포인트                        points
+     상단 바 고민들                     now_worries
+     오늘의 멘트                        today_message
+     후일담 작성 후 팝업 띄울지 여부    is_popup
+     오늘 출석체크했는지 여부           already_attendance
+-->
+
+<!-- [고민 작성]
+     상단 고민 작성 버튼 클릭 시
+     호출: worries:post_worry
+     전달 값:
+          고민 키워드    keyword
+          고민 주제      title
+          고민 내용      content
+          성격유형       mbti
+-->
+
+<!-- [고민 상세 화면 이동]
+     상단 고민 클릭 시
+     호출: worries:get_worry_detail
+     전달 값: worry.id
+-->
+
+<!-- [응원 도장 등록/취소] 
+     상단 고민 응원도장 클릭해서 응원 도장 누르기/취소
+     호출: worries:post_cheerup
+     전달 값: worry.id
+-->
+
+<!-- 
+    하단 네비게이션 바
+    홈          main:home
+    고민 목록   worries:get_worries
+    명예의 전당 
+    내 고민     
+    마이페이지  
+-->
