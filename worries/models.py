@@ -3,9 +3,10 @@ from django.contrib.auth.models import User
 
 """
 고민
+6/17 : writer FK 수정으로 인한 models.py 수정. db 삭제했다가 다시 만듦.
 """
 class Worry(models.Model):
-    writer = models.ForeignKey(User, on_delete=models.CASCADE) # 작성한 사용자 정보
+    writer = models.ForeignKey(User, on_delete=models.CASCADE)                          # 작성한 사용자 정보
     keyword = models.CharField(max_length=20)                                           # 키워드
     title = models.CharField(max_length=50)                                             # 제목
     content = models.TextField()                                                        # 본문
@@ -26,3 +27,13 @@ class Worry(models.Model):
         if len(self.content) > 20:
             str = str[:20] + "..."
         return str
+
+class Answer(models.Model):
+    worry = models.ForeignKey(Worry, on_delete=models.CASCADE)                  # 관련된 고민
+    writer = models.ForeignKey(User, on_delete=models.SET_DEFAULT, default=0)   # 답변 작성자. 답변 삭제되어도 답변은 유지(0=탈퇴한 사용자)
+    situation = models.TextField()                                              # 내가 인식한 상황
+    my_action = models.TextField()                                              # 나라면 어떻게?
+    recommendation = models.TextField()                                         # 당장 추천할 행동
+    pub_date = models.DateField(auto_now_add=True)                              # 작성일
+    is_satisfied = models.BooleanField(default=False)                           # 해당 답변 만족 여부
+    hit = models.PositiveBigIntegerField(default=0)                             # 고민 작성자가 해당 답변 조회한 수
