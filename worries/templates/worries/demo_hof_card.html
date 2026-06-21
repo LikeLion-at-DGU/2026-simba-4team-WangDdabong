@@ -1,0 +1,63 @@
+<!-- hof_card.html : 명예의 전당 카드 ! -->
+
+<!-- 렌더링 시
+    고민 제목      worry.title
+    고민 내용      worry.content
+
+    답변 목록      answers
+
+    후일담 한마디   epilogue.ep_han_madi
+    후일담 제목     epilogue.ep_title
+    후일담 내용     epilogue.ep_content
+
+    공감 도장 수    epilogue.ep_gonggam_count
+-->
+
+<!-- 메인 카드 여부
+    is_main = True  -> 왕관 출력
+    is_main = False -> 일반 카드
+-->
+
+<!-- [명예의 전당 리스트 이동]
+    호출 : worries:hall_of_fame
+-->
+
+<!-- [고민 작성 - 답변 - 후일담 페이지 이동]
+    카드 클릭 시 이동
+
+    호출 : writers:worry_story
+    전달 값 : worry.id
+-->
+
+<!-- [이전 카드 이동]
+    호출 : worries:hall_of_fame_card
+    전달 값 : prev_epilogue.id
+    
+    좌측 버튼 클릭 시 사용
+    이전 후일담 카드 조회
+-->
+
+<!-- [다음 카드 이동]
+    호출 : worries:hall_of_fame_card
+    전달 값 : next_epilogue.id
+
+    우측 버튼 클릭 시 사용
+    다음 후일담 카드 조회
+-->
+
+<!-- [후일담 북마크 등록/취소]
+    호출 : writers:ep_bookmark
+    전달 값 : epilogue.id
+-->
+
+<!-- [후일담 공감 도장 등록/취소]
+    호출 : writers:post_epilogue_gonggam
+    전달 값 : epilogue.id
+-->
+
+<!-- 유의사항
+    - 공감 수 1등 후일담은 메인 카드로 표시
+    - 나머지 후일담은 일반 카드로 표시
+    - 마지막 카드 다음은 메인 카드로 이동
+    - 메인 카드 이전은 마지막 카드로 이동
+-->

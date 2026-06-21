@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from writers.models import Epilogue
 from .models import *
 
 """
@@ -139,4 +140,68 @@ def hall_of_fame(request):
     }
 
     return render(request, 'worries/demo_hof_list.html', context)
-    
+
+
+"""
+    [명예의 전당 진입 함수]
+    - 기능 : 공감 수가 가장 많은 후일담 카드 조회
+    - 받는 값 : Epilogue
+    - return : hall_of_fame_card 함수로 이동
+"""
+
+def hall_of_fame_entry(request):
+
+    top_epilogue = Epilogue.objects.filter(
+        worry__is_HoF=True
+    ).order_by('-ep_gonggam_count').first()
+
+    if not top_epilogue:
+        return redirect("worries:hall_of_fame")
+
+    return redirect("worries:hall_of_fame_card", top_epilogue.id)
+
+
+"""
+    [명예의 전당 - 메인 & 일반 카드 함수]
+    - 기능 : 명예의 전당에 공개된 고민, 답변, 후일담 카드로 조회
+    - 받는 값 : Worry, Answer, Epilogue
+    - return : demo_hof_card.html 화면 표시 
+    * 유의사항 : 배우지 않은 문법들이 들어있지만 없으면 구현을 하지 못해서 넣었음 *
+            + 공감 수 1등 후일담이면 메인 카드
+            + 나머지는 일반 카드
+            + 좌우 버튼으로 이전 or 다음 카드 이동 가능
+            + 마지막 카드 다음은 메인 카드
+            + 메인 카드 이전은 마지막 카드
+"""
+
+def hall_of_fame_card(request, epilogue_id):
+    epilogue = get_object_or_404(Epilogue, pk=epilogue_id)
+
+    worry = epilogue.worry
+
+    answers = Answer.objects.filter(worry=worry)
+
+    all_epilogues = list(
+        Epilogue.objects.filter(
+            worry__is_HoF=True
+        ).order_by('-ep_gonggam_count')
+    )
+
+    current_index = all_epilogues.index(epilogue)
+
+    is_main = (current_index == 0)
+
+    prev_epilogue = all_epilogues[current_index - 1]
+
+    next_epilogue = all_epilogues[(current_index + 1) % len(all_epilogues)]
+
+    context = {
+        'worry' : worry,
+        'answers' : answers,
+        'epilogue' : epilogue,
+        'is_main' : is_main,
+        'prev_epilogue' : prev_epilogue,
+        'next_epilogue' : next_epilogue,
+    }
+
+    return render(request, 'worries/demo_hof_card.html', context)
