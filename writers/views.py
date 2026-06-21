@@ -197,14 +197,18 @@ def post_epilogue_gonggam(request, epilogue_id):
     
     * 유의사항*
     - 공개 O : 모든 사용자 조회 가능
-    - 공개 X : 고민 작성자만 조회 가능
+    - 공개 X : 고민 작성자와 해당 고민에 답변한 사람들만 조회 가능
 """
 
 def worry_story(request, worry_id):
     worry = get_object_or_404(Worry, pk=worry_id)
 
-    if not worry.is_HoF:    # 공개X -> 고민 작성자만 조회 가능                  
-        if request.user != worry.writer:
+    if not worry.is_HoF:    # 공개X -> 고민 작성자와 해당 고민에 답변을 한 사람들만 조회 가능                  
+        is_writer = (request.user == worry.writer)
+
+        is_answerer = Answer.objects.filter(worry=worry, writer=request.user).exists()
+
+        if not is_writer and not is_answerer:
             return redirect("main:demo_home")
         
     answers = Answer.objects.filter(worry=worry)
