@@ -30,7 +30,9 @@ def demo_home(request, source="DONT_CARE"):
     points = profile.points
 
     # 최신 고민 5개 추출
-    now_worries = Worry.objects.order_by("-pub_date")[:5]
+    now_worries = Worry.objects.filter(
+        is_delete = False
+    ).order_by("-pub_date")[:5]
 
     # 오늘의 멘트 선정
     today_message = random.choice(TODAY_MESSAGES)
