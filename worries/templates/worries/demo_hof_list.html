@@ -1,4 +1,28 @@
-<!-- hof_list.html : 명예의 전당 리스트 페이지 ! -->
+<!-- hof_list.html : 명예의 전당 리스트 ! -->
+
+<!-- 렌더링 시
+    명예의 전당 고민 목록     hof_worries
+-->
+
+<!-- [명예의 전당 카드 이동]
+    고민 카드 클릭 시 이동
+
+    호출 : worries:hall_of_fame_card
+    전달 값 : 추후 연결 예정
+-->
+
+<!-- [고민 제목 조회]
+    worry.title
+-->
+
+<!-- [고민 내용 조회]
+    worry.content
+-->
+
+<!-- 유의사항
+    - 명예의 전당에 공개된 고민(is_HoF=True)만 조회 가능
+-->
+
 {% extends 'base_nav.html' %}
 {% load static %}
 {% block title %}명예의 전당{% endblock %}
