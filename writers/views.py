@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect , get_object_or_404
 from accounts.models import Profile
 from worries.models import Worry, Answer
+from writers.models import Epilogue
 from .models import *
 
 # Create your views here.
@@ -91,22 +92,26 @@ def my_answer(request):
     [북마크 함수]
     - 기능 : 본인이 작성한 답변들을 볼 수 있음
     - 가져오는 정보 : Worry
-    - return : demo_bookmark.html 화면 표시
+    - return : demo_worry_bookmark.html 화면 표시
+    
     * 유의사항 : 현재 후일담 북마크가 없어서 고민 북마크만 넣어둠. 추후에 반영 예정 *
+    -> 반영 완료!!
 """
 
-def bookmark(request):
+def worry_bookmark(request):
 
     if not request.user.is_authenticated:
         return redirect("accounts:login")   # 비로그인 시, 로그인 페이지로 넘어감
     
     worry_bookmarks = Worry.objects.filter(later_answer = request.user)     # 고민 북마크
+    epilogue_bookmark = Epilogue.objects.filter(later_check = request.user)       # 후일담 북마크
 
     context = {
         'worry_bookmarks' : worry_bookmarks,
+        'epilogue_bookmark' : epilogue_bookmark,
     }
 
-    return render(request, 'writers/demo_bookmark.html', context)
+    return render(request, 'writers/demo_worry_bookmark.html', context)
 
 
 
@@ -133,4 +138,82 @@ def post_epilogue(request, worry_id):
         new_epilogue.save()
 
         return redirect("main:demo_home", {"source": "post_epilogue"})
+    
 
+
+"""
+    [후일담 북마크 등록/취소 함수]
+    - 기능 : 후일담 북마크 등록/삭제
+    - 가져오는 정보 : Epilogue
+    - return : 성공 -> 명예의 전당 화면으로 전환
+"""
+def ep_bookmark(request, epilogue_id):
+
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")   # 비로그인 시, 로그인 페이지로 넘어감
+
+    epilogue = get_object_or_404(Epilogue, pk = epilogue_id)
+
+    if request.user in epilogue.later_check.all():
+        epilogue.later_check.remove(request.user)
+    else:
+        epilogue.later_check.add(request.user)
+
+    return redirect("worries:hall_of_fame")
+
+
+"""
+    [후일담 공감 도장 등록/취소 함수]
+    - 기능 : 후일담 공감 도장 등록/삭제
+    - 가져오는 정보 : Epilogue
+    - return : 성공 -> 명예의 전당 화면으로 전환
+    * 유의사항 : 해당 worry story로 전환하는게 맞을까?*
+"""
+
+def post_epilogue_gonggam(request, epilogue_id):
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+    
+    epilogue = get_object_or_404(Epilogue, pk=epilogue_id)
+
+    if request.user in epilogue.ep_gonggam.all():   # 공감버튼이 이미 눌려있는 경우 -> 취소
+        epilogue.ep_gonggam.remove(request.user)
+        epilogue.ep_gonggam_count -= 1
+
+    else:                                           # 공감버튼 안 눌려있는 경우 -> 눌림
+        epilogue.ep_gonggam.add(request.user)
+        epilogue.ep_gonggam_count += 1
+
+    epilogue.save()
+
+    return redirect("worries:hall_of_fame")
+
+
+"""
+    [고민-답변-후일담 함수]
+    - 기능 : 하나의 고민에 대한 답변, 후일담 전체 보기 가능
+    - 가져오는 정보 : Worry, Answer, Epilogue
+    - return : demo_worry_story.html 화면 표시
+    
+    * 유의사항*
+    - 공개 O : 모든 사용자 조회 가능
+    - 공개 X : 고민 작성자만 조회 가능
+"""
+
+def worry_story(request, worry_id):
+    worry = get_object_or_404(Worry, pk=worry_id)
+
+    if not worry.is_HoF:    # 공개X -> 고민 작성자만 조회 가능                  
+        if request.user != worry.writer:
+            return redirect("main:demo_home")
+        
+    answers = Answer.objects.filter(worry=worry)
+    epilogue = Epilogue.objects.filter(worry=worry)
+
+    context = {
+        'worry' : worry,
+        'answers' : answers,
+        'epilogue' : epilogue,
+    }
+
+    return render(request, 'writers/demo_worry_story.html', context)

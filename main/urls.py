@@ -5,4 +5,5 @@ app_name = 'main'
 
 urlpatterns = [
     path('', demo_home, name = 'demo_home'),
+    path("daily_attend/", daily_attend, name="daily_attend")
 ]
