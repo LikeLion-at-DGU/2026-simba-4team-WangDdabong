@@ -246,3 +246,21 @@ def get_worry_answer(request, worry_id):
     }
 
     return render(request, "writers/demo_worry_answer.html", context)
+
+def get_point_logs(request):
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
+    point_logs = PointLog.objects.filter(
+        writer=request.user
+    )
+    profile = get_object_or_404(Profile, writer=request.user)
+
+    context = {
+        "worry_count": profile.worry_count,
+        "points": profile.points,
+        "point_logs": point_logs,
+        "worry_yang_level": profile.worry_yang,
+    }
+
+    return render(request, "writers/demo_point_logs.html", context)
