@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from writers.models import Epilogue
 from .models import *
+from django.http import JsonResponse
 
 """
 [고민 작성]

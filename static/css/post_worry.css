@@ -5,17 +5,23 @@
     font-style: normal;
 }
 
+/* 전체 본문 영역: 874 - 상태바 70 - 푸터 85 = 719 */
 .write-section {
-    height: calc(874px - 99px - 52px);
+    width: 100%;
+    height: calc(874px - 70px - 85px);
     padding: 0 16px 16px;
 
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    background: #F3EEE8;
+    overflow: hidden;
 }
 
+/* 제목 */
 .write-page-title {
-    margin: 50px 0 18px;
+    margin: 70px 0 28px;
 
     color: #2B2D54;
     text-align: center;
@@ -61,7 +67,7 @@
     background: #D5C9BB;
     color: #000;
 
-    font-family: Pretendard;
+    font-family: Pretendard, sans-serif;
     font-size: 14px;
     font-weight: 400;
     line-height: 150%;
@@ -79,7 +85,6 @@
     width: 370px;
     height: 50px;
     padding: 0 16px 0 20px;
-    box-sizing: border-box;
 
     display: flex;
     align-items: center;
@@ -119,7 +124,6 @@
     width: 370px;
     min-height: 320px;
     padding: 23px 20px 23px 19px;
-    box-sizing: border-box;
 
     position: absolute;
     top: 50px;
@@ -144,12 +148,10 @@
 
 .keyword-group-title {
     margin: 0 0 6px;
-    align-self: stretch;
 
     color: #3A3A3A;
-    font-family: Pretendard;
+    font-family: Pretendard, sans-serif;
     font-size: 12px;
-    font-style: normal;
     font-weight: 500;
     line-height: normal;
 }
@@ -169,7 +171,7 @@
     background: #D5C9BB;
 
     color: #3A3A3A;
-    font-family: Pretendard;
+    font-family: Pretendard, sans-serif;
     font-size: 14px;
     font-weight: 400;
     line-height: 150%;
@@ -190,14 +192,14 @@
 }
 
 .question-title {
+    margin: 0 0 4px;
+
     color: #000;
     font-family: Pretendard, sans-serif;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 700;
     line-height: 150%;
-    margin-top: 0;
 }
-
 
 /* 내용 박스 */
 .worry-content {
@@ -209,11 +211,10 @@
 }
 
 /* placeholder */
-.worry-keyword::placeholder,
 .worry-title::placeholder,
 .worry-content::placeholder {
     color: #868484;
-    font-family: Pretendard;
+    font-family: Pretendard, sans-serif;
     font-size: 14px;
     font-weight: 400;
     line-height: 150%;
@@ -223,6 +224,7 @@
 /* MBTI 영역 */
 .mbti-field {
     margin-top: 4px;
+    width: 100%;
 }
 
 .mbti-field .mbti-field {
@@ -242,7 +244,6 @@
     width: 60px;
     height: 30px;
     padding: 5px;
-    box-sizing: border-box;
 
     display: flex;
     align-items: center;
@@ -269,7 +270,6 @@
     border-radius: 50%;
     background: transparent;
 
-    /* 기본 상태 글자 숨김 */
     color: transparent;
 
     font-family: Pretendard, sans-serif;
@@ -292,9 +292,9 @@
 /* 등록 버튼 */
 .submit-worry {
     width: 370px;
-    margin-top: 30px;
-    padding: 14px 16px;
-    box-sizing: border-box;
+    height: 50px;
+    margin-top: 18px;
+    padding: 0 16px;
 
     display: flex;
     justify-content: center;
@@ -316,7 +316,6 @@
     cursor: pointer;
 }
 
-/* 누르는 순간 색 변경 */
 .submit-worry:hover {
     background: #676A88;
 }
@@ -325,7 +324,7 @@
 .worry-alert-popup {
     position: absolute;
     left: 50%;
-    top: 390px;
+    top: 360px;
 
     width: 370px;
     transform: translateX(-50%);
@@ -345,7 +344,6 @@
     width: 370px;
     min-height: 40px;
     padding: 10px 16px;
-    box-sizing: border-box;
 
     display: flex;
     align-items: center;
@@ -361,9 +359,6 @@
     height: 35px;
     object-fit: contain;
     flex-shrink: 0;
-    image-rendering: auto;
-    filter: none;
-    opacity: 1;
 }
 
 .worry-alert-text {
