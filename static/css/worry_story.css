@@ -1,0 +1,282 @@
+@font-face {
+    font-family: "Chunko Bold Demo";
+    src: url('../fonts/ChunkoBoldDemo.ttf');
+    font-weight: 900;
+    font-style: normal;
+}
+
+/* 전체 영역 */
+.story-section {
+    height: calc(874px - 99px - 66px);
+    padding: 50px 16px 16px;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background: #F3EEE8;
+    overflow: hidden;
+}
+
+/* 제목 */
+.title {
+    margin: 0 0 18px;
+
+    color: #2B2D54;
+    text-align: center;
+    font-family: "Chunko Bold Demo", Pretendard, sans-serif;
+    font-size: 30px;
+    font-weight: 900;
+    line-height: 120%;
+}
+
+/* 스크롤 영역 */
+.scroll-area {
+    width: 370px;
+    flex: 1;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.scroll-area::-webkit-scrollbar {
+    display: none;
+}
+
+/* 전체 내용 묶음 */
+.form {
+    width: 370px;
+    margin: 0 auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+}
+
+/* 각 묶음 */
+.section {
+    width: 100%;
+}
+
+/* 라벨 + 아이콘 줄 */
+.section-header {
+    position: relative;
+
+    width: 370px;
+    height: 24px;
+
+    display: flex;
+    align-items: center;
+
+    margin-bottom: 6px;
+}
+
+.section-label {
+    margin: 0;
+
+    color: #000;
+    font-family: Pretendard, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 150%;
+}
+
+/* 카드 */
+.card {
+    width: 370px;
+}
+
+/* 제목 박스 */
+.story-title-box {
+    width: 370px;
+    min-height: 44px;
+    box-sizing: border-box;
+
+    padding: 13px 18px;
+    margin-bottom: 8px;
+
+    border-radius: 18px;
+    background: #D5C9BB;
+
+    color: #000;
+    font-family: Pretendard, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 150%;
+}
+
+/* textarea */
+.textarea-box {
+    width: 370px;
+    height: 140px;
+    box-sizing: border-box;
+
+    padding: 22px 25px;
+
+    resize: none;
+    overflow-y: auto;
+
+    border: none;
+    border-radius: 20px;
+    background: #D5C9BB;
+
+    display: block;
+
+    color: #000;
+    font-family: Pretendard, sans-serif;
+    font-size: 14px;
+    line-height: 150%;
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.textarea-box::-webkit-scrollbar {
+    display: none;
+}
+
+.textarea-box:focus {
+    outline: none;
+}
+
+.textarea-box[readonly] {
+    opacity: 1;
+    cursor: default;
+}
+
+/* 고민 내용 스탬프 + 숫자 */
+.story-stamp-info {
+    position: absolute;
+    right: 31px;
+    top: 0;
+
+    height: 24px;
+
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.story-stamp-img {
+    width: 22px !important;
+    height: 26px !important;
+    max-width: 22px !important;
+    max-height: 26px !important;
+
+    display: block;
+    object-fit: contain;
+
+    transform: rotate(-4.66deg);
+}
+
+.story-stamp-count {
+    color: #000;
+    font-family: Pretendard, sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+/* 고민 답변 공감 업/다운 */
+.reaction-icons {
+    position: absolute;
+    right: 0;
+    top: -2px;
+
+    height: 26px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.reaction-btn {
+    width: 21px;
+    height: 25px;
+
+    padding: 0;
+    margin: 0;
+
+    border: none;
+    outline: none;
+    background: transparent;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #C89B25;
+    cursor: pointer;
+}
+
+.reaction-btn svg {
+    width: 21px;
+    height: 25px;
+    display: block;
+}
+
+/* 누르면 업 아이콘 빨강 */
+.up-btn.active {
+    color: #AE4959;
+}
+
+/* 누르면 다운 아이콘 파랑 */
+.down-btn.active {
+    color: #5B7DBE;
+}
+
+/* 후일담 눈 아이콘 */
+.eye-icon {
+    position: absolute;
+    right: 0;
+    top: 1px;
+
+    width: 20px;
+    height: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.eye-icon svg {
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+/* 삭제 버튼 */
+.delete-btn {
+    display: flex;
+    width: 370px;
+    padding: 12px 16px;
+    box-sizing: border-box;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border: none;
+    border-radius: 20px;
+    background: #2B2D54;
+    text-decoration: none;
+    color: #FFF;
+    font-family: Pretendard, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 150%;
+    margin-top: 22px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.delete-btn:visited,
+.delete-btn:hover,
+.delete-btn:active,
+.delete-btn:focus {
+    text-decoration: none;
+    color: #FFF;
+    outline: none;
+}
