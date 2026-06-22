@@ -36,6 +36,11 @@ def mypage(request):
     - 기능 : 본인이 작성한 고민들 고민배송중/공개O/공개X 로 나누어서 볼 수 있음
     - 가져오는 정보 : Worry
     - return : demo_my_worry.html 화면 표시
+
+    * 분류 기준 *
+    - 배송 중 : is_complete = False
+    - 공개 O : is_complete = True, is_HoF = True
+    - 공개 X : is_complete = True, is_HoF = False
 """
 
 def my_worry(request):
@@ -68,24 +73,24 @@ def my_worry(request):
 
 
 """
-    [내 답변 함수]
-    - 기능 : 본인이 작성한 답변들을 볼 수 있음
+    [내 답변 리스트 함수]
+    - 기능 : 본인이 작성한 답변들을 볼 수 있음.
     - 가져오는 정보 : Answer
-    - return : demo_my_answer.html 화면 표시
+    - return : demo_my_answer_list.html 화면 표시
 """
 
-def my_answer(request):
+def my_answer_list(request):
 
     if not request.user.is_authenticated:
         return redirect("accounts:login")   # 비로그인 시, 로그인 페이지로 넘어감
     
-    my_answers = Answer.objects.filter(writer = request.user)
+    my_answers_list = Answer.objects.filter(writer = request.user)
 
     context = {
-        'my_answers' : my_answers,
+        'my_answers_list' : my_answers_list,
     }
 
-    return render(request, 'writers/demo_my_answer.html', context)
+    return render(request, 'writers/demo_my_answer_list.html', context)
 
 
 """
@@ -154,6 +159,7 @@ def post_epilogue(request, worry_id):
     new_epilogue.save()
 
     return redirect("main:demo_home", {"source": "post_epilogue"})
+
     
 
 
@@ -209,7 +215,7 @@ def post_epilogue_gonggam(request, epilogue_id):
     [고민-답변-후일담 함수]
     - 기능 : 하나의 고민에 대한 답변, 후일담 전체 보기 가능
     - 가져오는 정보 : Worry, Answer, Epilogue
-    - return : demo_worry_story.html 화면 표시
+    - return : worry_story.html 화면 표시
     
     * 유의사항*
     - 공개 O : 모든 사용자 조회 가능
@@ -225,7 +231,7 @@ def worry_story(request, worry_id):
         is_answerer = Answer.objects.filter(worry=worry, writer=request.user).exists()
 
         if not is_writer and not is_answerer:
-            return redirect("main:demo_home")
+            return redirect("main:home")
         
     answers = Answer.objects.filter(worry=worry)
     epilogue = Epilogue.objects.filter(worry=worry)
@@ -236,29 +242,4 @@ def worry_story(request, worry_id):
         'epilogue' : epilogue,
     }
 
-    return render(request, 'writers/demo_worry_story.html', context)
-
-"""
-    [고민 답변 확인 함수]
-    - 기능: 고민-답변들 확인
-    - 받는 값: worry_id
-    - return: 성공 -> worry_answer.html 렌더링 / 실패(인증 에러) -> 로그인으로 리다이렉트
-"""
-def get_worry_answer(request, worry_id):
-    if not request.user.is_authenticated:
-        return redirect("accounts:login")
-
-    profile = get_object_or_404(Profile, writer=request.user)
-    worry = get_object_or_404(Worry, pk=worry_id)
-    answers = Answer.objects.filter(
-        worry = worry
-    )
-
-    context = {
-        "worry_count": profile.worry_count,
-        "points": profile.points,
-        "worry": worry,
-        "answers": answers
-    }
-
-    return render(request, "writers/demo_worry_answer.html", context)
+    return render(request, 'writers/worry_story.html', context)

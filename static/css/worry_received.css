@@ -1,0 +1,423 @@
+@font-face {
+    font-family: "Chunko Bold Demo";
+    src: url('../fonts/ChunkoBoldDemo.ttf');
+}
+
+/* =========================
+   PAGE
+========================= */
+.page {
+    height: 100vh;
+    background: #F3EEE8;
+
+    padding: 18px 16px 28px;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    overflow: hidden;
+}
+
+/* 상단 카테고리 영역 */
+.top-area {
+    position: relative;
+    width: 100%;
+    height: 180px;
+    padding-top: 36px;
+    box-sizing: border-box;
+
+    overflow: hidden;
+}
+
+/* 오른쪽 상단 질문 / 포인트 */
+.top-info {
+    width: 370px;
+
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 18px;
+
+    margin: 0 0 34px;
+
+    z-index: 20;
+}
+
+.top-info-box {
+    width: 50px;
+    height: 20px;
+    box-sizing: border-box;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+
+    background: #D5C9BB;
+    border-radius: 8px;
+
+    color: #000000;
+    font-family: Pretendard, sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 100%;
+
+    white-space: nowrap;
+}
+
+.top-question-icon {
+    display: block;
+    width: 17px;
+    height: 17px;
+    flex-shrink: 0;
+}
+
+.point-icon {
+    display: block;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.top-info-count {
+    color: #000000;
+    font-family: Pretendard, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 100%;
+}
+
+/* =========================
+   TITLE
+========================= */
+.title {
+    font-family: "Chunko Bold Demo", Pretendard, sans-serif;
+    font-size: 30px;
+    font-weight: 900;
+    line-height: 120%;
+
+    color: #2B2D54;
+    text-align: center;
+
+    margin: 0 0 22px;
+}
+
+/* =========================
+   SCROLL
+========================= */
+.scroll-area {
+    flex: 1;
+    width: 100%;
+
+    overflow-y: auto;
+    /* ⭐ 스크롤 유지 */
+    display: flex;
+    justify-content: center;
+
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+/* Chrome / Safari 스크롤바 숨기기 */
+.scroll-area::-webkit-scrollbar {
+    display: none;
+}
+
+/* =========================
+   FORM
+========================= */
+.form {
+    width: 370px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* =========================
+   INPUT
+========================= */
+.input-box {
+    width: 100%;
+    height: 50px;
+    background: #D5C9BB;
+    border: none;
+    border-radius: 18px;
+    padding: 14px 16px;
+    font-size: 14px;
+    color: #2B2D54;
+}
+
+/* placeholder 통일 */
+.input-box::placeholder,
+.textarea-box::placeholder,
+.content-textarea::placeholder {
+    font-family: Pretendard, sans-serif;
+    font-size: 14px;
+    color: #2B2D54;
+    opacity: 0.6;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    /* 검은 테두리 제거 */
+    box-shadow: none;
+    /* iOS/Chrome glow 제거 */
+}
+
+/* =========================
+   TEXTAREA BASE
+========================= */
+.textarea-box {
+    width: 100%;
+    background: #D5C9BB;
+    border: none;
+    border-radius: 18px;
+    padding: 16px 18px;
+    font-size: 14px;
+    line-height: 1.5;
+    resize: none;
+    color: #2B2D54;
+
+    /* ⭐ 핵심 */
+    min-height: 120px;
+    height: auto !important;
+}
+
+/* =========================
+   DETAIL BOX (고민 상세)
+========================= */
+.detail-box {
+    min-height: 118px;
+}
+
+.content-card {
+    position: relative;
+    width: 100%;
+}
+
+.content-textarea {
+    width: 100%;
+    height: 180px;
+
+    background: #D5C9BB;
+    border: none;
+    border-radius: 18px;
+
+    /* 위 오른쪽 아래 왼쪽 */
+    padding: 22px 92px 22px 24px;
+    box-sizing: border-box;
+
+    font-family: Pretendard, sans-serif;
+    font-size: 14px;
+    line-height: 1.8;
+
+    resize: none;
+    color: #2B2D54;
+
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.content-textarea::-webkit-scrollbar {
+    display: none;
+}
+
+.reaction-icons {
+    position: absolute;
+    right: 18px;
+    bottom: 18px;
+
+    height: 25px;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    z-index: 10;
+}
+
+.reaction-btn {
+    width: 21px;
+    height: 25px;
+
+    padding: 0;
+    margin: 0;
+
+    border: none;
+    outline: none;
+    background: transparent;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #C89B25;
+    cursor: pointer;
+}
+
+.reaction-btn svg {
+    width: 21px;
+    height: 25px;
+    display: block;
+}
+
+/* 누르면 업 아이콘 빨강 */
+.up-btn.active {
+    color: #AE4959;
+}
+
+/* 누르면 다운 아이콘 파랑 */
+.down-btn.active {
+    color: #5B7DBE;
+}
+
+/* =========================
+   REPLY TEXT
+========================= */
+.reply-card,
+.section-label {
+    color: #000;
+    font-family: Pretendard, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 150%;
+}
+
+.reply-header {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-top: 6px;
+}
+
+.reply-check-btn {
+    width: 19px;
+    height: 19px;
+
+    padding: 0;
+    margin: 0;
+
+    border: none;
+    outline: none;
+    background: transparent;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.check-empty {
+    width: 19px;
+    height: 19px;
+
+    display: block;
+
+    border-radius: 5px;
+    background: #C3C3C3;
+}
+
+.check-selected {
+    width: 19px;
+    height: 19px;
+
+    display: none;
+}
+
+
+/* =========================
+   BUTTON
+========================= */
+.submit-btn {
+    display: flex;
+    width: 370px;
+    padding: 12px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 20px;
+    background: #2B2D54;
+    text-decoration: none;
+    color: #FFF;
+    font-family: Pretendard;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 150%;
+    /* 24px */
+}
+
+.submit-btn:hover {
+    background: #53546B;
+}
+
+/* 체크박스 실제 input 숨기기 */
+.reply-check-input {
+    display: none;
+}
+
+/* 체크 안 됐을 때 */
+.reply-check-input + .check-empty {
+    display: block;
+}
+
+.reply-check-input ~ .check-selected {
+    display: none;
+}
+
+/* 체크 됐을 때 */
+.reply-check-input:checked + .check-empty {
+    display: none;
+}
+
+.reply-check-input:checked ~ .check-selected {
+    display: block;
+}
+
+/* reaction form이 버튼 위치 망치지 않게 */
+.reaction-form {
+    margin: 0;
+    padding: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 페이지네이션 a 태그여도 버튼처럼 보이게 */
+.page-btn,
+.page-arrow {
+    text-decoration: none;
+}
+
+/* a.page-btn 가운데 정렬 */
+a.page-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* submit-btn이 button이어도 기존 디자인 유지 */
+.submit-btn {
+    border: none;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.submit-btn:visited,
+.submit-btn:hover,
+.submit-btn:active,
+.submit-btn:focus {
+    text-decoration: none;
+    color: #FFF;
+    outline: none;
+}
