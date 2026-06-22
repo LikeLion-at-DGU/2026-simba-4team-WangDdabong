@@ -247,6 +247,11 @@ def get_worry_answer(request, worry_id):
 
     return render(request, "writers/demo_worry_answer.html", context)
 
+"""
+    [포인트 이용 내역 화면 렌더링]
+    - 기능: 포인트 이용 내역 화면 렌더링
+    - 받는 값: X
+"""
 def get_point_logs(request):
     if not request.user.is_authenticated:
         return redirect("accounts:login")
