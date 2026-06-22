@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from accounts.models import Profile
-from writers.models import PointLog
+from accounts.models import Profile, UserYang
 from worries.models import Worry
-from .utils import TODAY_MESSAGES
+from .utils import *
 from django.utils import timezone
 from datetime import timedelta
 import random
@@ -94,34 +93,53 @@ def daily_attend(request):
             points += 3                      # 보너스(3) + 출석(1) = 4
             source = "일주일 출석 보너스"
     
-    edit_points(profile, points)              # 점수 반영
+    edit_points(profile, source, points)              # 점수 반영
     profile.last_attendance = today           # 마지막 출석 날짜 최신화
     profile.save()
 
     return redirect("main:demo_home")
 
 """
-[포인트 증감 함수]
-- 기능: profile 객체의 포인트를 points 만큼 증감
+    [양 성장 과정 구매 화면 렌더링]
+    - 기능: 양 성장 과정 구매 화면을 출력
+    - 받는 값: X
+    - return: 성공 시 -> main/yang_store.html / 실패 시 -> 로그인 화면
 """
-def edit_points(profile, source, amount):
-    if amount >= 0:
-        point_type = "EARN"
-    else:
-        point_type = "USE"
+def get_yang_store(request):
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
+    profile = get_object_or_404(Profile, writer=request.user)
     
-    # 잔액 부족시
-    if profile.points + amount < 0:
-        return
+    context = {
+        "worry_count": profile.worry_count,
+        "points": profile.points,
+        "yangs": Yang,
+    }
 
-    profile.points += amount
-    profile.save()
+    return render(request, "main/demo_yang_store.html", context)
 
-    point_log = PointLog()
-    point_log.writer = profile.writer
-    point_log.point_type = point_type
-    point_log.source = source
-    point_log.amount = amount
-    point_log.points_after = profile.points
+"""
+    [양 성장 과정 구매 함수]
+    - 기능: 양 성장 과정 구매 처리
+    - 받는 값: 어떤 양 구매할 지(yang_id)
+"""
+def post_buy_yang(request, yang_id):
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
 
-    point_log.save()
+    if UserYang.objects.filter(writer=request.user, yang_id=yang_id).exists():
+        return redirect("writers:get_yang_store")
+
+    profile = get_object_or_404(Profile, writer=request.user)
+
+    yang = Yang.get(yang_id)
+    source = yang["name"] + "구매"
+    edit_points(profile, source, -yang["price"])
+    
+    user_yang = UserYang()
+    user_yang.writer = profile.writer
+    user_yang.yang_id = yang_id
+    user_yang.save()
+
+    return redirect("writers:get_yang_store")
