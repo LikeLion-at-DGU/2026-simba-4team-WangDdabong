@@ -8,14 +8,13 @@
 /* 전체 영역 */
 .reply-section {
     height: calc(874px - 99px - 66px);
-    padding: 28px 16px 16px;
+    padding: 50px 16px 16px;
 
     display: flex;
     flex-direction: column;
     align-items: center;
 
     background: #F3EEE8;
-    overflow: hidden;
 }
 
 .reply-page-title {
@@ -67,18 +66,6 @@
     padding: 14px 16px;
 }
 
-/* MBTI 자동 입력 박스 */
-.reply-mbti {
-    height: 50px;
-
-    cursor: default;
-}
-
-/* readonly input 클릭했을 때 이상한 테두리 방지 */
-.reply-mbti:focus {
-    outline: none;
-}
-
 /* 안내 문구 */
 .reply-guide {
     margin: 4px 0 4px;
@@ -92,10 +79,12 @@
 
 /* 고민 내용 미리보기 박스 */
 .worry-preview {
-    height: 70px;
-
+    height: 98px;
+    width: 370px;
+    padding: 39px 80px 38px 25px;
     resize: none;
     overflow: hidden;
+    border-radius: 20px;
 }
 
 /* 라벨 */
@@ -111,12 +100,13 @@
 
 /* 답변 작성 큰 박스 */
 .reply-content {
-    height: 280px;
+    height: 315px;
+    width: 370px;
 
-    border-radius: 30px 30px 0 0;
+    border-radius: 20px;
     background: #D5C9BB;
 
-    padding: 28px 28px;
+    padding: 17px 20px 17px 27px;
 
     resize: none;
     overflow-y: auto;
@@ -147,7 +137,7 @@
     font-family: Pretendard, sans-serif;
     font-size: 14px;
     font-weight: 400;
-    line-height: 180%;
+    line-height: 150%;
     font-style: normal;
 }
 
@@ -184,10 +174,13 @@
     font-weight: 600;
     line-height: 150%;
 
-    margin-top: 14px;
+    margin-top: 78px;
     cursor: pointer;
 }
 
+.submit-reply:hover {
+    background: #53546B;
+}
 .submit-reply:visited,
 .submit-reply:hover,
 .submit-reply:active,

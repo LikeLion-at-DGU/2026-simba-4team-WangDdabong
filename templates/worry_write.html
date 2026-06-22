@@ -9,13 +9,6 @@
 
 {% block content %}
 
-<section class="write-top-area">
-    <div class="top-info">
-        <span class="top-info-box">남은 고민 개수</span>
-        <span class="top-info-box">포인트</span>
-    </div>
-</section>
-
 
 <section class="write-section">
     <h1 class="write-page-title">WORRY POST</h1>
@@ -23,8 +16,70 @@
     <form class="worry-form" method="post">
         {% csrf_token %}
 
-        <div class="textfield">
-            <textarea id="worry-keyword" name="keyword" class="worry-keyword" placeholder="고민의 키워드를 작성해주세요!"></textarea>
+        <div class="keyword-field">
+            <button type="button" class="keyword-select" id="keywordSelectBtn">
+                <span id="keywordSelectedText">고민의 키워드를 선택해주세요!</span>
+
+                <svg class="keyword-arrow" id="keywordArrow" xmlns="http://www.w3.org/2000/svg" width="14" height="8"
+                    viewBox="0 0 14 8" fill="none">
+                    <path d="M1 1L7 7L13 1" stroke="#3A3A3A" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+            </button>
+
+            <div class="keyword-dropdown" id="keywordDropdown">
+                <div class="keyword-group">
+                    <p class="keyword-group-title">성장 / 진로</p>
+                    <div class="keyword-chip-wrap">
+                        <button type="button" class="keyword-chip" data-value="취업">취업</button>
+                        <button type="button" class="keyword-chip" data-value="학점">학점</button>
+                        <button type="button" class="keyword-chip" data-value="자격증">자격증</button>
+                        <button type="button" class="keyword-chip" data-value="대외활동">대외활동</button>
+                        <button type="button" class="keyword-chip" data-value="창업">창업</button>
+                        <button type="button" class="keyword-chip" data-value="학업">학업</button>
+                    </div>
+                </div>
+
+                <div class="keyword-group">
+                    <p class="keyword-group-title">경제 / 현실</p>
+                    <div class="keyword-chip-wrap">
+                        <button type="button" class="keyword-chip" data-value="알바">알바</button>
+                        <button type="button" class="keyword-chip" data-value="자취">자취</button>
+                        <button type="button" class="keyword-chip" data-value="학자금">학자금</button>
+                        <button type="button" class="keyword-chip" data-value="소비">소비</button>
+                        <button type="button" class="keyword-chip" data-value="물가">물가</button>
+                    </div>
+                </div>
+
+                <div class="keyword-group">
+                    <p class="keyword-group-title">관계 / 자아</p>
+                    <div class="keyword-chip-wrap">
+                        <button type="button" class="keyword-chip" data-value="연애">연애</button>
+                        <button type="button" class="keyword-chip" data-value="친구">친구</button>
+                        <button type="button" class="keyword-chip" data-value="인간관계">인간관계</button>
+                        <button type="button" class="keyword-chip" data-value="멘탈">멘탈</button>
+                    </div>
+                </div>
+
+                <div class="keyword-group">
+                    <p class="keyword-group-title">사회 / 시선</p>
+                    <div class="keyword-chip-wrap">
+                        <button type="button" class="keyword-chip" data-value="정책">정책</button>
+                        <button type="button" class="keyword-chip" data-value="환경">환경</button>
+                        <button type="button" class="keyword-chip" data-value="젠더">젠더</button>
+                        <button type="button" class="keyword-chip" data-value="이슈">이슈</button>
+                    </div>
+                </div>
+
+                <div class="keyword-group">
+                    <p class="keyword-group-title">기타</p>
+                    <div class="keyword-chip-wrap">
+                        <button type="button" class="keyword-chip" data-value="잡다구리">잡다구리</button>
+                    </div>
+                </div>
+            </div>
+
+            <input type="hidden" name="keyword" id="keywordValue">
         </div>
 
         <div class="textfield">
@@ -69,7 +124,7 @@
                     </div>
                 </div>
 
-                <input type="hidden" name="mbti" id="mbti-value" value="ESFP">
+                <input type="hidden" name="mbti" id="mbti-value" value="ISFP">
             </div>
         </div>
 
@@ -125,6 +180,40 @@
 
             updateMbtiValue();
         });
+    });
+
+    const keywordField = document.querySelector(".keyword-field");
+    const keywordSelectBtn = document.querySelector("#keywordSelectBtn");
+    const keywordSelectedText = document.querySelector("#keywordSelectedText");
+    const keywordValueInput = document.querySelector("#keywordValue");
+    const keywordChips = document.querySelectorAll(".keyword-chip");
+
+    keywordSelectBtn.addEventListener("click", () => {
+        keywordField.classList.toggle("open");
+    });
+
+    keywordChips.forEach((chip) => {
+        chip.addEventListener("click", () => {
+            const selectedKeyword = chip.dataset.value;
+
+            keywordChips.forEach((item) => {
+                item.classList.remove("active");
+            });
+
+            chip.classList.add("active");
+
+            keywordSelectedText.textContent = selectedKeyword;
+            keywordValueInput.value = selectedKeyword;
+            keywordSelectBtn.classList.add("selected");
+
+            keywordField.classList.remove("open");
+        });
+    });
+
+    document.addEventListener("click", (event) => {
+        if (!keywordField.contains(event.target)) {
+            keywordField.classList.remove("open");
+        }
     });
 </script>
 

@@ -5,45 +5,6 @@
     font-style: normal;
 }
 
-.write-top-area {
-    width: 100%;
-    height: 52px;
-    background: #F3EEE8;
-    position: relative;
-    flex-shrink: 0;
-}
-
-.top-info {
-    position: absolute;
-    top: 8px;
-    right: 28px;
-
-    display: flex;
-    align-items: center;
-    gap: 11px;
-
-    z-index: 20;
-}
-
-.top-info-box {
-    display: flex;
-    width: 75px;
-    height: 20px;
-    justify-content: center;
-    align-items: center;
-
-    background-color: #D5C9BB;
-
-    color: #000;
-    font-family: Pretendard, sans-serif;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 150%;
-}
-
-
-
 .write-section {
     height: calc(874px - 99px - 52px);
     padding: 0 16px 16px;
@@ -54,7 +15,7 @@
 }
 
 .write-page-title {
-    margin: 4px 0 18px;
+    margin: 50px 0 18px;
 
     color: #2B2D54;
     text-align: center;
@@ -89,14 +50,13 @@
 }
 
 /* 입력창 공통 */
-.worry-keyword,
 .worry-title,
 .worry-content {
     width: 100%;
 
     border: none;
     outline: none;
-    border-radius: 0;
+    border-radius: 20px;
 
     background: #D5C9BB;
     color: #000;
@@ -109,11 +69,117 @@
     padding: 14px 16px;
 }
 
-/* 키워드 박스 */
-.worry-keyword {
+/* 키워드 드롭다운 */
+.keyword-field {
+    width: 370px;
+    position: relative;
+}
+
+.keyword-select {
     width: 370px;
     height: 50px;
-    resize: none;
+    padding: 0 16px 0 20px;
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    border: none;
+    outline: none;
+    border-radius: 20px;
+    background: #D5C9BB;
+
+    color: #868484;
+    font-family: Pretendard, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 150%;
+    text-align: left;
+
+    cursor: pointer;
+}
+
+.keyword-select.selected {
+    color: #000000;
+}
+
+.keyword-arrow {
+    flex-shrink: 0;
+    transition: transform 160ms ease;
+}
+
+.keyword-field.open .keyword-arrow {
+    transform: rotate(180deg);
+}
+
+.keyword-dropdown {
+    display: none;
+
+    width: 370px;
+    min-height: 320px;
+    padding: 23px 20px 23px 19px;
+    box-sizing: border-box;
+
+    position: absolute;
+    top: 50px;
+    left: 0;
+    z-index: 100;
+
+    border-radius: 30px;
+    background: #FFFFFF;
+}
+
+.keyword-field.open .keyword-dropdown {
+    display: block;
+}
+
+.keyword-group {
+    margin-bottom: 8px;
+}
+
+.keyword-group:last-child {
+    margin-bottom: 0;
+}
+
+.keyword-group-title {
+    margin: 0 0 6px;
+    align-self: stretch;
+
+    color: #3A3A3A;
+    font-family: Pretendard;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.keyword-chip-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.keyword-chip {
+    height: 24px;
+    padding: 0 11px;
+
+    border: none;
+    border-radius: 999px;
+    background: #D5C9BB;
+
+    color: #3A3A3A;
+    font-family: Pretendard;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 150%;
+
+    cursor: pointer;
+}
+
+.keyword-chip.active {
+    background: #9F907E;
+    color: #3A3A3A;
 }
 
 /* 제목 박스 */
@@ -137,7 +203,7 @@
 .worry-content {
     width: 370px;
     height: 230px;
-    border-radius: 30px 30px 0 0;
+    border-radius: 20px;
     background: #D5C9BB;
     resize: none;
 }
@@ -154,46 +220,33 @@
     font-style: normal;
 }
 
+/* MBTI 영역 */
 .mbti-field {
-    margin-top: 8px;
+    margin-top: 4px;
 }
 
-.mbti-title {
-    margin: 0 0 12px;
-
-    color: #000;
-    font-family: Pretendard, sans-serif;
-    font-size: 14px;
-    font-weight: 600;
+.mbti-field .mbti-field {
+    margin-top: 0;
 }
 
-.mbti-field {
-    margin-top: 8px;
-}
-
-.mbti-title {
-    margin: 0 0 12px;
-
-    color: #000;
-    font-family: Pretendard, sans-serif;
-    font-size: 14px;
-    font-weight: 600;
+.mbti-question-title {
+    display: none;
 }
 
 .mbti-options {
     display: flex;
-    gap: 14px;
+    gap: 12px;
 }
 
 .mbti-toggle {
-    width: 62px;
-    height: 36px;
+    width: 60px;
+    height: 30px;
+    padding: 5px;
+    box-sizing: border-box;
 
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-    padding: 3px;
 
     border-radius: 999px;
     background: #D5C9BB;
@@ -209,44 +262,59 @@
 }
 
 .mbti-btn {
-    width: 30px;
-    height: 30px;
+    width: 21px;
+    height: 21px;
 
     border: none;
-    border-radius: 999px;
+    border-radius: 50%;
     background: transparent;
 
-    color: #868484;
+    /* 기본 상태 글자 숨김 */
+    color: transparent;
+
     font-family: Pretendard, sans-serif;
-    font-size: 14px;
-    font-weight: 700;
+    font-size: 11px;
+    font-weight: 400;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     cursor: pointer;
+    padding: 0;
 }
 
 .mbti-btn.active {
-    background: #FFFFFF;
-    color: #3A3A3A;
+    background: #F1EBE4;
+    color: #868484;
 }
 
+/* 등록 버튼 */
 .submit-worry {
-    display: flex;
     width: 370px;
+    margin-top: 30px;
     padding: 12px 16px;
+    box-sizing: border-box;
+
+    display: flex;
     justify-content: center;
     align-items: center;
-    gap: 10px;
-    border-radius: 20px;
+
+    border: none;
+    border-radius: 14px;
     background: #2B2D54;
+
     text-decoration: none;
-    color: #FFF;
-    font-family: Pretendard;
-    font-size: 16px;
-    font-style: normal;
+    color: #FFFFFF;
+    font-family: Pretendard, sans-serif;
+    font-size: 13px;
     font-weight: 600;
     line-height: 150%;
-    /* 24px */
-    margin-top: 24px;
 
     cursor: pointer;
+}
+
+/* 누르는 순간 색 변경 */
+.submit-worry:hover {
+    background: #676A88;
 }

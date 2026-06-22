@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}고민 스토리{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/worry_story.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="story-section">
+
+    <h1 class="title">WORRY STORY</h1>
+    <div class="scroll-area">
+        <form class="form">
+
+            <!-- 1. 고민 내용 -->
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-label">고민 내용</div>
+
+                    <!-- 위쪽 스탬프 + 숫자 -->
+                    <div class="story-stamp-info">
+                        <img src="{% static 'images/yellowstamp.png' %}" alt="스탬프" class="story-stamp-img">
+                        <span class="story-stamp-count">6</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <textarea class="textarea-box"></textarea>
+                </div>
+            </div>
+
+            <!-- 2. 고민 답변 -->
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-label">고민 답변</div>
+
+                    <!-- 공감 업 / 다운 버튼 -->
+                    <div class="reaction-icons">
+                        <button type="button" class="reaction-btn up-btn" aria-label="공감">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="25" viewBox="0 0 21 25"
+                                fill="none">
+                                <path
+                                    d="M2.61172 20.8774C-1.21281 16.1264 1.01817 6.03046 2.61172 1.57636C8.17468 -2.38283 7.2475 5.53556 6.08854 9.98965C8.26157 8.83489 13.5638 7.21822 17.3883 9.98965C21.2128 12.7611 20.023 19.5262 18.4294 22.0007C15.0975 23.9803 6.43625 25.6285 2.61172 20.8774Z"
+                                    fill="currentColor" stroke="black" stroke-linecap="round" />
+                                <circle cx="9.62944" cy="15.2007" r="0.7" fill="black" />
+                                <path d="M7.42944 17.5007C8.09611 18.5007 9.92944 20.2007 11.9294 19.0007"
+                                    stroke="black" stroke-linecap="round" />
+                                <circle cx="13.6294" cy="15.2007" r="0.7" fill="black" />
+                            </svg>
+                        </button>
+
+                        <button type="button" class="reaction-btn down-btn" aria-label="비공감">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="25" viewBox="0 0 21 25"
+                                fill="none">
+                                <path
+                                    d="M17.8292 3.58936C21.6537 8.34039 19.4228 18.4363 17.8292 22.8904C12.2662 26.8496 13.1934 18.9312 14.3524 14.4771C12.1793 15.6319 6.87716 17.2486 3.05264 14.4771C-0.771891 11.7057 0.417921 4.94056 2.01147 2.46606C5.34344 0.486465 14.0047 -1.16168 17.8292 3.58936Z"
+                                    fill="currentColor" stroke="black" stroke-linecap="round" />
+                                <circle cx="7.75688" cy="6.20024" r="0.7" fill="black" />
+                                <path d="M9.99023 10.5564C9.38966 9.51536 7.67016 7.70031 5.59671 8.76839"
+                                    stroke="black" stroke-linecap="round" />
+                                <circle cx="11.7569" cy="6.20024" r="0.7" fill="black" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <textarea class="textarea-box"></textarea>
+                </div>
+            </div>
+
+            <!-- 3. 후일담 -->
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-label">후일담</div>
+
+                    <span class="eye-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path
+                                d="M10 4.29321C15.3501 4.29321 19.5 7.79056 19.5 11.8967C19.5 16.0029 15.35 19.5002 10 19.5002C4.64996 19.5002 0.500046 16.0029 0.5 11.8967C0.5 7.79056 4.64993 4.29321 10 4.29321Z"
+                                fill="white" stroke="#3A3A3A" />
+                            <circle cx="10.1723" cy="11.8967" r="3.46552" fill="#3A3A3A" stroke="#3A3A3A" />
+                            <line x1="3.79087" y1="1.89008" x2="5.30357" y2="4.3658" stroke="#3A3A3A"
+                                stroke-linecap="round" />
+                            <line x1="0.5" y1="-0.5" x2="3.40128" y2="-0.5"
+                                transform="matrix(-0.52139 0.853318 0.853318 0.52139 17.2065 1.72412)" stroke="#3A3A3A"
+                                stroke-linecap="round" />
+                            <line x1="10.1553" y1="0.5" x2="10.1553" y2="3.2931" stroke="#3A3A3A"
+                                stroke-linecap="round" />
+                        </svg>
+                    </span>
+                </div>
+
+                <div class="card">
+                    <textarea class="textarea-box"></textarea>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <!-- 버튼은 form 밖으로 빼서 고정 느낌 -->
+    <a href="#" class="delete-btn">
+        고민 삭제하기
+    </a>
+
+</section>
+
+<script>
+    const upBtn = document.querySelector('.up-btn');
+    const downBtn = document.querySelector('.down-btn');
+
+    upBtn.addEventListener('click', function () {
+        upBtn.classList.toggle('active');
+        downBtn.classList.remove('active');
+    });
+
+    downBtn.addEventListener('click', function () {
+        downBtn.classList.toggle('active');
+        upBtn.classList.remove('active');
+    });
+</script>
+{% endblock %}

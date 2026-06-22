@@ -1,250 +1,184 @@
 @font-face {
     font-family: "Chunko Bold Demo";
-    src: url("/static/fonts/ChunkoBoldDemo.woff2") format("woff2");
-    font-weight: 900;
-    font-style: normal;
+    src: url("../fonts/ChunkoBoldDemo.woff2") format("woff2");
 }
 
-.write-top-area {
-    width: 100%;
-    height: 52px;
+/* 전체 */
+.page {
+    min-height: 100vh;
     background: #F3EEE8;
-    position: relative;
-    flex-shrink: 0;
-}
-
-.top-info {
-    position: absolute;
-    top: 8px;
-    right: 28px;
-
-    display: flex;
-    align-items: center;
-    gap: 11px;
-
-    z-index: 20;
-}
-
-.top-info-box {
-    display: flex;
-    width: 75px;
-    height: 20px;
-    justify-content: center;
-    align-items: center;
-
-    background-color: #D5C9BB;
-
-    color: #000;
-    font-family: Pretendard, sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 150%;
-}
-
-.write-section {
-    height: calc(874px - 99px - 52px);
-    padding: 0 16px 16px;
-
+    padding: 28px 16px;
     display: flex;
     flex-direction: column;
     align-items: center;
-
-    background: #F3EEE8;
-    overflow-y: auto;
 }
 
-.write-page-title {
-    margin: 4px 0 18px;
-
-    color: #2B2D54;
-    text-align: center;
-    font-family: "Chunko Bold Demo", Pretendard, sans-serif;
+/* 제목 */
+.title {
+    font-family: "Chunko Bold Demo";
     font-size: 30px;
-    font-weight: 900;
-    line-height: 120%;
+    color: #2B2D54;
+    margin-bottom: 20px;
 }
 
-.worry-form {
+/* form */
+.form {
     width: 370px;
-    margin: 0 auto;
-
     display: flex;
     flex-direction: column;
     gap: 10px;
+    padding-bottom: 24px;
 }
 
-.textfield {
+/* input 공통 */
+.input-box {
     width: 100%;
-
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-/* 키워드 input */
-.worry-keyword {
-    width: 370px;
     height: 50px;
-
-    border: none;
-    outline: none;
-    border-radius: 0;
-
     background: #D5C9BB;
-    color: #000;
-
-    font-family: Pretendard, sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 150%;
-
+    border: none;
+    border-radius: 18px;
     padding: 14px 16px;
-}
-
-/* 라벨 */
-.question-title {
-    color: #000;
-    font-family: Pretendard, sans-serif;
     font-size: 14px;
-    font-weight: 500;
-    line-height: 150%;
-
-    margin: 8px 0 0;
 }
 
-/* 고민 상세 큰 박스 */
-.detail-content-box {
-    position: relative;
+.detail-box {
+    height: 160px;
+    /* 👈 피그마처럼 더 “뚱뚱하게” */
+}
 
-    width: 370px;
-    height: 320px;
+/* 섹션 라벨 */
+.section-label {
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 4px;
+}
+
+/* content card */
+/* content card */
+.content-card {
+    position: relative;
+    width: 100%;
+    height: 300px;
+}
+
+/* textarea */
+.content-textarea {
+    width: 100%;
+    height: 300px;
 
     background: #D5C9BB;
-    border-radius: 30px 30px 0 0;
-
-    padding: 28px 28px;
-}
-
-/* 고민 주제 input */
-.detail-title-input {
-    width: 100%;
-    height: 28px;
-
     border: none;
-    outline: none;
-    background: transparent;
+    border-radius: 20px;
+
+    padding: 22px;
+    box-sizing: border-box;
 
     color: #000;
-
     font-family: Pretendard, sans-serif;
     font-size: 14px;
     font-weight: 400;
-    line-height: 150%;
 
-    padding: 0;
-    margin: 0 0 18px;
-}
-
-/* 고민 내용 textarea */
-.detail-content-input {
-    width: 100%;
-    height: 190px;
-
-    border: none;
-    outline: none;
     resize: none;
-    background: transparent;
-
-    color: #000;
-
-    font-family: Pretendard, sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 150%;
-
-    padding: 0;
-    margin: 0;
+    display: block;
 }
 
-/* placeholder */
-.worry-keyword::placeholder,
-.detail-title-input::placeholder,
-.detail-content-input::placeholder {
-    color: #868484;
-    font-family: Pretendard, sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 150%;
-}
-
-/* 클릭했을 때 파란/검정 테두리 방지 */
-.worry-keyword:focus,
-.detail-title-input:focus,
-.detail-content-input:focus {
-    outline: none;
-}
-
-/* 우표 + 북마크 */
-.detail-stamp-area {
+/* 오른쪽 아래 스탬프 + 카운트 + 북마크 */
+.stamp-area {
     position: absolute;
     right: 18px;
-    bottom: 16px;
+    bottom: 15px;
 
     display: flex;
     align-items: center;
     gap: 6px;
+
+    z-index: 5;
 }
 
+/* stamp */
 .stamp-icon {
-    display: inline-flex;
+    width: 28px;
+    height: 32px;
+
+    display: flex;
     align-items: center;
     justify-content: center;
+
+    overflow: hidden;
+    flex-shrink: 0;
 }
 
-.stamp-icon svg {
-    width: 24px;
-    height: 28px;
+.stamp-icon img {
+    width: 28px !important;
+    height: 32px !important;
+
+    max-width: 28px !important;
+    max-height: 32px !important;
+
+    display: block;
+    object-fit: contain;
+
+    transform: rotate(-4.66deg);
 }
 
+/* count */
 .stamp-count {
     color: #000;
     font-family: Pretendard, sans-serif;
     font-size: 13px;
     font-weight: 700;
     line-height: 1;
+
+    margin-left: 2px;
+    flex-shrink: 0;
 }
 
+/* bookmark - SVG 유지 */
 .bookmark-icon {
-    display: inline-flex;
+    width: 24px;
+    height: 30px;
+
+    margin-left: 10px;
+
+    display: flex;
     align-items: center;
     justify-content: center;
 
-    margin-left: 10px;
+    flex-shrink: 0;
 }
 
 .bookmark-icon svg {
-    width: 24px;
-    height: 27px;
+    width: 23px;
+    height: 30px;
+
+    display: block;
 }
 
-/* 버튼 */
-.answer-write-button {
-    display: flex;
-    width: 370px;
-    padding: 12px 16px;
-    justify-content: center;
-    align-items: center;
-
-    border-radius: 20px;
+/* button */
+.submit-btn {
+    margin-top: 24px;
+    width: 100%;
+    height: 48px;
     background: #2B2D54;
-
-    text-decoration: none;
-    color: #FFF;
-    font-family: Pretendard, sans-serif;
+    color: white;
+    border: none;
+    border-radius: 20px;
     font-size: 16px;
     font-weight: 600;
-    line-height: 150%;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-    margin-top: 22px;
-    cursor: pointer;
+.submit-btn:hover {
+    background: #53546B;
+}
+
+.submit-btn:visited,
+.submit-btn:hover,
+.submit-btn:active,
+.submit-btn:focus {
+    text-decoration: none;
+    color: white;
 }

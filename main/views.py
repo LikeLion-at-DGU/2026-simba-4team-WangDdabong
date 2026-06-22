@@ -17,3 +17,12 @@ def worry_detail(request):
 
 def worry_reply(request):
     return render(request, "worry_reply.html")
+
+def worry_received(request):
+    return render(request, "worry_received.html")
+
+def epilogue_write(request):
+    return render(request, "epilogue_write.html")
+
+def worry_story(request):
+    return render(request, "worry_story.html")
