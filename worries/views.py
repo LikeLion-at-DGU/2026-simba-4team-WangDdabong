@@ -205,3 +205,23 @@ def hall_of_fame_card(request, epilogue_id):
     }
 
     return render(request, 'worries/demo_hof_card.html', context)
+
+def edit_satisfaction(request, answer_id, is_satisfied):
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+    
+    answer = get_object_or_404(Answer, pk=answer_id)
+
+    # 고민 작성자만 답변에 만족/불만족 가능
+    if answer.worry.writer != request.user:
+        return
+
+    # 답변 만족/불만족 처리
+    if (is_satisfied > 0): # 만족
+        answer.is_satisfied = 1
+    else: # 불만족
+        answer.is_satisfied = -1
+
+    answer.save()
+
+    return redirect("writers:get_worry_answer", answer.worry.id)
