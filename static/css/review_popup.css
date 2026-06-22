@@ -3,10 +3,10 @@
 .attendance-popup {
     position: absolute;
     left: 0;
-    top: 279px;
+    top: 0;
 
     width: 100%;
-    height: calc(100% - 279px);
+    height: 100%;
 
     display: none;
     z-index: 200;
@@ -16,7 +16,9 @@
 
 .review-popup.active,
 .attendance-popup.active {
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
 }
 
 /* X 버튼 공통 */
@@ -47,27 +49,6 @@
     padding: 0;
 }
 
-/* 후일담 팝업 */
-.review-popup {
-    position: absolute;
-    left: 0;
-    top: 0;
-
-    width: 100%;
-    height: 100%;
-
-    display: none;
-    z-index: 200;
-
-    background: transparent;
-}
-
-.review-popup.active {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-}
-
 /* 후일담 흰색 박스 */
 .review-content-box {
     position: relative;
@@ -76,7 +57,6 @@
     height: 330px;
     margin-top: 290px;
     padding: 38px 17px 15px;
-    box-sizing: border-box;
 
     display: flex;
     flex-direction: column;
@@ -93,7 +73,6 @@
 .review-header {
     width: 100%;
     padding: 0 6px;
-    box-sizing: border-box;
 
     display: flex;
     align-items: center;
@@ -129,8 +108,6 @@
     height: 112px;
     margin-top: 18px;
     padding: 12px 16px;
-    box-sizing: border-box;
-    padding: 12px 16px;
 
     position: relative;
 
@@ -146,6 +123,7 @@
     width: 294px;
     height: 42px;
     flex-shrink: 0;
+
     color: #000000;
     font-family: Pretendard, sans-serif;
     font-size: 16px;
@@ -197,34 +175,12 @@
     cursor: pointer;
 }
 
-/* 출석체크 팝업 */
-.attendance-popup {
-    position: absolute;
-    left: 0;
-    top: 0;
-
-    width: 100%;
-    height: 100%;
-
-    display: none;
-    z-index: 200;
-
-    background: transparent;
-}
-
-.attendance-popup.active {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-}
-
 /* 흰색 출첵창 */
 .attendance-content-box {
     width: 370px;
     height: 330px;
     margin-top: 290px;
     padding: 25px 26px 0;
-    box-sizing: border-box;
 
     display: flex;
     flex-direction: column;
@@ -240,6 +196,7 @@
 /* DAY 1~BONUS 전체 배치 */
 .attendance-grid {
     width: fit-content;
+
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     column-gap: 25px;
@@ -254,6 +211,7 @@
 /* 각 아이템 */
 .attendance-item {
     width: 60px;
+
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -278,6 +236,7 @@
     width: 55px;
     height: 20px;
     gap: 10px;
+
     display: flex;
     align-items: center;
     justify-content: center;
@@ -287,9 +246,8 @@
 
     color: #FFF;
     text-align: center;
-    font-family: Inter;
+    font-family: Inter, Pretendard, sans-serif;
     font-size: 10px;
-    font-style: normal;
     font-weight: 600;
     line-height: normal;
     letter-spacing: 0.5px;
@@ -323,39 +281,33 @@
     align-items: center;
 }
 
-/* 공통 */
 .bonus-face svg {
     display: block;
     width: 100%;
     height: 100%;
 }
 
-/* 왼쪽 위 */
 .bonus-face-1 {
     width: 26.808px;
     height: 26.808px;
 }
 
-/* 왼쪽 아래 */
 .bonus-face-2 {
     width: 23.936px;
     height: 23.936px;
 }
 
-/* 오른쪽 큰 얼굴 */
 .bonus-face-3 {
     width: 32.044px;
     height: 32.044px;
-
     margin-top: 9px;
 }
 
 .bonus-label {
     color: #C89B25;
     text-align: center;
-    font-family: Inter;
+    font-family: Inter, Pretendard, sans-serif;
     font-size: 8px;
-    font-style: normal;
     font-weight: 600;
     line-height: normal;
     letter-spacing: 0.4px;
@@ -366,7 +318,6 @@
     width: 330px;
     height: 48px;
     margin-top: 25px;
-    box-sizing: border-box;
 
     border: none;
     border-radius: 20px;

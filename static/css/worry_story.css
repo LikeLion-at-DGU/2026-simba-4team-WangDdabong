@@ -5,11 +5,11 @@
     font-style: normal;
 }
 
-/* 전체 영역 */
+/* 전체 영역: 874 - 상태바 70 - 푸터 85 = 719 */
 .story-section {
-    height: calc(874px - 99px - 66px);
+    width: 100%;
+    height: calc(874px - 70px - 85px);
     padding: 50px 16px 16px;
-    box-sizing: border-box;
 
     display: flex;
     flex-direction: column;
@@ -21,6 +21,7 @@
 
 /* 제목 */
 .title {
+    flex-shrink: 0;
     margin: 0 0 18px;
 
     color: #2B2D54;
@@ -35,6 +36,7 @@
 .scroll-area {
     width: 370px;
     flex: 1;
+    min-height: 0;
 
     overflow-y: auto;
     overflow-x: hidden;
@@ -55,11 +57,14 @@
     display: flex;
     flex-direction: column;
     gap: 26px;
+
+    padding-bottom: 4px;
 }
 
 /* 각 묶음 */
 .section {
     width: 100%;
+    flex-shrink: 0;
 }
 
 /* 라벨 + 아이콘 줄 */
@@ -94,7 +99,6 @@
 .story-title-box {
     width: 370px;
     min-height: 44px;
-    box-sizing: border-box;
 
     padding: 13px 18px;
     margin-bottom: 8px;
@@ -113,7 +117,6 @@
 .textarea-box {
     width: 370px;
     height: 140px;
-    box-sizing: border-box;
 
     padding: 22px 25px;
 
@@ -243,12 +246,10 @@
     display: block;
 }
 
-/* 누르면 업 아이콘 빨강 */
 .up-btn.active {
     color: #AE4959;
 }
 
-/* 누르면 다운 아이콘 파랑 */
 .down-btn.active {
     color: #5B7DBE;
 }
@@ -275,25 +276,29 @@
 
 /* 삭제 버튼 */
 .delete-btn {
-    display: flex;
     width: 370px;
-    padding: 12px 16px;
-    box-sizing: border-box;
+    height: 48px;
+    flex-shrink: 0;
+
+    display: flex;
     justify-content: center;
     align-items: center;
     gap: 10px;
+
     border: none;
     border-radius: 20px;
     background: #2B2D54;
+
     text-decoration: none;
     color: #FFF;
+
     font-family: Pretendard, sans-serif;
     font-size: 16px;
     font-weight: 600;
     line-height: 150%;
-    margin-top: 22px;
+
+    margin-top: 0;
     cursor: pointer;
-    flex-shrink: 0;
 }
 
 .delete-btn:visited,
