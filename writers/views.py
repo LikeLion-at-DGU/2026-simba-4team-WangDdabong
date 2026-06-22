@@ -129,26 +129,30 @@ def worry_bookmark(request):
 def post_epilogue(request, worry_id):
     if not request.user.is_authenticated:
         return redirect("accounts:login")
-    
+    worry = get_object_or_404(Worry, pk=worry_id)
+
     # 현재 사용자 == 고민 작성자인지 검증
     if request.user != worry.writer:
         return render(request, "writers/demo_worry_answer.html")
-    else:
-        worry = get_object_or_404(Worry, pk=worry_id)
-        worry.is_HoF = (request.POST["is_HoF"] == "True")   # 공개 여부 설정 (공개 O=True, 공개 X=False)
-        worry.save()
 
-        new_epilogue = Epilogue()
+    # 배송 완료 고민만 후일담 작성 가능
+    if not worry.is_complete:
+        return redirect("writers:get_worry_answer", worry.id)
 
-        new_epilogue.worry = worry
-        new_epilogue.writer = request.user
-        new_epilogue.ep_han_madi = request.POST["ep_han_madi"]
-        new_epilogue.ep_title = request.POST["ep_title"]
-        new_epilogue.ep_content = request.POST["ep_content"]
+    worry.is_HoF = (request.POST["is_HoF"] == "True")
+    worry.save()
 
-        new_epilogue.save()
+    new_epilogue = Epilogue()
 
-        return redirect("main:demo_home", {"source": "post_epilogue"})
+    new_epilogue.worry = worry
+    new_epilogue.writer = request.user
+    new_epilogue.ep_han_madi = request.POST["ep_han_madi"]
+    new_epilogue.ep_title = request.POST["ep_title"]
+    new_epilogue.ep_content = request.POST["ep_content"]
+
+    new_epilogue.save()
+
+    return redirect("main:home", {"source": "post_epilogue"})
     
 
 
