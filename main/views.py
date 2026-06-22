@@ -16,7 +16,7 @@ def demo_home(request, source="DONT_CARE"):
     if not request.user.is_authenticated:
         return redirect("accounts:login")
     
-    today = timezone.localdate()
+    today = timezone.now().date()
     profile = get_object_or_404(Profile, writer=request.user)
     already_attendance = True
 
@@ -65,7 +65,7 @@ def daily_attend(request):
         return redirect("accounts:login")
 
     profile = get_object_or_404(Profile, writer=request.user)
-    today = timezone.localdate()
+    today = timezone.now().date()
 
     # 중복 출석 방지 (직접 URL로 접근 방어 목적)
     if profile.last_attendance == today:

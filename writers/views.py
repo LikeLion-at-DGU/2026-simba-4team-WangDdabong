@@ -114,30 +114,46 @@ def worry_bookmark(request):
     return render(request, 'writers/demo_worry_bookmark.html', context)
 
 
+"""
+    [후일담 작성]
+    - 기능 : 후일담 작성 및 공개 여부 설정
+    - 받는 값 : worry_id, ep_han_madi, ep_title, ep_content, is_HoF
+    - return : 성공 -> 홈 화면 이동 / 실패 -> 로그인 화면 이동
+
+    * 유의사항 *
+    - 고민 작성자만 후일담 작성 가능
+    - 공개 O 선택 시 is_HoF = True
+    - 공개 X 선택 시 is_HoF = False
+"""
 
 def post_epilogue(request, worry_id):
     if not request.user.is_authenticated:
         return redirect("accounts:login")
     
+    worry = get_object_or_404(Worry, pk=worry_id)
+
     # 현재 사용자 == 고민 작성자인지 검증
     if request.user != worry.writer:
         return render(request, "writers/demo_worry_answer.html")
-    else:
-        worry = get_object_or_404(Worry, pk=worry_id)
-        worry.is_HoF = request.POST["is_HoF"]
-        worry.save()
 
-        new_epilogue = Epilogue()
+    # 배송 완료된 고민만 후일담 작성 가능
+    if not worry.is_complete:
+        return redirect("writers:get_worry_answer", worry.id)
+    
+    worry.is_HoF = (request.POST["is_HoF"] == "True")   # 공개 여부 설정 (공개 O=True, 공개 X=False)
+    worry.save()
 
-        new_epilogue.worry = worry
-        new_epilogue.writer = request.user
-        new_epilogue.ep_han_madi = request.POST["ep_han_madi"]
-        new_epilogue.ep_title = request.POST["ep_title"]
-        new_epilogue.ep_content = request.POST["ep_content"]
+    new_epilogue = Epilogue()
 
-        new_epilogue.save()
+    new_epilogue.worry = worry
+    new_epilogue.writer = request.user
+    new_epilogue.ep_han_madi = request.POST["ep_han_madi"]
+    new_epilogue.ep_title = request.POST["ep_title"]
+    new_epilogue.ep_content = request.POST["ep_content"]
 
-        return redirect("main:demo_home", {"source": "post_epilogue"})
+    new_epilogue.save()
+
+    return redirect("main:demo_home", {"source": "post_epilogue"})
     
 
 

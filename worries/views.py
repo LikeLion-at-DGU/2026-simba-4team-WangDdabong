@@ -234,4 +234,20 @@ def edit_satisfaction(request, answer_id, is_satisfied):
 
     answer.save()
 
+    # 답변 개수 확인 후 모든 답변 평가 여부 확인
+    answer_count = Answer.objects.filter(worry=answer.worry).count()
+
+    answers = Answer.objects.filter(worry=answer.worry)
+
+    all_checked = True
+
+    for a in answers:
+        if a.is_satisfied == 0:
+            all_checked = False
+            
+    # 답변 5개 + 전부 평가 완료 시 배송 완료 처리
+    if answer_count == 5 and all_checked:
+        answer.worry.is_complete = True
+        answer.worry.save()
+
     return redirect("writers:get_worry_answer", answer.worry.id)
