@@ -216,7 +216,7 @@ def post_epilogue_gonggam(request, epilogue_id):
     [고민-답변-후일담 함수]
     - 기능 : 하나의 고민에 대한 답변, 후일담 전체 보기 가능
     - 가져오는 정보 : Worry, Answer, Epilogue
-    - return : demo_worry_story.html 화면 표시
+    - return : worry_story.html 화면 표시
     
     * 유의사항*
     - 공개 O : 모든 사용자 조회 가능
@@ -232,7 +232,7 @@ def worry_story(request, worry_id):
         is_answerer = Answer.objects.filter(worry=worry, writer=request.user).exists()
 
         if not is_writer and not is_answerer:
-            return redirect("main:demo_home")
+            return redirect("main:home")
         
     answers = Answer.objects.filter(worry=worry)
     epilogue = Epilogue.objects.filter(worry=worry)
