@@ -98,6 +98,9 @@ def get_worry_detail(request, worry_id):
 - 기능: POST-고민 답변 작성 / GET-고민 답변 작성 화면 이동
 - 받는 값: worry_id + (POST의 경우: situation, my_action, recommendation)
 - return: GET 성공 시 -> 고민 답변 작성 화면 렌더링 / POST 성공 시 -> 메인 화면 리다이렉트 / 실패 시 -> 로그인 화면 이동
+
+* 유의사항 *
+- 답변은 최대 5개까지만 작성 가능
 """
 def post_answer(request, worry_id):
     if not request.user.is_authenticated:
@@ -105,8 +108,15 @@ def post_answer(request, worry_id):
 
     worry = get_object_or_404(Worry, pk=worry_id)
 
+    answer_count = Answer.objects.filter(worry=worry).count()
+    
+    
+    if answer_count >= 5:       # 답변 5개 초과 시 
+        return redirect("worries:get_worry_detail", worry.id)
+    
     # 고민 답변 작성 후 제출
     if request.method == "POST":
+
         answer = Answer()
         answer.worry = worry
         answer.writer = request.user
@@ -116,7 +126,7 @@ def post_answer(request, worry_id):
 
         answer.save()
 
-        return redirect(request, "main:home")
+        return redirect("main:demo_home")
 
     # 고민 답변 작성 화면 이동
     else:

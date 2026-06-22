@@ -1,1 +1,35 @@
-<!-- my_answer.html : 내 답변 페이지 !  -->
+<!-- my_answer.html : 내 답변 페이지 ! -->
+
+<!-- [내 답변 목록]
+    렌더링 값 : my_answers
+-->
+
+<!-- 답변 렌더링 시
+    답변 상황 설명      answer.situation
+    답변 당시 행동      answer.my_action
+    답변 추천 행동      answer.recommendation
+    * 답변 객체(answer)에서 관련 고민(worry) 접근 가능
+-->
+
+<!-- [관련 고민 조회]
+    답변 카드 클릭 시
+
+    호출 : writers:worry_story
+    전달 값 : answer.worry.id
+-->
+
+<!-- 조회 가능 범위
+
+    공개 O 고민
+    = 모든 사용자 조회 가능
+
+    공개 X 고민
+    = 고민 작성자와 해당 고민에 답변한 사용자만 조회 가능
+-->
+
+<!-- worry_story 화면에서 조회 가능
+
+    고민 정보
+    답변 목록
+    후일담 정보
+-->

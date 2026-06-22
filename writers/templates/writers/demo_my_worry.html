@@ -1,6 +1,57 @@
 <!-- my_worry.html : 내 고민 페이지 !  -->
-<!--
-    deliver_worries -> 고민 배송 중 탭 
-    public_worries -> 공개 O 탭
-    private_worries -> 공개 X 탭
+
+<!-- [고민 배송 중 목록]
+    렌더링 값 : delivery_worries
+
+    표시 조건 : is_complete = False
+-->
+
+<!-- 배송 중 고민 렌더링 시
+    고민 제목      worry.title
+    고민 내용      worry.content
+-->
+
+<!-- [공개 O 목록]
+    렌더링 값 : public_worries
+
+    표시 조건 :
+    - is_complete = True
+    - is_HoF = True
+-->
+
+<!-- 공개 O 고민 렌더링 시
+    고민 제목      worry.title
+    고민 내용      worry.content
+-->
+
+<!-- [공개 X 목록]
+    렌더링 값 : private_worries
+
+    표시 조건 :
+    - is_complete = True
+    - is_HoF = False
+-->
+
+<!-- 공개 X 고민 렌더링 시
+    고민 제목      worry.title
+    고민 내용      worry.content
+-->
+
+<!-- [고민 상세 조회]
+    고민 카드 클릭 시
+
+    호출 : writers:worry_story
+    전달 값 : worry.id
+-->
+
+<!-- 배송 상태 설명
+
+    배송 중
+    = 답변 5개 미만 또는 답변 5개이지만 모든 답변 평가 전
+
+    공개 O
+    = 배송 완료 후 공개 선택
+
+    공개 X
+    = 배송 완료 후 비공개 선택
 -->

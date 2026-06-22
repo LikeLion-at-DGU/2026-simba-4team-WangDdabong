@@ -121,7 +121,7 @@ def post_epilogue(request, worry_id):
     
     # 현재 사용자 == 고민 작성자인지 검증
     if request.user != worry.writer:
-        return render("writer/demo_worry_answer.html")
+        return render(request, "writers/demo_worry_answer.html")
     else:
         worry = get_object_or_404(Worry, pk=worry_id)
         worry.is_HoF = request.POST["is_HoF"]
