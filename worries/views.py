@@ -212,6 +212,10 @@ def edit_satisfaction(request, answer_id, is_satisfied):
     
     answer = get_object_or_404(Answer, pk=answer_id)
 
+    # 고민 작성자만 답변에 만족/불만족 가능
+    if answer.worry.writer != request.user:
+        return
+
     # 답변 만족/불만족 처리
     if (is_satisfied > 0): # 만족
         answer.is_satisfied = 1
