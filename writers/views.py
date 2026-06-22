@@ -265,7 +265,7 @@ def get_point_logs(request):
         "worry_count": profile.worry_count,
         "points": profile.points,
         "point_logs": point_logs,
-        "worry_yang_level": profile.worry_yang,
+        "worry_yang_level": profile.current_yang,
     }
 
     return render(request, "writers/demo_point_logs.html", context)
