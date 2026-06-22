@@ -35,6 +35,5 @@ class Answer(models.Model):
     my_action = models.TextField()                                              # 나라면 어떻게?
     recommendation = models.TextField()                                         # 당장 추천할 행동
     pub_date = models.DateField(auto_now_add=True)                              # 작성일
-    is_satisfied = models.BooleanField(default=False)                           # 해당 답변 만족 여부
-    is_disliked = models.BooleanField(default=False)                            # 해당 답변 불만족 여부
+    is_satisfied = models.IntegerField(default=0)                               # 해당 답변 만족(1)/불만족(-1) 여부. 미선택 0
     hit = models.PositiveBigIntegerField(default=0)                             # 고민 작성자가 해당 답변 조회한 수
