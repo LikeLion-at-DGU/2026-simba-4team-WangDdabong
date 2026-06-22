@@ -5,17 +5,23 @@
     font-style: normal;
 }
 
+/* 후일담 작성 화면: 874 - 상태바 70 - 푸터 85 = 719 */
 .write-section {
-    height: calc(874px - 99px - 52px);
-    padding: 0 16px 16px;
+    width: 100%;
+    height: calc(874px - 70px - 85px);
+    padding: 50px 16px 16px;
 
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    background: #F3EEE8;
+    overflow: hidden;
 }
 
 .write-page-title {
-    margin: 50px 18px 12px 18px;
+    flex-shrink: 0;
+    margin: 0 0 22px;
 
     color: #2B2D54;
     text-align: center;
@@ -31,7 +37,10 @@
 
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 14px;
+
+    flex: 1;
+    min-height: 0;
 }
 
 .textfield {
@@ -54,19 +63,19 @@
 .epilogue-title,
 .epilogue-content {
     width: 100%;
-    box-sizing: border-box;
+
     border: none;
     outline: none;
-    border-radius: 0;
+    border-radius: 20px;
 
     background: #D5C9BB;
     color: #000;
 
-    font-family: Pretendard;
+    font-family: Pretendard, sans-serif;
     font-size: 14px;
     font-weight: 400;
     line-height: 150%;
-    border-radius: 20px;
+
     padding: 14px 16px;
 }
 
@@ -75,34 +84,44 @@
     width: 370px;
     height: 50px;
     resize: none;
+
+    overflow-y: hidden;
 }
 
 /* 제목 박스 */
 .epilogue-title {
     width: 370px;
     height: 50px;
-    resize: none;
 }
 
+/* 라벨 */
 .question-title {
+    margin: 0 0 0 13px;
+
     color: #000;
-    font-family: Pretendard;
+    font-family: Pretendard, sans-serif;
     font-size: 14px;
-    font-style: normal;
     font-weight: 500;
     line-height: 150%;
-    margin: 0 0 0 13px;
-    /* 21px */
 }
-
 
 /* 내용 박스 */
 .epilogue-content {
     width: 370px;
-    height: 275px;
+    height: 245px;
+
     border-radius: 20px;
     background: #D5C9BB;
+
     resize: none;
+    overflow-y: auto;
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.epilogue-content::-webkit-scrollbar {
+    display: none;
 }
 
 /* placeholder */
@@ -110,34 +129,51 @@
 .epilogue-title::placeholder,
 .epilogue-content::placeholder {
     color: #868484;
-    font-family: Pretendard;
+    font-family: Pretendard, sans-serif;
     font-size: 14px;
     font-weight: 400;
     line-height: 150%;
     font-style: normal;
 }
 
-
-.submit-worry {
-    display: flex;
+/* 공개 여부 영역 */
+.open-field {
     width: 370px;
-    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.toggle-wrap {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+/* 제출 버튼 */
+.submit-worry {
+    width: 370px;
+    height: 48px;
+    flex-shrink: 0;
+
+    display: flex;
     justify-content: center;
     align-items: center;
     gap: 10px;
+
+    border: none;
     border-radius: 20px;
     background: #2B2D54;
-    text-decoration: none;
 
+    text-decoration: none;
     color: #FFF;
-    font-family: Pretendard;
+
+    font-family: Pretendard, sans-serif;
     font-size: 16px;
-    font-style: normal;
     font-weight: 600;
     line-height: 150%;
-    /* 24px */
-    margin-top: 24px;
 
+    margin-top: 8px;
     cursor: pointer;
 }
 
@@ -145,12 +181,22 @@
     background: #53546B;
 }
 
+.submit-worry:visited,
+.submit-worry:hover,
+.submit-worry:active,
+.submit-worry:focus {
+    text-decoration: none;
+    color: #FFF;
+    outline: none;
+}
+
+/* 토글 */
 .toggle {
     position: relative;
     display: inline-block;
     width: 52px;
     height: 28px;
-    margin: 10px 0 0 13px;
+    margin: 0 0 0 13px;
 }
 
 .toggle input {
@@ -159,7 +205,7 @@
     height: 0;
 }
 
-/* 바탕 기본 = ON처럼 */
+/* 바탕 기본 = ON */
 .slider {
     position: absolute;
     cursor: pointer;
@@ -167,6 +213,7 @@
     left: 0;
     right: 0;
     bottom: 0;
+
     background-color: #2B2D54;
     transition: 0.3s;
     border-radius: 999px;
@@ -180,6 +227,7 @@
     width: 22px;
     left: 3px;
     bottom: 3px;
+
     background-color: white;
     transition: 0.3s;
     border-radius: 50%;

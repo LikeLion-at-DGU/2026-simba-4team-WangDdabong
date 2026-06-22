@@ -5,36 +5,46 @@
     font-style: normal;
 }
 
-.top-area {
+/* 고민 목록 화면 본문: 874 - 70 - 85 = 719 */
+.list-section {
     position: relative;
     width: 100%;
-    height: 180px;
-    padding-top: 36px;
-    box-sizing: border-box;
+    height: calc(874px - 70px - 85px);
+    padding: 58px 16px 16px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background: #F3EEE8;
     overflow: hidden;
 }
 
 /* 오른쪽 상단 질문 / 포인트 */
 .top-info {
     position: absolute;
-    top: 110px;
-    right: 28px;
+    top: 10px;
+    right: 16px;
+
     display: flex;
     align-items: center;
-    gap: 18px;
+    gap: 8px;
+
     z-index: 20;
 }
 
 .top-info-box {
     width: 50px;
     height: 20px;
-    box-sizing: border-box;
+
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 12px;
+    gap: 6px;
+
     background: #D5C9BB;
     border-radius: 8px;
+
     color: #000000;
     font-family: Pretendard, sans-serif;
     font-size: 10px;
@@ -65,22 +75,9 @@
     line-height: 100%;
 }
 
-.list-section {
-    width: 100%;
-    height: 100vh;
-    /* ⭐ 고정 calc 버림 */
-    padding: 50px 16px 28px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 78px 23px 16px;
-    background: #F3EEE8;
-    overflow: hidden;
-    /* 유지 */
-}
-
 .list-page-title {
     margin: 0 0 27px;
+
     color: #2B2D54;
     text-align: center;
     font-family: "Chunko Bold Demo", Pretendard, sans-serif;
@@ -93,24 +90,37 @@
     width: 370px;
     flex: 1;
     min-height: 0;
-    overflow-y: auto;
+
     display: flex;
     flex-direction: column;
     gap: 10px;
-    padding-bottom: 10px;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-bottom: 4px;
+
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.worry-list-wrap::-webkit-scrollbar {
+    display: none;
 }
 
 /* 카드 본체 */
 .worry-card {
     width: 370px;
     height: 72px;
+    flex-shrink: 0;
+
     display: flex;
     align-items: center;
+
     border-radius: 20px;
     position: relative;
-    flex-shrink: 0;
     background: #D5C9BB;
     padding: 0 14px;
+
     transition: background 0.15s ease;
     cursor: pointer;
 }
@@ -124,8 +134,6 @@
     position: absolute;
     inset: 0;
     display: block;
-    width: 100%;
-    height: 100%;
     z-index: 10;
     text-decoration: none;
     color: inherit;
@@ -140,7 +148,6 @@
     color: inherit;
 }
 
-/* 혹시 남아있는 a 밑줄 제거 */
 .worry-card a,
 .worry-card a:visited,
 .worry-card a:hover,
@@ -160,11 +167,13 @@
 
 .list-title {
     width: 86px;
+
     color: #000;
-    font-family: Pretendard;
+    font-family: Pretendard, sans-serif;
     font-size: 15px;
     font-weight: 400;
     line-height: 150%;
+
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -177,6 +186,7 @@
     font-size: 11px;
     font-weight: 400;
     line-height: 150%;
+
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -187,12 +197,15 @@
     position: absolute;
     right: 170px;
     top: 30px;
+
     width: 12px;
     height: 18px;
+
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 3px;
+
     z-index: 30;
 }
 
@@ -201,12 +214,15 @@
     height: 18px;
     padding: 0;
     margin: 0;
+
     border: none;
     outline: none;
     background: transparent;
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     color: #FFFFFF;
     cursor: pointer;
 }
@@ -228,6 +244,7 @@
 .bookmark-icon {
     width: 12px;
     height: 18px;
+
     display: flex;
     align-items: center;
     justify-content: center;
@@ -235,7 +252,7 @@
 
 .list-time {
     color: #868484;
-    font-family: Pretendard;
+    font-family: Pretendard, sans-serif;
     font-size: 8px;
     font-weight: 400;
     line-height: 150%;
@@ -247,12 +264,15 @@
     right: 16px;
     top: 50%;
     transform: translateY(-50%);
+
     width: 141px;
     height: 52px;
+
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 6px;
+
     background: #FFFFFF;
     border-radius: 10px;
     z-index: 30;
@@ -261,15 +281,18 @@
 .stamp-icon {
     width: 31px;
     height: 35px;
+
     display: inline-flex;
     align-items: center;
     justify-content: center;
+
     flex-shrink: 0;
 }
 
 .stamp-icon img {
     width: 31px;
     height: 35px;
+
     display: block;
     object-fit: contain;
     transform: rotate(-4.66deg);
@@ -288,6 +311,7 @@
     position: relative;
     width: 34px;
     height: 31px;
+
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -303,6 +327,7 @@
 .answer-icon span {
     position: relative;
     z-index: 1;
+
     color: #3A3A3A;
     font-family: Pretendard, sans-serif;
     font-size: 13px;
@@ -310,25 +335,31 @@
     line-height: 1;
 }
 
+/* 페이지네이션 */
 .pagination {
+    flex-shrink: 0;
+
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
-    margin: 12px 0 15px;
+
+    margin: 10px 0 12px;
 }
 
 .page-btn {
     width: 32px;
     height: 32px;
+
     border-radius: 8px;
     border: none;
     background: #D5C9BB;
+
     color: #000;
     font-family: Pretendard, sans-serif;
     font-size: 15px;
     font-weight: 500;
-    gap: 11px;
+
     cursor: pointer;
 }
 
@@ -340,49 +371,45 @@
 .page-arrow {
     width: 12px;
     height: 33px;
+
     border: none;
     background: transparent;
+
     color: #C8C1BA;
     font-family: Pretendard, sans-serif;
     font-size: 36px;
     font-weight: 300;
     line-height: 1;
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     cursor: pointer;
 }
 
-.worry-list-wrap::-webkit-scrollbar {
-    display: none;
-}
-
-.worry-list-wrap {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
-
+/* 고민 작성하기 버튼 */
 .write-worry-button {
-    display: flex;
     width: 370px;
-    padding: 12px 16px;
+    height: 50px;
+    flex-shrink: 0;
+
+    display: flex;
     justify-content: center;
     align-items: center;
-    gap: 10px;
+
     border-radius: 20px;
     background: #2B2D54;
+
     text-decoration: none;
     color: #FFF;
     font-family: Pretendard, sans-serif;
     font-size: 16px;
-    font-style: normal;
     font-weight: 600;
     line-height: 150%;
-    margin-top: 24px;
+
+    margin: 0;
     cursor: pointer;
-    flex-shrink: 0;
-    margin-top: 16px;
-    margin-bottom: 20px;
 }
 
 .write-worry-button:hover {
@@ -406,21 +433,24 @@
     margin: 0;
     padding: 0;
     position: relative;
-    z-index: 31
+    z-index: 31;
 }
 
 .stamp-btn {
     padding: 0;
     margin: 0;
+
     border: none;
     outline: none;
     background: transparent;
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     cursor: pointer;
     position: relative;
-    z-index: 31
+    z-index: 31;
 }
 
 .empty-message {
