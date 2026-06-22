@@ -205,10 +205,15 @@
     overflow: visible;
 }
 
-.stamp-body {
-
-    width: 22.059px;
-    height: 30.001px;
-    transform: rotate(-4.66deg);
-    border-radius: 8px;
+.cheerup {
+    position: relative;
+    width: 32px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+    margin-left: 6px;
+    transform: rotate(-3.4deg);
+    top: 1px;
 }

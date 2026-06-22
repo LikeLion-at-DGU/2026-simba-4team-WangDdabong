@@ -161,18 +161,6 @@
     gap: 4px;
 }
 
-.story-stamp-img {
-    width: 22px !important;
-    height: 26px !important;
-    max-width: 22px !important;
-    max-height: 26px !important;
-
-    display: block;
-    object-fit: contain;
-
-    transform: rotate(-4.66deg);
-}
-
 .cheerup {
     position: relative;
     width: 32px;

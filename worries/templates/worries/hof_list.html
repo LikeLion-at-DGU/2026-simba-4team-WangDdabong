@@ -1,0 +1,122 @@
+<!-- hof_list.html : 명예의 전당 리스트 ! -->
+
+<!-- 렌더링 시
+    명예의 전당 고민 목록     hof_worries
+-->
+
+<!-- [명예의 전당 카드 이동]
+    고민 카드 클릭 시 이동
+
+    호출 : worries:hall_of_fame_card
+    전달 값 : 추후 연결 예정
+-->
+
+<!-- [고민 제목 조회]
+    worry.title
+-->
+
+<!-- [고민 내용 조회]
+    worry.content
+-->
+
+<!-- 유의사항
+    - 명예의 전당에 공개된 고민(is_HoF=True)만 조회 가능
+-->
+
+{% extends 'base_nav.html' %}
+{% load static %}
+{% block title %}명예의 전당 리스트{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/hof_list.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="hof-container">
+    <div class="hof-title">HALL OF FAME</div>
+
+    <div class="hof-list">
+        <div class="hof-card">
+            <a href="#" class="hof-info">
+                <div class="hof-worry-title">심바톤 1팀 발표 화이팅!</div>
+                <div class="hof-worry-preview">고민 내용...</div>
+                <div class="hof-worry-time">10분 전</div>
+            </a>
+
+            <!-- 북마크 구조 -->
+            <form action="#" method="post" class="bookmark-form">
+                <button type="button" class="bookmark-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="16" viewBox="0 0 12 16" fill="none">
+                        <path
+                            d="M0 1.5C0 0.671573 0.671573 0 1.5 0H10.5C11.3284 0 12 0.671573 12 1.5V14.4425C12 15.7697 10.4031 16.4431 9.45285 15.5165L7.04715 13.171C6.46459 12.603 5.53541 12.603 4.95285 13.171L2.54715 15.5165C1.59686 16.4431 0 15.7698 0 14.4425V1.5Z"
+                            fill="white" />
+                    </svg>
+                </button>
+            </form>
+
+            <div class="hof-icons">
+                <form action="#" method="post" class="cheerup-form">
+                    <button type="button" class="icon-btn">
+                        <div class="icon">
+                            <div class="stamp">
+                                <img class="cheerup" src="../../static/images/cheerup.png" alt="응원도장">
+                            </div>
+                            <span class="icon-count">11</span>
+                        </div>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="hof-card">
+            <a href="#" class="hof-info">
+                <div class="hof-worry-title">심바톤 2팀 발표 화이팅!</div>
+                <div class="hof-worry-preview">고민 내용...</div>
+                <div class="hof-worry-time">10분 전</div>
+            </a>
+
+            <form action="#" method="post" class="bookmark-form">
+                <button type="button" class="bookmark-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="16" viewBox="0 0 12 16" fill="none">
+                        <path
+                            d="M0 1.5C0 0.671573 0.671573 0 1.5 0H10.5C11.3284 0 12 0.671573 12 1.5V14.4425C12 15.7697 10.4031 16.4431 9.45285 15.5165L7.04715 13.171C6.46459 12.603 5.53541 12.603 4.95285 13.171L2.54715 15.5165C1.59686 16.4431 0 15.7698 0 14.4425V1.5Z"
+                            fill="white" />
+                    </svg>
+                </button>
+            </form>
+
+            <div class="hof-icons">
+                <form action="#" method="post" class="cheerup-form">
+                    <button type="button" class="icon-btn">
+                        <div class="icon">
+                            <div class="stamp">
+                                <img class="cheerup" src="../../static/images/cheerup.png" alt="응원도장">
+                            </div>
+                            <span class="icon-count">8</span>
+                        </div>
+                    </button>
+                </form>
+
+                <form action="#" method="post" class="answer-form">
+                    <button type="button" class="icon-btn">
+                        <div class="icon">
+                            <div class="stamp">
+                                <img class="gonggam" src="../../static/images/gonggam.png" alt="공감도장">
+                            </div>
+                            <span class="icon-count">11</span>
+                        </div>
+
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <div class="pagination">
+        <a href="#" class="page-btn active">1</a>
+    </div>
+
+    <a href=# class="hof-go-btn">카드 보러 가기</a>
+
+</main>
+{% endblock %}
