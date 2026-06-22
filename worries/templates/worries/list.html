@@ -187,8 +187,14 @@
                                    throw new Error("공감도장 요청 실패");
                               }
 
-                              const currentCount = Number(count.textContent.trim()) || 0;
-                              count.textContent = currentCount + 1;
+                              return response.json();
+                         })
+                         .then((data) => {
+                              count.textContent = data.cheer_count;
+
+                              if (data.is_cheered !== undefined) {
+                                   button.classList.toggle("active", data.is_cheered);
+                              }
                          })
                          .catch((error) => {
                               console.error(error);
