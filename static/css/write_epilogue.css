@@ -1,6 +1,6 @@
 @font-face {
     font-family: "Chunko Bold Demo";
-    src: url("../fonts/ChunkoBoldDemo.woff2") format("woff2");
+    src: url('../fonts/ChunkoBoldDemo.ttf');
     font-weight: 900;
     font-style: normal;
 }
@@ -54,7 +54,7 @@
 .epilogue-title,
 .epilogue-content {
     width: 100%;
-
+    box-sizing: border-box;
     border: none;
     outline: none;
     border-radius: 0;

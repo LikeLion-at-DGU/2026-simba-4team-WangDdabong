@@ -1,6 +1,6 @@
 @font-face {
     font-family: "Chunko Bold Demo";
-    src: url("../fonts/ChunkoBoldDemo.woff2") format("woff2");
+    src: url('../fonts/ChunkoBoldDemo.ttf');
 }
 
 /* =========================
@@ -333,67 +333,6 @@ textarea:focus {
     display: none;
 }
 
-.reply-check-btn.active .check-empty {
-    display: none;
-}
-
-.reply-check-btn.active .check-selected {
-    display: block;
-}
-
-/* =========================
-   PAGINATION
-========================= */
-.pagination {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-
-    margin-top: 18px;
-    margin-bottom: 20px;
-}
-
-.page-btn {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-    border: none;
-    background: #D5C9BB;
-
-    color: #000;
-    font-family: Pretendard, sans-serif;
-    font-size: 15px;
-    font-weight: 500;
-    gap: 11px;
-    cursor: pointer;
-}
-
-.page-btn.active {
-    background: #D5C9BB;
-    color: #000;
-}
-
-.page-arrow {
-    width: 12px;
-    height: 33px;
-
-    border: none;
-    background: transparent;
-
-    color: #C8C1BA;
-    font-family: Pretendard, sans-serif;
-    font-size: 36px;
-    font-weight: 300;
-    line-height: 1;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    cursor: pointer;
-}
-
 
 /* =========================
    BUTTON
@@ -419,4 +358,66 @@ textarea:focus {
 
 .submit-btn:hover {
     background: #53546B;
+}
+
+/* 체크박스 실제 input 숨기기 */
+.reply-check-input {
+    display: none;
+}
+
+/* 체크 안 됐을 때 */
+.reply-check-input + .check-empty {
+    display: block;
+}
+
+.reply-check-input ~ .check-selected {
+    display: none;
+}
+
+/* 체크 됐을 때 */
+.reply-check-input:checked + .check-empty {
+    display: none;
+}
+
+.reply-check-input:checked ~ .check-selected {
+    display: block;
+}
+
+/* reaction form이 버튼 위치 망치지 않게 */
+.reaction-form {
+    margin: 0;
+    padding: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 페이지네이션 a 태그여도 버튼처럼 보이게 */
+.page-btn,
+.page-arrow {
+    text-decoration: none;
+}
+
+/* a.page-btn 가운데 정렬 */
+a.page-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* submit-btn이 button이어도 기존 디자인 유지 */
+.submit-btn {
+    border: none;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.submit-btn:visited,
+.submit-btn:hover,
+.submit-btn:active,
+.submit-btn:focus {
+    text-decoration: none;
+    color: #FFF;
+    outline: none;
 }

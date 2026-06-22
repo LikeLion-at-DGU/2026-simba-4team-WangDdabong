@@ -1,14 +1,11 @@
 {% load static %}
-<link rel="stylesheet" href="{% static 'css/base.css' %}">
-<link rel="preload" href="{% static 'fonts/ChunkoBoldDemo.woff2' %}" as="font" type="font/woff2" crossorigin>
 
 <!DOCTYPE html>
 <html lang="ko">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}아기사자의 노트{% endblock %}</title>
+    <title>{% block title %}홈{% endblock %}</title>
 
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
 
@@ -19,12 +16,11 @@
 <body>
     <div class="screen">
         <div class="home">
-
-            <!-- 공통 상태바 -->
             <header class="status_bar">
                 <span class="time">11:11</span>
 
                 <div class="levels">
+                    <!-- signal -->
                     <span class="signal">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="13" viewBox="0 0 20 13" fill="none">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -33,6 +29,7 @@
                         </svg>
                     </span>
 
+                    <!-- wifi -->
                     <span class="wifi">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="13" viewBox="0 0 18 13" fill="none">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -41,6 +38,7 @@
                         </svg>
                     </span>
 
+                    <!-- battery -->
                     <span class="battery">
                         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="13" viewBox="0 0 28 13" fill="none">
                             <rect opacity="0.35" x="0.5" y="0.5" width="24" height="12" rx="3.8" stroke="black" />
@@ -53,10 +51,10 @@
                 </div>
             </header>
 
-            <!-- 페이지마다 바뀌는 부분 -->
+            {% block nav_bar %}{% endblock %}
+
             {% block content %}
             {% endblock %}
-
         </div>
     </div>
 </body>

@@ -66,7 +66,6 @@
     line-height: 100%;
 }
 
-
 /* 카테고리 가로 스크롤 */
 .categories {
     width: 100%;
@@ -89,7 +88,6 @@
 .categories::-webkit-scrollbar {
     display: none;
 }
-
 
 /* 카드 공통 */
 .category-card {
@@ -116,10 +114,32 @@
     overflow: hidden;
 }
 
+/* 카드 전체 클릭용 투명 링크 */
+.category-link-overlay {
+    position: absolute;
+    inset: 0;
+
+    display: block;
+
+    z-index: 5;
+
+    text-decoration: none;
+    color: inherit;
+    background: transparent;
+}
+
 /* + 카드 */
 .add-card {
     justify-content: center;
     padding-top: 0;
+}
+
+.add-card::before {
+    display: none;
+}
+
+.add-card .category-meta {
+    display: none;
 }
 
 .category-add {
@@ -128,7 +148,6 @@
     padding: 0;
     cursor: pointer;
 }
-
 
 /* 프로필 이미지 */
 .category-icon {
@@ -142,8 +161,6 @@
     object-fit: contain;
     background: #FFFFFF;
 }
-
-
 
 /* 카테고리 제목 */
 .category-title,
@@ -171,16 +188,6 @@
     background: #D5D5D5;
 }
 
-/* + 카드에는 가로선 제거 */
-.add-card::before {
-    display: none;
-}
-
-/* + 카드에는 메타 영역도 없음 */
-.add-card .category-meta {
-    display: none;
-}
-
 /* 카드 하단 메타 영역 */
 .category-meta {
     position: absolute;
@@ -198,6 +205,8 @@
 
     color: #3A3A3A;
     font-family: Pretendard, sans-serif;
+
+    z-index: 20;
 }
 
 /* 메타 가운데 세로 구분선 */
@@ -216,6 +225,39 @@
     background: #D5D5D5;
 }
 
+/* 응원 도장 form */
+.home-cheer-form {
+    margin: 0;
+    padding: 0;
+
+    grid-column: 1;
+    grid-row: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    justify-self: center;
+    align-self: center;
+
+    position: relative;
+    z-index: 30;
+}
+
+.home-stamp-btn {
+    padding: 0;
+    margin: 0;
+
+    border: none;
+    outline: none;
+    background: transparent;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+}
 
 /* 스탬프 아이콘 */
 .stamp {
@@ -233,10 +275,16 @@
     transform: translateX(-8px);
 }
 
-.stamp svg {
+.stamp svg,
+.stamp img {
     width: 22px;
     height: 26px;
     display: block;
+}
+
+.stamp img {
+    object-fit: contain;
+    transform: rotate(-4.66deg);
 }
 
 /* 숫자 */
@@ -251,7 +299,8 @@
 }
 
 /* 첫 번째 숫자 */
-.stamp+.count {
+.stamp+.count,
+.home-cheer-form+.count {
     grid-column: 1;
     grid-row: 1;
 
@@ -314,7 +363,6 @@
     transform: translate(22px, 9px);
 }
 
-
 /* 말풍선 + 캐릭터 영역 */
 .delivery-area {
     flex: 1;
@@ -328,7 +376,6 @@
     padding-top: 0;
 }
 
-
 /* daily-question */
 .daily-question {
     position: relative;
@@ -337,6 +384,7 @@
     min-height: 66px;
     padding: 5px 5px;
     box-sizing: border-box;
+    margin-top: 10px;
 
     background: #FFFFFF;
     border-radius: 18px;
@@ -371,32 +419,63 @@
     font-weight: 700;
 }
 
-
 /* 박스 캐릭터 SVG */
 .box-character {
-    position: relative;
-    margin-bottom: 0;
-    z-index: 30;
+    margin-top: 14px;
+    margin-bottom: 10px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .box-character svg {
-    width: 85px;
-    height: 77px;
+    width: 95px;
+    height: auto;
+    display: block;
 }
-
 
 /* worryvery 캐릭터 이미지 */
 .worryvery-character {
     position: relative;
-    margin-top: 0;
-    z-index: 70;
+
+    width: 310px;
+    height: 346px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin: 0 auto;
 }
 
 .worryvery-character img {
+    position: relative;
+    z-index: 2;
+
     width: 310px;
     height: auto;
+    transform: translate(-8px, -12px);
+    display: block;
 }
 
+.sheep-shadow {
+    position: absolute;
+    left: 50%;
+    bottom: 26px;
+
+    width: 235px;
+    height: 48px;
+
+    background: rgba(0, 0, 0, 0.18);
+    border-radius: 50%;
+
+    transform: translateX(-45%);
+    filter: blur(0.3px);
+
+    z-index: 1;
+    pointer-events: none;
+}
 
 /* 하단 네비 */
 .bottom-nav {
@@ -431,4 +510,13 @@
 
 .bottom-item p {
     margin: 0;
+}
+
+/* 빈 상태 */
+.empty-home-message {
+    color: #868484;
+    font-family: Pretendard, sans-serif;
+    font-size: 13px;
+    white-space: nowrap;
+    align-self: center;
 }

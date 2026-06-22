@@ -10,6 +10,13 @@
 {% block content %}
 
 <section class="page">
+
+    <!-- 후일담 제출용 form -->
+    <form id="epilogue-form" method="post" action="{% url 'post_epilogue' %}">
+        {% csrf_token %}
+        <input type="hidden" name="worry_id" value="{{ worry.id }}">
+    </form>
+
     <div class="top-info">
         <span class="top-info-box">
             <svg class="top-question-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"
@@ -21,7 +28,7 @@
                     font-weight="1000" font-family="Pretendard, sans-serif">?</text>
             </svg>
 
-            <span class="top-info-count">3</span>
+            <span class="top-info-count">{{ worry_count }}</span>
         </span>
 
         <span class="top-info-box">
@@ -36,26 +43,33 @@
                 <path d="M5.5 10.25C6.25 10.9583 8.125 11.95 9.625 10.25" stroke="black" stroke-width="0.5"
                     stroke-linecap="round" />
             </svg>
-            <span class="top-info-count">3</span>
+
+            <span class="top-info-count">{{ points }}</span>
         </span>
     </div>
 
     <h1 class="title">RECEIVED REPLIES</h1>
+
     <div class="scroll-area">
-        <form class="form">
+        <div class="form">
 
-            <!-- 1️⃣ 고민 제목 -->
-            <input class="input-box" type="text" placeholder="나의 고민 제목">
+            <!-- 고민 제목 -->
+            <input class="input-box" type="text" value="{{ worry.title }}" readonly>
 
-            <!-- 2️⃣ 고민 상세 -->
+            <!-- 고민 상세 -->
             <div class="section-label">고민 상세</div>
-            <textarea class="textarea-box detail-box"></textarea>
+            <textarea class="textarea-box detail-box" readonly>{{ worry.content }}</textarea>
 
-            <!-- 3️⃣ 답변 카드 1 -->
+            <!-- 답변 리스트 -->
+            {% for ans in answer %}
             <div class="reply-header">
-                <div class="reply-card">고민 답변 1</div>
+                <div class="reply-card">고민 답변 {{ forloop.counter }}</div>
 
-                <button type="button" class="reply-check-btn" aria-label="답변 선택">
+                <!-- 후일담 보낼 답변 선택 -->
+                <label class="reply-check-btn" aria-label="답변 선택">
+                    <input type="checkbox" name="answer_ids" value="{{ ans.id }}" form="epilogue-form"
+                        class="reply-check-input">
+
                     <span class="check-empty"></span>
 
                     <svg class="check-selected" xmlns="http://www.w3.org/2000/svg" width="19" height="19"
@@ -66,173 +80,76 @@
                         <circle cx="10.5" cy="9.5" r="0.5" fill="black" />
                         <ellipse cx="9.07143" cy="12.25" rx="1.07143" ry="1.25" fill="white" />
                     </svg>
-                </button>
+                </label>
             </div>
 
-            <input class="input-box" type="text" placeholder="답변자 MBTI">
+            <!-- 답변자 MBTI -->
+            <input class="input-box" type="text" value="{{ ans.answer_writer.mbti }}" readonly>
 
             <div class="content-card">
-                <textarea class="content-textarea" placeholder="나라면 이렇게 했을 것 같아요!
+                <textarea class="content-textarea" readonly>자기가 인식한 상황
+{{ ans.situation }}
 
+나라면 어떻게?
+{{ ans.my_action }}
 
-지금 당장 이렇게 하세요 / 하지 마세요!"></textarea>
+당장 해봤으면 / 안 했으면 하는 행동
+{{ ans.recommendation }}</textarea>
 
-                <!-- stamp -->
-                <!-- 공감 업 / 다운 버튼 -->
+                <!-- 따봉 / 붐따 -->
                 <div class="reaction-icons">
-                    <button type="button" class="reaction-btn up-btn" aria-label="공감">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="25" viewBox="0 0 21 25" fill="none">
-                            <path
-                                d="M2.61172 20.8774C-1.21281 16.1264 1.01817 6.03046 2.61172 1.57636C8.17468 -2.38283 7.2475 5.53556 6.08854 9.98965C8.26157 8.83489 13.5638 7.21822 17.3883 9.98965C21.2128 12.7611 20.023 19.5262 18.4294 22.0007C15.0975 23.9803 6.43625 25.6285 2.61172 20.8774Z"
-                                fill="currentColor" stroke="black" stroke-linecap="round" />
-                            <circle cx="9.62944" cy="15.2007" r="0.7" fill="black" />
-                            <path d="M7.42944 17.5007C8.09611 18.5007 9.92944 20.2007 11.9294 19.0007" stroke="black"
-                                stroke-linecap="round" />
-                            <circle cx="13.6294" cy="15.2007" r="0.7" fill="black" />
-                        </svg>
-                    </button>
 
-                    <button type="button" class="reaction-btn down-btn" aria-label="비공감">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="25" viewBox="0 0 21 25" fill="none">
-                            <path
-                                d="M17.8292 3.58936C21.6537 8.34039 19.4228 18.4363 17.8292 22.8904C12.2662 26.8496 13.1934 18.9312 14.3524 14.4771C12.1793 15.6319 6.87716 17.2486 3.05264 14.4771C-0.771891 11.7057 0.417921 4.94056 2.01147 2.46606C5.34344 0.486465 14.0047 -1.16168 17.8292 3.58936Z"
-                                fill="currentColor" stroke="black" stroke-linecap="round" />
-                            <circle cx="7.75688" cy="6.20024" r="0.7" fill="black" />
-                            <path d="M9.99023 10.5564C9.38966 9.51536 7.67016 7.70031 5.59671 8.76839" stroke="black"
-                                stroke-linecap="round" />
-                            <circle cx="11.7569" cy="6.20024" r="0.7" fill="black" />
-                        </svg>
-                    </button>
+                    <!-- 만족 -->
+                    <form method="post" action="{% url 'edit_satisfaction' %}" class="reaction-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="answer_id" value="{{ ans.id }}">
+                        <input type="hidden" name="is_satisfaction" value="1">
+
+                        <button type="submit" class="reaction-btn up-btn" aria-label="공감">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="25" viewBox="0 0 21 25"
+                                fill="none">
+                                <path
+                                    d="M2.61172 20.8774C-1.21281 16.1264 1.01817 6.03046 2.61172 1.57636C8.17468 -2.38283 7.2475 5.53556 6.08854 9.98965C8.26157 8.83489 13.5638 7.21822 17.3883 9.98965C21.2128 12.7611 20.023 19.5262 18.4294 22.0007C15.0975 23.9803 6.43625 25.6285 2.61172 20.8774Z"
+                                    fill="currentColor" stroke="black" stroke-linecap="round" />
+                                <circle cx="9.62944" cy="15.2007" r="0.7" fill="black" />
+                                <path d="M7.42944 17.5007C8.09611 18.5007 9.92944 20.2007 11.9294 19.0007"
+                                    stroke="black" stroke-linecap="round" />
+                                <circle cx="13.6294" cy="15.2007" r="0.7" fill="black" />
+                            </svg>
+                        </button>
+                    </form>
+
+                    <!-- 불만족 -->
+                    <form method="post" action="{% url 'edit_satisfaction' %}" class="reaction-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="answer_id" value="{{ ans.id }}">
+                        <input type="hidden" name="is_satisfaction" value="-1">
+
+                        <button type="submit" class="reaction-btn down-btn" aria-label="비공감">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="25" viewBox="0 0 21 25"
+                                fill="none">
+                                <path
+                                    d="M17.8292 3.58936C21.6537 8.34039 19.4228 18.4363 17.8292 22.8904C12.2662 26.8496 13.1934 18.9312 14.3524 14.4771C12.1793 15.6319 6.87716 17.2486 3.05264 14.4771C-0.771891 11.7057 0.417921 4.94056 2.01147 2.46606C5.34344 0.486465 14.0047 -1.16168 17.8292 3.58936Z"
+                                    fill="currentColor" stroke="black" stroke-linecap="round" />
+                                <circle cx="7.75688" cy="6.20024" r="0.7" fill="black" />
+                                <path d="M9.99023 10.5564C9.38966 9.51536 7.67016 7.70031 5.59671 8.76839"
+                                    stroke="black" stroke-linecap="round" />
+                                <circle cx="11.7569" cy="6.20024" r="0.7" fill="black" />
+                            </svg>
+                        </button>
+                    </form>
                 </div>
             </div>
+            {% empty %}
+            <p class="section-label">아직 도착한 답변이 없습니다.</p>
+            {% endfor %}
 
-            <!-- 3️⃣ 답변 카드 2 -->
-            <div class="reply-header">
-                <div class="reply-card">고민 답변 2</div>
-
-                <button type="button" class="reply-check-btn" aria-label="답변 선택">
-                    <span class="check-empty"></span>
-
-                    <svg class="check-selected" xmlns="http://www.w3.org/2000/svg" width="19" height="19"
-                        viewBox="0 0 19 19" fill="none">
-                        <rect width="19" height="19" rx="5" fill="#C3C3C3" />
-                        <circle cx="9.5" cy="9.5" r="6.5" fill="#AE4959" />
-                        <circle cx="7.5" cy="9.5" r="0.5" fill="black" />
-                        <circle cx="10.5" cy="9.5" r="0.5" fill="black" />
-                        <ellipse cx="9.07143" cy="12.25" rx="1.07143" ry="1.25" fill="white" />
-                    </svg>
-                </button>
-            </div>
-
-            <input class="input-box" type="text" placeholder="답변자 MBTI">
-
-            <div class="content-card">
-                <textarea class="content-textarea" placeholder="나라면 이렇게 했을 것 같아요!
-
-
-지금 당장 이렇게 하세요 / 하지 마세요!"></textarea>
-
-                <!-- stamp -->
-                <!-- 공감 업 / 다운 버튼 -->
-                <div class="reaction-icons">
-                    <button type="button" class="reaction-btn up-btn" aria-label="공감">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="25" viewBox="0 0 21 25" fill="none">
-                            <path
-                                d="M2.61172 20.8774C-1.21281 16.1264 1.01817 6.03046 2.61172 1.57636C8.17468 -2.38283 7.2475 5.53556 6.08854 9.98965C8.26157 8.83489 13.5638 7.21822 17.3883 9.98965C21.2128 12.7611 20.023 19.5262 18.4294 22.0007C15.0975 23.9803 6.43625 25.6285 2.61172 20.8774Z"
-                                fill="currentColor" stroke="black" stroke-linecap="round" />
-                            <circle cx="9.62944" cy="15.2007" r="0.7" fill="black" />
-                            <path d="M7.42944 17.5007C8.09611 18.5007 9.92944 20.2007 11.9294 19.0007" stroke="black"
-                                stroke-linecap="round" />
-                            <circle cx="13.6294" cy="15.2007" r="0.7" fill="black" />
-                        </svg>
-                    </button>
-
-                    <button type="button" class="reaction-btn down-btn" aria-label="비공감">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="25" viewBox="0 0 21 25" fill="none">
-                            <path
-                                d="M17.8292 3.58936C21.6537 8.34039 19.4228 18.4363 17.8292 22.8904C12.2662 26.8496 13.1934 18.9312 14.3524 14.4771C12.1793 15.6319 6.87716 17.2486 3.05264 14.4771C-0.771891 11.7057 0.417921 4.94056 2.01147 2.46606C5.34344 0.486465 14.0047 -1.16168 17.8292 3.58936Z"
-                                fill="currentColor" stroke="black" stroke-linecap="round" />
-                            <circle cx="7.75688" cy="6.20024" r="0.7" fill="black" />
-                            <path d="M9.99023 10.5564C9.38966 9.51536 7.67016 7.70031 5.59671 8.76839" stroke="black"
-                                stroke-linecap="round" />
-                            <circle cx="11.7569" cy="6.20024" r="0.7" fill="black" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-
-            <!-- 3️⃣ 답변 카드 3 -->
-            <div class="reply-header">
-                <div class="reply-card">고민 답변 3</div>
-
-                <button type="button" class="reply-check-btn" aria-label="답변 선택">
-                    <span class="check-empty"></span>
-
-                    <svg class="check-selected" xmlns="http://www.w3.org/2000/svg" width="19" height="19"
-                        viewBox="0 0 19 19" fill="none">
-                        <rect width="19" height="19" rx="5" fill="#C3C3C3" />
-                        <circle cx="9.5" cy="9.5" r="6.5" fill="#AE4959" />
-                        <circle cx="7.5" cy="9.5" r="0.5" fill="black" />
-                        <circle cx="10.5" cy="9.5" r="0.5" fill="black" />
-                        <ellipse cx="9.07143" cy="12.25" rx="1.07143" ry="1.25" fill="white" />
-                    </svg>
-                </button>
-            </div>
-
-            <input class="input-box" type="text" placeholder="답변자 MBTI">
-
-            <div class="content-card">
-                <textarea class="content-textarea" placeholder="나라면 이렇게 했을 것 같아요!
-
-
-지금 당장 이렇게 하세요 / 하지 마세요!"></textarea>
-
-                <!-- stamp -->
-                <!-- 공감 업 / 다운 버튼 -->
-                <div class="reaction-icons">
-                    <button type="button" class="reaction-btn up-btn" aria-label="공감">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="25" viewBox="0 0 21 25" fill="none">
-                            <path
-                                d="M2.61172 20.8774C-1.21281 16.1264 1.01817 6.03046 2.61172 1.57636C8.17468 -2.38283 7.2475 5.53556 6.08854 9.98965C8.26157 8.83489 13.5638 7.21822 17.3883 9.98965C21.2128 12.7611 20.023 19.5262 18.4294 22.0007C15.0975 23.9803 6.43625 25.6285 2.61172 20.8774Z"
-                                fill="currentColor" stroke="black" stroke-linecap="round" />
-                            <circle cx="9.62944" cy="15.2007" r="0.7" fill="black" />
-                            <path d="M7.42944 17.5007C8.09611 18.5007 9.92944 20.2007 11.9294 19.0007" stroke="black"
-                                stroke-linecap="round" />
-                            <circle cx="13.6294" cy="15.2007" r="0.7" fill="black" />
-                        </svg>
-                    </button>
-
-                    <button type="button" class="reaction-btn down-btn" aria-label="비공감">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="25" viewBox="0 0 21 25" fill="none">
-                            <path
-                                d="M17.8292 3.58936C21.6537 8.34039 19.4228 18.4363 17.8292 22.8904C12.2662 26.8496 13.1934 18.9312 14.3524 14.4771C12.1793 15.6319 6.87716 17.2486 3.05264 14.4771C-0.771891 11.7057 0.417921 4.94056 2.01147 2.46606C5.34344 0.486465 14.0047 -1.16168 17.8292 3.58936Z"
-                                fill="currentColor" stroke="black" stroke-linecap="round" />
-                            <circle cx="7.75688" cy="6.20024" r="0.7" fill="black" />
-                            <path d="M9.99023 10.5564C9.38966 9.51536 7.67016 7.70031 5.59671 8.76839" stroke="black"
-                                stroke-linecap="round" />
-                            <circle cx="11.7569" cy="6.20024" r="0.7" fill="black" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </form>
+        </div>
     </div>
 
-    <!-- 페이지네이션 -->
-    <div class="pagination">
-        <button type="button" class="page-arrow">‹</button>
-
-        <button type="button" class="page-btn active">1</button>
-        <button type="button" class="page-btn">2</button>
-        <button type="button" class="page-btn">3</button>
-
-        <button type="button" class="page-arrow">›</button>
-    </div>
-
-    <a href="{% url 'epilogue_write' %}" class="submit-btn">
+    <button type="submit" form="epilogue-form" class="submit-btn">
         후일담 작성하기
-    </a>
-    </form>
+    </button>
 
 </section>
 

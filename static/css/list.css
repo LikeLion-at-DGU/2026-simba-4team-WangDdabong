@@ -1,6 +1,6 @@
 @font-face {
     font-family: "Chunko Bold Demo";
-    src: url("../fonts/ChunkoBoldDemo.woff2") format("woff2");
+    src: url('../fonts/ChunkoBoldDemo.ttf');
     font-weight: 900;
     font-style: normal;
 }
@@ -11,20 +11,17 @@
     height: 180px;
     padding-top: 36px;
     box-sizing: border-box;
-
     overflow: hidden;
 }
 
 /* 오른쪽 상단 질문 / 포인트 */
 .top-info {
     position: absolute;
-    top: 84px;
+    top: 110px;
     right: 28px;
-
     display: flex;
     align-items: center;
     gap: 18px;
-
     z-index: 20;
 }
 
@@ -32,21 +29,17 @@
     width: 50px;
     height: 20px;
     box-sizing: border-box;
-
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 12px;
-
     background: #D5C9BB;
     border-radius: 8px;
-
     color: #000000;
     font-family: Pretendard, sans-serif;
     font-size: 10px;
     font-weight: 500;
     line-height: 100%;
-
     white-space: nowrap;
 }
 
@@ -77,20 +70,17 @@
     height: 100vh;
     /* ⭐ 고정 calc 버림 */
     padding: 50px 16px 28px;
-
     display: flex;
     flex-direction: column;
     align-items: center;
-
+    padding: 78px 23px 16px;
     background: #F3EEE8;
-
     overflow: hidden;
     /* 유지 */
 }
 
 .list-page-title {
-    margin: 0 0 22px;
-
+    margin: 0 0 27px;
     color: #2B2D54;
     text-align: center;
     font-family: "Chunko Bold Demo", Pretendard, sans-serif;
@@ -101,30 +91,24 @@
 
 .worry-list-wrap {
     width: 370px;
-
     flex: 1;
-    /* ⭐ 공간 다 먹음 */
+    min-height: 0;
     overflow-y: auto;
-    /* ⭐ 여기서만 스크롤 */
     display: flex;
     flex-direction: column;
     gap: 10px;
-
     padding-bottom: 10px;
 }
-
 
 /* 카드 본체 */
 .worry-card {
     width: 370px;
     height: 72px;
-
     display: flex;
     align-items: center;
     border-radius: 20px;
     position: relative;
     flex-shrink: 0;
-
     background: #D5C9BB;
     padding: 0 14px;
     transition: background 0.15s ease;
@@ -139,13 +123,10 @@
 .card-link-overlay {
     position: absolute;
     inset: 0;
-
     display: block;
     width: 100%;
     height: 100%;
-
     z-index: 10;
-
     text-decoration: none;
     color: inherit;
     background: transparent;
@@ -171,11 +152,9 @@
 
 .worry-text {
     width: 170px;
-
     display: flex;
     flex-direction: column;
     gap: 2px;
-
     min-width: 0;
 }
 
@@ -186,11 +165,9 @@
     font-size: 15px;
     font-weight: 400;
     line-height: 150%;
-
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-
     text-decoration: none;
 }
 
@@ -200,11 +177,9 @@
     font-size: 11px;
     font-weight: 400;
     line-height: 150%;
-
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-
     text-decoration: none;
 }
 
@@ -212,33 +187,26 @@
     position: absolute;
     right: 170px;
     top: 30px;
-
     width: 12px;
     height: 18px;
-
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 3px;
-
     z-index: 30;
 }
 
 .bookmark-btn {
     width: 12px;
     height: 18px;
-
     padding: 0;
     margin: 0;
-
     border: none;
     outline: none;
     background: transparent;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     color: #FFFFFF;
     cursor: pointer;
 }
@@ -260,7 +228,6 @@
 .bookmark-icon {
     width: 12px;
     height: 18px;
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -272,7 +239,6 @@
     font-size: 8px;
     font-weight: 400;
     line-height: 150%;
-
     white-space: nowrap;
 }
 
@@ -281,39 +247,31 @@
     right: 16px;
     top: 50%;
     transform: translateY(-50%);
-
     width: 141px;
     height: 52px;
-
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 6px;
-
     background: #FFFFFF;
     border-radius: 10px;
-
-    z-index: 5;
+    z-index: 30;
 }
 
 .stamp-icon {
     width: 31px;
     height: 35px;
-
     display: inline-flex;
     align-items: center;
     justify-content: center;
-
     flex-shrink: 0;
 }
 
 .stamp-icon img {
     width: 31px;
     height: 35px;
-
     display: block;
     object-fit: contain;
-
     transform: rotate(-4.66deg);
 }
 
@@ -328,10 +286,8 @@
 
 .answer-icon {
     position: relative;
-
     width: 34px;
     height: 31px;
-
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -347,7 +303,6 @@
 .answer-icon span {
     position: relative;
     z-index: 1;
-
     color: #3A3A3A;
     font-family: Pretendard, sans-serif;
     font-size: 13px;
@@ -355,15 +310,12 @@
     line-height: 1;
 }
 
-
 .pagination {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
-
-    margin-top: 18px;
-    margin-bottom: 20px;
+    margin: 12px 0 15px;
 }
 
 .page-btn {
@@ -372,7 +324,6 @@
     border-radius: 8px;
     border: none;
     background: #D5C9BB;
-
     color: #000;
     font-family: Pretendard, sans-serif;
     font-size: 15px;
@@ -389,20 +340,16 @@
 .page-arrow {
     width: 12px;
     height: 33px;
-
     border: none;
     background: transparent;
-
     color: #C8C1BA;
     font-family: Pretendard, sans-serif;
     font-size: 36px;
     font-weight: 300;
     line-height: 1;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     cursor: pointer;
 }
 
@@ -422,19 +369,15 @@
     justify-content: center;
     align-items: center;
     gap: 10px;
-
     border-radius: 20px;
     background: #2B2D54;
-
     text-decoration: none;
     color: #FFF;
-
     font-family: Pretendard, sans-serif;
     font-size: 16px;
     font-style: normal;
     font-weight: 600;
     line-height: 150%;
-
     margin-top: 24px;
     cursor: pointer;
     flex-shrink: 0;
@@ -456,4 +399,34 @@
 
 .worry-card.hidden {
     display: none;
+}
+
+.bookmark-box form,
+.cheer-form {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    z-index: 31
+}
+
+.stamp-btn {
+    padding: 0;
+    margin: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    z-index: 31
+}
+
+.empty-message {
+    color: #868484;
+    font-family: Pretendard, sans-serif;
+    font-size: 13px;
+    text-align: center;
+    margin-top: 40px;
 }

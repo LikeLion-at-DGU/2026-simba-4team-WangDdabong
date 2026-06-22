@@ -1,4 +1,5 @@
-{% extends 'base.html' %}
+<!-- worry_story.html : 고민-답변-후일담 페이지 ! -->
+{% extends 'base_nav.html' %}
 {% load static %}
 
 {% block title %}고민 스토리{% endblock %}
@@ -12,34 +13,36 @@
 <section class="story-section">
 
     <h1 class="title">WORRY STORY</h1>
+
     <div class="scroll-area">
-        <form class="form">
+        <div class="form">
 
             <!-- 1. 고민 내용 -->
             <div class="section">
                 <div class="section-header">
                     <div class="section-label">고민 내용</div>
 
-                    <!-- 위쪽 스탬프 + 숫자 -->
                     <div class="story-stamp-info">
                         <img src="{% static 'images/yellowstamp.png' %}" alt="스탬프" class="story-stamp-img">
-                        <span class="story-stamp-count">6</span>
+                        <span class="story-stamp-count">{{ worry.cheer_count }}</span>
                     </div>
                 </div>
 
                 <div class="card">
-                    <textarea class="textarea-box"></textarea>
+                    <div class="story-title-box">{{ worry.title }}</div>
+                    <textarea class="textarea-box worry-content-box" readonly>{{ worry.content }}</textarea>
                 </div>
             </div>
 
-            <!-- 2. 고민 답변 -->
+            <!-- 2. 고민 답변 목록 -->
+            {% for answer in answers %}
             <div class="section">
                 <div class="section-header">
-                    <div class="section-label">고민 답변</div>
+                    <div class="section-label">고민 답변 {{ forloop.counter }}</div>
 
-                    <!-- 공감 업 / 다운 버튼 -->
                     <div class="reaction-icons">
-                        <button type="button" class="reaction-btn up-btn" aria-label="공감">
+                        <button type="button" class="reaction-btn up-btn {% if answer.is_up %}active{% endif %}"
+                            aria-label="공감">
                             <svg xmlns="http://www.w3.org/2000/svg" width="21" height="25" viewBox="0 0 21 25"
                                 fill="none">
                                 <path
@@ -52,7 +55,8 @@
                             </svg>
                         </button>
 
-                        <button type="button" class="reaction-btn down-btn" aria-label="비공감">
+                        <button type="button" class="reaction-btn down-btn {% if answer.is_down %}active{% endif %}"
+                            aria-label="비공감">
                             <svg xmlns="http://www.w3.org/2000/svg" width="21" height="25" viewBox="0 0 21 25"
                                 fill="none">
                                 <path
@@ -68,9 +72,20 @@
                 </div>
 
                 <div class="card">
-                    <textarea class="textarea-box"></textarea>
+                    <textarea class="textarea-box" readonly>{{ answer.content }}</textarea>
                 </div>
             </div>
+            {% empty %}
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-label">고민 답변</div>
+                </div>
+
+                <div class="card">
+                    <textarea class="textarea-box" readonly>아직 등록된 답변이 없어요.</textarea>
+                </div>
+            </div>
+            {% endfor %}
 
             <!-- 3. 후일담 -->
             <div class="section">
@@ -95,17 +110,13 @@
                 </div>
 
                 <div class="card">
-                    <textarea class="textarea-box"></textarea>
+                    <div class="story-title-box">{{ epilogue.ep_title }}</div>
+                    <textarea class="textarea-box" readonly>{{ epilogue.ep_content }}</textarea>
                 </div>
             </div>
-
-        </form>
+            <a href="#" class="delete-btn"> 고민 삭제하기 </a>
+        </div>
     </div>
-
-    <!-- 버튼은 form 밖으로 빼서 고정 느낌 -->
-    <a href="#" class="delete-btn">
-        고민 삭제하기
-    </a>
 
 </section>
 
