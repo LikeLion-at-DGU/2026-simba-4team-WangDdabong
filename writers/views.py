@@ -121,7 +121,7 @@ def post_epilogue(request, worry_id):
     
     # 현재 사용자 == 고민 작성자인지 검증
     if request.user != worry.writer:
-        return render(request, "writers/demo_worry_answer.html")
+        return render("writer/worry_answer.html")
     else:
         worry = get_object_or_404(Worry, pk=worry_id)
         worry.is_HoF = request.POST["is_HoF"]
@@ -137,7 +137,7 @@ def post_epilogue(request, worry_id):
 
         new_epilogue.save()
 
-        return redirect("main:demo_home", {"source": "post_epilogue"})
+        return redirect("main:home", {"source": "post_epilogue"})
     
 
 
@@ -193,7 +193,7 @@ def post_epilogue_gonggam(request, epilogue_id):
     [고민-답변-후일담 함수]
     - 기능 : 하나의 고민에 대한 답변, 후일담 전체 보기 가능
     - 가져오는 정보 : Worry, Answer, Epilogue
-    - return : demo_worry_story.html 화면 표시
+    - return : worry_story.html 화면 표시
     
     * 유의사항*
     - 공개 O : 모든 사용자 조회 가능
@@ -209,7 +209,7 @@ def worry_story(request, worry_id):
         is_answerer = Answer.objects.filter(worry=worry, writer=request.user).exists()
 
         if not is_writer and not is_answerer:
-            return redirect("main:demo_home")
+            return redirect("main:home")
         
     answers = Answer.objects.filter(worry=worry)
     epilogue = Epilogue.objects.filter(worry=worry)
@@ -220,29 +220,4 @@ def worry_story(request, worry_id):
         'epilogue' : epilogue,
     }
 
-    return render(request, 'writers/demo_worry_story.html', context)
-
-"""
-    [고민 답변 확인 함수]
-    - 기능: 고민-답변들 확인
-    - 받는 값: worry_id
-    - return: 성공 -> worry_answer.html 렌더링 / 실패(인증 에러) -> 로그인으로 리다이렉트
-"""
-def get_worry_answer(request, worry_id):
-    if not request.user.is_authenticated:
-        return redirect("accounts:login")
-
-    profile = get_object_or_404(Profile, writer=request.user)
-    worry = get_object_or_404(Worry, pk=worry_id)
-    answers = Answer.objects.filter(
-        worry = worry
-    )
-
-    context = {
-        "worry_count": profile.worry_count,
-        "points": profile.points,
-        "worry": worry,
-        "answers": answers
-    }
-
-    return render(request, "writers/demo_worry_answer.html", context)
+    return render(request, 'writers/worry_story.html', context)

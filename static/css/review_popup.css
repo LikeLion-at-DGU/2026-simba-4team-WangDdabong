@@ -1,0 +1,392 @@
+/* 팝업 공통 */
+.review-popup,
+.attendance-popup {
+    position: absolute;
+    left: 0;
+    top: 279px;
+
+    width: 100%;
+    height: calc(100% - 279px);
+
+    display: none;
+    z-index: 200;
+
+    background: transparent;
+}
+
+.review-popup.active,
+.attendance-popup.active {
+    display: block;
+}
+
+/* X 버튼 공통 */
+.popup-close {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    border-radius: 50%;
+    background: #FFFFFF;
+
+    color: #2B2D2F;
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1;
+
+    cursor: pointer;
+    z-index: 300;
+
+    padding: 0;
+}
+
+/* 후일담 팝업 */
+.review-popup {
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+
+    display: none;
+    z-index: 200;
+
+    background: transparent;
+}
+
+.review-popup.active {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/* 후일담 흰색 박스 */
+.review-content-box {
+    position: relative;
+
+    width: 370px;
+    height: 330px;
+    margin-top: 290px;
+    padding: 38px 17px 15px;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background: #FFFFFF;
+    border: 1px solid #E0E0E0;
+    border-radius: 30px;
+
+    font-family: Pretendard, sans-serif;
+}
+
+/* 상단 아이콘 + 제목 */
+.review-header {
+    width: 100%;
+    padding: 0 6px;
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.review-envelope {
+    width: 88px;
+    height: 81px;
+    flex-shrink: 0;
+}
+
+.review-envelope svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.review-title {
+    margin: 0;
+
+    color: #000000;
+    font-family: Pretendard, sans-serif;
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 100%;
+    white-space: nowrap;
+}
+
+/* 후일담 메시지 박스 */
+.review-message-box {
+    width: 330px;
+    height: 112px;
+    margin-top: 18px;
+    padding: 12px 16px;
+    box-sizing: border-box;
+    padding: 12px 16px;
+
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    border-radius: 20px;
+    background: #F3EEE8;
+}
+
+.review-message {
+    margin: 0;
+    width: 294px;
+    height: 42px;
+    flex-shrink: 0;
+    color: #000000;
+    font-family: Pretendard, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 100%;
+}
+
+/* 후일담 보러가기 버튼 */
+.review-link {
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+
+    width: 92px;
+    height: 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+    background: #9F907E;
+
+    color: #FFFFFF;
+    text-decoration: none;
+    font-family: Pretendard, sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 100%;
+}
+
+/* 하단 팝업 닫기 버튼 */
+.review-close-btn {
+    width: 330px;
+    height: 48px;
+    margin-top: 25px;
+
+    border: none;
+    border-radius: 20px;
+    background: #2B2D54;
+
+    color: #FFFFFF;
+    text-align: center;
+    font-family: Pretendard, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 100%;
+
+    cursor: pointer;
+}
+
+/* 출석체크 팝업 */
+.attendance-popup {
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+
+    display: none;
+    z-index: 200;
+
+    background: transparent;
+}
+
+.attendance-popup.active {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/* 흰색 출첵창 */
+.attendance-content-box {
+    width: 370px;
+    height: 330px;
+    margin-top: 290px;
+    padding: 25px 26px 0;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background: #FFFFFF;
+    border: 1px solid #E0E0E0;
+    border-radius: 30px;
+
+    position: relative;
+}
+
+/* DAY 1~BONUS 전체 배치 */
+.attendance-grid {
+    width: fit-content;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 25px;
+    row-gap: 35px;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+
+    margin: 0 auto;
+}
+
+/* 각 아이템 */
+.attendance-item {
+    width: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+/* 일반 얼굴 */
+.attendance-face {
+    width: 55px;
+    height: 55px;
+    flex-shrink: 0;
+}
+
+.attendance-face svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* DAY 버튼 */
+.attendance-label {
+    width: 55px;
+    height: 20px;
+    gap: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 8px;
+    background: #2B2D54;
+
+    color: #FFF;
+    text-align: center;
+    font-family: Inter;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 0.5px;
+}
+
+.bonus-item {
+    gap: 15px;
+}
+
+/* BONUS 전체 얼굴 묶음 */
+.bonus-faces {
+    width: 55px;
+    height: 55px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+
+    flex-shrink: 0;
+}
+
+/* 왼쪽 얼굴 2개 묶음 */
+.bonus-left-faces {
+    width: 27px;
+    height: 55px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* 공통 */
+.bonus-face svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* 왼쪽 위 */
+.bonus-face-1 {
+    width: 26.808px;
+    height: 26.808px;
+}
+
+/* 왼쪽 아래 */
+.bonus-face-2 {
+    width: 23.936px;
+    height: 23.936px;
+}
+
+/* 오른쪽 큰 얼굴 */
+.bonus-face-3 {
+    width: 32.044px;
+    height: 32.044px;
+
+    margin-top: 9px;
+}
+
+.bonus-label {
+    color: #C89B25;
+    text-align: center;
+    font-family: Inter;
+    font-size: 8px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 0.4px;
+}
+
+/* 하단 팝업 닫기 버튼 */
+.attendance-close-btn {
+    width: 330px;
+    height: 48px;
+    margin-top: 25px;
+    box-sizing: border-box;
+
+    border: none;
+    border-radius: 20px;
+    background: #2B2D54;
+
+    color: #FFFFFF;
+    text-align: center;
+    font-family: Pretendard, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 100%;
+
+    cursor: pointer;
+}
+
+/* 팝업 뜰 때 양 흐리게 */
+.delivery-area {
+    transition: opacity 150ms ease-out;
+}
+
+.delivery-area.blurred {
+    opacity: 0.3;
+}

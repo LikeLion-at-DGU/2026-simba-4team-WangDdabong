@@ -57,7 +57,7 @@
 <!-- footer 추가 ! -->
             <nav class="footer-nav">
 
-                <a href="{% url 'main:demo_home' %}" class="nav-item">
+                <a href="{% url 'main:home' %}" class="nav-item">
                     <svg xmlns="http://www.w3.org/2000/svg" width="41" height="27" viewBox="0 0 41 27" fill="none">
                         <path
                             d="M18.4094 2.0313C19.5736 0.900114 21.4264 0.900113 22.5906 2.0313L32.9515 12.0984C34.8834 13.9754 33.5545 17.25 30.8609 17.25H10.1391C7.44548 17.25 6.11663 13.9754 8.04847 12.0984L18.4094 2.0313Z"
@@ -67,7 +67,7 @@
                     <span>홈</span>
                 </a>
 
-                <a href="#" class="nav-item">
+                <a href="{% url 'worries:get_worries' %}" class="nav-item">
                     <svg xmlns="http://www.w3.org/2000/svg" width="23" height="16" viewBox="0 0 23 16" fill="none">
                         <rect width="23" height="3" rx="1" fill="#F1EBE4" />
                         <rect y="6" width="23" height="3" rx="1" fill="#F1EBE4" />
