@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from accounts.models import Profile
+from writers.models import PointLog
 from worries.models import Worry
 from .utils import TODAY_MESSAGES
 from django.utils import timezone
@@ -85,11 +86,13 @@ def daily_attend(request):
     # 주간 출석 횟수 +1
     profile.attendance_count += 1
     points = 1
+    source = "출석"
 
     # 일 출석 (보너스 점수 검사)
     if today.weekday() == 6:
         if profile.attendance_count == 7:    # 일주일 모두 출석
             points += 3                      # 보너스(3) + 출석(1) = 4
+            source = "일주일 출석 보너스"
     
     edit_points(profile, points)              # 점수 반영
     profile.last_attendance = today           # 마지막 출석 날짜 최신화
@@ -101,5 +104,24 @@ def daily_attend(request):
 [포인트 증감 함수]
 - 기능: profile 객체의 포인트를 points 만큼 증감
 """
-def edit_points(profile, points):
-    profile.points += points
+def edit_points(profile, source, amount):
+    if amount >= 0:
+        point_type = "EARN"
+    else:
+        point_type = "USE"
+    
+    # 잔액 부족시
+    if profile.points + amount < 0:
+        return
+
+    profile.points += amount
+    profile.save()
+
+    point_log = PointLog()
+    point_log.writer = profile.writer
+    point_log.point_type = point_type
+    point_log.source = source
+    point_log.amount = amount
+    point_log.points_after = profile.points
+
+    point_log.save()
