@@ -10,9 +10,9 @@ import random
 [홈 화면]
 - 기능: 홈 화면 렌더링
 - 받는 값 : source
-- return: 성공 -> demo_home 렌더링
+- return: 성공 -> home 렌더링
 """
-def demo_home(request, source="DONT_CARE"):
+def home(request, source="DONT_CARE"):
     if not request.user.is_authenticated:
         return redirect("accounts:login")
     
@@ -52,7 +52,7 @@ def demo_home(request, source="DONT_CARE"):
         "already_attendance": already_attendance,
     }
 
-    return render(request, 'main/demo_home.html', context)
+    return render(request, 'main/home.html', context)
 
 """
 [출석 체크]
@@ -69,7 +69,7 @@ def daily_attend(request):
 
     # 중복 출석 방지 (직접 URL로 접근 방어 목적)
     if profile.last_attendance == today:
-        return redirect("main:demo_home")
+        return redirect("main:home")
 
     current_week_start = today - timedelta(days=today.weekday()) # 이번 주 월요일 날짜
     if profile.last_attendance:
@@ -95,7 +95,7 @@ def daily_attend(request):
     profile.last_attendance = today           # 마지막 출석 날짜 최신화
     profile.save()
 
-    return redirect("main:demo_home")
+    return redirect("main:home")
 
 """
 [포인트 증감 함수]
