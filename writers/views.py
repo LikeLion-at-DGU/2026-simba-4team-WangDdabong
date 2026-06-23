@@ -335,3 +335,64 @@ def get_point_logs(request):
     }
 
     return render(request, "writers/point_logs.html", context)
+
+def my_worry_detail(request, worry_id):
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
+    profile = get_object_or_404(Profile, writer=request.user)
+
+    worry = get_object_or_404(
+        Worry,
+        pk=worry_id,
+        writer=request.user,
+        is_delete=False
+    )
+
+    answers = Answer.objects.filter(worry=worry).order_by("id")
+
+    context = {
+        "worry": worry,
+        "answers": answers,
+        "worry_count": profile.worry_count,
+        "points": profile.points,
+    }
+
+    return render(request, "writers/worry_answer.html", context)
+
+
+def worry_ing(request, worry_id):
+    return my_worry_detail(request, worry_id)
+
+
+def worry_completed(request, worry_id):
+    return worry_story(request, worry_id, "worry")
+
+
+def delete_worry(request, worry_id):
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
+    worry = get_object_or_404(
+        Worry,
+        pk=worry_id,
+        writer=request.user
+    )
+
+    worry.is_delete = True
+    worry.save()
+
+    return redirect("writers:my_worry")
+
+
+def my_answer_detail(request, answer_id):
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
+    answer = get_object_or_404(
+        Answer,
+        pk=answer_id,
+        writer=request.user
+    )
+
+    return redirect("writers:worry_story", worry_id=answer.worry.id)

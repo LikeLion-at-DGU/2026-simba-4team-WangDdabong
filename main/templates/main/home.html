@@ -171,19 +171,16 @@
                </a>
           </div>
 
-          <button type="button" class="review-close-btn" id="reviewClose">
+          <a href="{% url 'main:home' %}" class="review-close-btn" id="reviewClose">
                팝업 닫기
-          </button>
-
+          </a>
      </div>
 </section>
 
 
 <!-- 출석체크 팝업 -->
-<section class="attendance-popup" id="attendancePopup"
-     data-show-popup="{{ show_attendance_popup|yesno:'true,false' }}"
-     data-today-day="{{ today_day }}"
-     data-attendance-days="{{ attendance_weekdays|join:',' }}">
+<section class="attendance-popup" id="attendancePopup" data-show-popup="{{ show_attendance_popup|yesno:'true,false' }}"
+     data-today-day="{{ today_day }}" data-attendance-days="{{ attendance_weekdays|join:',' }}">
      <div class="attendance-content-box">
 
           <div class="attendance-grid">
