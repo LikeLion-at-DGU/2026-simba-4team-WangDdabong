@@ -8,6 +8,14 @@ from .models import *
 
 # Create your views here.
 
+def get_profile_context(user):
+    profile = get_object_or_404(Profile, writer=user)
+    return {
+        "profile": profile,
+        "worry_count": profile.worry_count,
+        "points": profile.points,
+    }
+
 """
     [마이페이지 함수]
     - 기능 : 내 정보, 내 활동 정보들 한눈에 리스트 확인 가능
@@ -47,6 +55,8 @@ def my_worry(request):
     if not request.user.is_authenticated:
         return redirect("accounts:login")   # 비로그인 시, 로그인 페이지로 넘어감
 
+    profile_context = get_profile_context(request.user)
+
     delivery_worries = Worry.objects.filter(    # 고민 배송 중
         writer = request.user,
         is_complete = False
@@ -63,6 +73,7 @@ def my_worry(request):
     )
 
     context = {
+        **profile_context,
         'delivery_worries' : delivery_worries,
         'public_worries' : public_worries,
         'private_worries' : private_worries,
@@ -87,10 +98,36 @@ def my_answer_list(request):
     my_answers_list = Answer.objects.filter(writer = request.user).order_by("-pub_date")  # 내 답변 최신순으로 정렬
 
     context = {
+        **get_profile_context(request.user),
         'my_answers_list' : my_answers_list,
     }
 
     return render(request, 'writers/my_answer_list.html', context)
+
+"""
+    [내 답변 상세 함수]
+    - 기능 : 내 답변 목록에서 선택한 답변이 포함된 고민-답변-후일담 상세 화면 조회
+    - 가져오는 정보 : Answer
+    - return : my_answer.html 화면 표시
+"""
+def my_answer_detail(request, answer_id):
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
+    answer = get_object_or_404(Answer, pk=answer_id, writer=request.user)
+    worry = answer.worry
+
+    answers = Answer.objects.filter(worry=worry).select_related("writer")
+    epilogue = Epilogue.objects.filter(worry=worry).first()
+
+    context = {
+        "selected_answer": answer,
+        "worry": worry,
+        "answers": answers,
+        "epilogue": epilogue,
+    }
+
+    return render(request, "writers/my_answer.html", context)
 
 
 """
@@ -112,6 +149,7 @@ def worry_bookmark(request):
     epilogue_bookmark = Epilogue.objects.filter(later_check = request.user)       # 후일담 북마크
 
     context = {
+        **get_profile_context(request.user),
         'worry_bookmarks' : worry_bookmarks,
         'epilogue_bookmark' : epilogue_bookmark,
     }
@@ -318,6 +356,7 @@ def get_point_logs(request):
     yang_img = yang["image"]
     
     context = {
+        "profile": profile,
         "worry_count": profile.worry_count,
         "points": profile.points,
         "point_logs": point_logs,

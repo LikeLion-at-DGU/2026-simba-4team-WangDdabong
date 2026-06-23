@@ -205,6 +205,7 @@ def get_store(request):
         })
 
     context = {
+        "profile": profile,
         "worry_count": profile.worry_count,
         "points": profile.points,
         "yangs": yang_items,
