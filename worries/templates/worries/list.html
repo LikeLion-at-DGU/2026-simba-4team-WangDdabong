@@ -44,27 +44,27 @@
 
      <div class="worry-list-wrap">
 
-          {% for worry in worries %}
+          {% for item in worries %}
           <article class="worry-card">
 
                <!-- 고민 상세 화면 이동 -->
-               <a href="{% url 'worries:get_worry_detail' worry.id %}" class="card-link-overlay" aria-label="고민 상세로 이동">
+               <a href="{% url 'worries:get_worry_detail' item.worry.id %}" class="card-link-overlay" aria-label="고민 상세로 이동">
                </a>
 
                <div class="worry-text">
                     <span class="list-title">
-                         {{ worry.keyword }}
+                         {{ item.worry.keyword }}
                     </span>
                     <span class="list-sub">
-                         {{ worry.content }}
+                         {{ item.worry.content }}
                     </span>
                </div>
 
                <!-- 북마크 등록/취소 -->
                <div class="bookmark-box">
-                    <form method="post" action="{% url 'worries:post_bookmark' worry.id %}" class="bookmark-form">
+                    <form method="post" action="{% url 'worries:post_bookmark' item.worry.id %}" class="bookmark-form">
                          {% csrf_token %}
-                         <button type="button" class="bookmark-btn {% if worry.is_bookmarked %}active{% endif %}"
+                         <button type="button" class="bookmark-btn {% if item.worry.is_bookmarked %}active{% endif %}"
                               aria-label="북마크">
                               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="18" viewBox="0 0 12 18"
                                    fill="none">
@@ -75,17 +75,17 @@
                     </form>
 
                     <span class="list-time">
-                         {{ worry.created_at|timesince }} 전
+                         {{ item.time_ago }}
                     </span>
                </div>
 
                <div class="list-meta">
 
                     <!-- 응원 도장 등록/취소 -->
-                    <form method="post" action="{% url 'worries:post_cheerup' worry.id %}" class="cheer-form">
+                    <form method="post" action="{% url 'worries:post_cheerup' item.worry.id %}" class="cheer-form">
                          {% csrf_token %}
                          <button type="button"
-                              class="stamp-btn {% if request.user in worry.cheerup.all %}active{% endif %}"
+                              class="stamp-btn {% if request.user in item.worry.cheerup.all %}active{% endif %}"
                               aria-label="응원 도장">
                               <span class="stamp-icon">
                                    <img src="{% static 'images/yellowstamp.png' %}" alt="스탬프">
@@ -94,7 +94,7 @@
                     </form>
 
                     <span class="stamp-count">
-                         {{ worry.cheer_count|default:0 }}
+                         {{ item.worry.cheer_count|default:0 }}
                     </span>
 
                     <span class="answer-icon">
@@ -106,7 +106,7 @@
                     </span>
 
                     <span class="answer-count">
-                         {{ worry.answer_count|default:0 }}
+                         {{ item.worry.answer_count|default:0 }}
                     </span>
                </div>
           </article>

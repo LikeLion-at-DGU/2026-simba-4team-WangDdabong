@@ -80,8 +80,7 @@
                 <div class="icon">
                     <div class="stamp">
                         <div class="stamp-body">
-                            <img class="cheerup" src="../../static/images/cheerup.png" alt="응원도장">
-
+                            <img class="cheerup" src="{% static 'images/cheerup.png' %}" alt="응원도장">
                         </div>
                     </div>
                     <span class="icon-count">{{ worry.like_count|default:0 }}</span>
@@ -100,11 +99,14 @@
                 </div>
             </div>
         </a>
+
+        {% empty %}
+        <div class="empty-worry-box">
+            <img src="{% static 'images/popupsheep.png' %}" alt="Worryang" class="empty-worry-icon">
+            <p class="empty-worry-text">아직 배송 중인 고민이 없습니다!</p>
+        </div>
         {% endfor %}
     </div>
-
-    <div id="completed" class="worry-list hidden"></div>
-    <!-- 공개 O -->
 
     <div id="public" class="worry-list hidden">
         {% for worry in public_worries %}
@@ -119,7 +121,7 @@
                 <div class="icon">
                     <div class="stamp">
                         <div class="stamp-body">
-                            <img class="cheerup" src="../../static/images/cheerup.png" alt="응원도장">
+                            <img class="cheerup" src="{% static 'images/cheerup.png' %}" alt="응원도장">
                         </div>
                     </div>
                     <span class="icon-count">{{ worry.like_count|default:0 }}</span>
@@ -127,12 +129,18 @@
 
                 <div class="icon">
                     <div class="icon-bubble">
-                        <img class="gonggam" src="../../static/images/gonggam.png" alt="공감도장">
+                        <img class="gonggam" src="{% static 'images/gonggam.png' %}" alt="공감도장">
                     </div>
                     <span class="icon-count">{{ worry.comment_count|default:0 }}</span>
                 </div>
             </div>
         </a>
+
+        {% empty %}
+        <div class="empty-worry-box">
+            <img src="{% static 'images/popupsheep.png' %}" alt="Worryang" class="empty-worry-icon">
+            <p class="empty-worry-text">아직 배송 완료된 고민이 없습니다!</p>
+        </div>
         {% endfor %}
     </div>
 
@@ -165,6 +173,11 @@
                 </div>
             </div>
         </a>
+        {% empty %}
+        <div class="empty-worry-box">
+            <img src="{% static 'images/popupsheep.png' %}" alt="Worryang" class="empty-worry-icon">
+            <p class="empty-worry-text">아직 배송 완료된 고민이 없습니다!</p>
+        </div>
         {% endfor %}
     </div>
 

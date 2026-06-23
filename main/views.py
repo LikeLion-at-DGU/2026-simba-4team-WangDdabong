@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from accounts.models import Profile, Attendance
+from accounts.models import Profile, UserYang, Attendance
 from writers.models import PointLog, Epilogue
 from worries.models import Worry
-from .utils import TODAY_MESSAGES
+from .utils import *
 from django.utils import timezone
 from datetime import timedelta
 import random
@@ -138,30 +138,81 @@ def daily_attend(request):
     return redirect("main:home")
 
 """
-[포인트 증감 함수]
-- 기능: profile 객체의 포인트를 points 만큼 증감
+    [양 성장 과정 구매 화면 렌더링]
+    - 기능: 양 성장 과정 구매 화면을 출력
+    - 받는 값: X
+    - return: 성공 시 -> main/yang_store.html / 실패 시 -> 로그인 화면
 """
-def edit_points(profile, source, amount):
-    if amount >= 0:
-        point_type = "EARN"
-    else:
-        point_type = "USE"
+def get_store(request):
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
+    profile = get_object_or_404(Profile, writer=request.user)
+
+    if request.method == "POST":
+        source = "고민 구매"
+        success = edit_points(profile, source, -5)  # 고민 구매 시 포인트 차감
+        
+        if success:
+            profile.worry_count += 1
+            profile.save()
+            
+        return redirect("main:get_store")
+
+    yang_items = []
+
+    for yang_id in Yang:
+        yang = Yang[yang_id]
+
+        is_owned = UserYang.objects.filter(
+            writer=request.user,
+            yang_id=yang_id
+        ).exists()
+
+        yang_items.append({
+            "id": yang_id,
+            "name": yang["name"],
+            "price": yang["price"],
+            "image": yang["image"],
+            "description": yang["description"],
+            "is_owned": is_owned,
+        })
+
+    context = {
+        "worry_count": profile.worry_count,
+        "points": profile.points,
+        "yangs": yang_items,
+    }
+
+    return render(request, "main/demo_yang_store.html", context)
+
+"""
+    [양 성장 과정 구매 함수]
+    - 기능: 양 성장 과정 구매 처리
+    - 받는 값: 어떤 양 구매할 지(yang_id)
+"""
+def post_buy_yang(request, yang_id):
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
+    if UserYang.objects.filter(writer=request.user, yang_id=yang_id).exists():
+        return redirect("writers:get_store")
+
+    profile = get_object_or_404(Profile, writer=request.user)
+
+    yang = Yang.get(yang_id)
+    source = yang["name"] + "구매"
+    success = edit_points(profile, source, -yang["price"])
     
-    # 잔액 부족시
-    if profile.points + amount < 0:
-        return
+    if not success:
+        return redirect("main:get_store")
 
-    profile.points += amount
-    profile.save()
+    user_yang = UserYang()
+    user_yang.writer = profile.writer
+    user_yang.yang_id = yang_id
+    user_yang.save()
 
-    point_log = PointLog()
-    point_log.writer = profile.writer
-    point_log.point_type = point_type
-    point_log.source = source
-    point_log.amount = amount
-    point_log.points_after = profile.points
-
-    point_log.save()
+    return redirect("writers:mypage")
 
 """
     [후일담 팝업 처리]
