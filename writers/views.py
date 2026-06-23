@@ -64,7 +64,7 @@ def my_worry(request):
         'private_worries' : private_worries,
     }
 
-    return render(request, 'writers/demo_my_worry.html', context)
+    return render(request, 'writers/my_worry.html', context)
 
 
 """
@@ -92,7 +92,7 @@ def my_answer(request):
     [북마크 함수]
     - 기능 : 본인이 작성한 답변들을 볼 수 있음
     - 가져오는 정보 : Worry
-    - return : demo_worry_bookmark.html 화면 표시
+    - return : worry_bookmark.html 화면 표시
     
     * 유의사항 : 현재 후일담 북마크가 없어서 고민 북마크만 넣어둠. 추후에 반영 예정 *
     -> 반영 완료!!
@@ -111,7 +111,7 @@ def worry_bookmark(request):
         'epilogue_bookmark' : epilogue_bookmark,
     }
 
-    return render(request, 'writers/demo_worry_bookmark.html', context)
+    return render(request, 'writers/worry_bookmark.html', context)
 
 """
     [후일담 작성]

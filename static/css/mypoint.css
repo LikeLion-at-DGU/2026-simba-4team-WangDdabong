@@ -1,0 +1,169 @@
+@font-face {
+    font-family: 'Chunko Bold Demo';
+    src: url('../fonts/ChunkoBoldDemo.ttf');
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.point-container {
+    width: 100%;
+    padding: 16px 16px 24px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    background-color: #F1EBE4;
+    flex: 1;
+}
+
+.point-title {
+    width: 287px;
+    height: 36px;
+    color: #2B2D54;
+    text-align: center;
+    font-family: "Chunko Bold Demo";
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%;
+    margin-top: 10px;
+}
+
+.point-summary {
+    width: 370px;
+    max-width: 100%;
+    display: flex;
+    gap: 16px;
+}
+
+.point-profile {
+    width: 167px;
+    height: 130px;
+    flex-shrink: 0;
+    background: #D5C9BB;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px 16px;
+}
+
+.point-profile-img {
+    width: 90px;
+    height: 90px;
+    border-radius: 99px;
+    background: #FFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 4px 8px 2px;
+    flex-shrink: 0;
+}
+
+.worryang2 {
+    width: 83.5px;
+    height: 82.7px;
+    object-fit: contain;
+}
+
+.point-profile-name {
+    font-family: Pretendard;
+    font-size: 12px;
+    font-weight: 600;
+    color: #000;
+    line-height: 150%;
+}
+
+.point-now-box {
+    flex: 1;
+    height: 130px;
+    background: #D5C9BB;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 6px;
+    padding: 20px;
+}
+
+.point-now-icon {
+    width: 27px;
+    height: 27px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.point-now {
+    font-family: Pretendard;
+    font-size: 16px;
+    font-weight: 600;
+    color: #000;
+    line-height: 150%;
+}
+
+.point-chance {
+    font-family: Pretendard;
+    font-size: 13px;
+    font-weight: 400;
+    color: #3A3A3A;
+}
+
+.point-history-box {
+    width: 370px;
+    max-width: 100%;
+    min-height: 450px;
+    background: #D5C9BB;
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.point-history-title {
+    font-family: Pretendard;
+    font-size: 16px;
+    font-weight: 600;
+    color: #000;
+    margin-bottom: 12px;
+}
+
+.point-history-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0;
+}
+
+.point-history-label {
+    font-family: Pretendard;
+    font-size: 14px;
+    font-weight: 400;
+    color: #000;
+}
+
+.point-history-amount {
+    font-family: Pretendard;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.point-history-amount.plus {
+    color: #2E7D32;
+}
+
+.point-history-amount.minus {
+    color: #000;
+}
+
+.point-history-divider {
+    width: 100%;
+    border-top: 2px dashed #838383;
+}

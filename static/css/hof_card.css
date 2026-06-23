@@ -1,0 +1,245 @@
+@font-face {
+    font-family: 'Chunko Bold Demo';
+    src: url('../fonts/ChunkoBoldDemo.ttf');
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.hof-container {
+    width: 100%;
+    padding: 16px 16px 24px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    background-color: #F1EBE4;
+    flex: 1;
+}
+
+.hof-title {
+    color: #2B2D54;
+    text-align: center;
+    font-family: "Chunko Bold Demo";
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%;
+    /* 36px */
+    width: 100%;
+    margin-top: 10px;
+
+}
+
+.hof-card-box {
+    position: relative;
+    width: 100%;
+    max-width: 350px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.hof-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.worryang1 {
+    width: 40px;
+    height: 50px;
+    object-fit: contain;
+    position: relative;
+    top: 15px;
+    left: 3px;
+}
+
+.worryang3 {
+    width: 63px;
+    height: 71px;
+    aspect-ratio: 63/71;
+    object-fit: contain;
+}
+
+.hof-list-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 76px;
+    height: 24px;
+    padding: 8px 8px;
+    border-radius: 10px;
+    background: #9F907E;
+    color: #fff;
+    font-family: Pretendard;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 150%;
+    text-decoration: none;
+    gap: 10px;
+}
+
+.prev-btn,
+.next-btn,
+.prev-btn-none,
+.next-btn-none {
+    position: absolute;
+    top: 220px;
+    width: 14px;
+    height: 7.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    z-index: 2;
+    stroke-width: 2px;
+    stroke: #BDBDBD;
+}
+
+.prev-btn,
+.prev-btn-none {
+    left: -20px;
+}
+
+.next-btn,
+.next-btn-none {
+    right: -20px;
+}
+
+.prev-btn-none,
+.next-btn-none {
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+.hof-card {
+    width: 100%;
+    width: 350px;
+    height: 520px;
+    background: #D5C9BB;
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.hof-card:active {
+    background: #9F907E;
+}
+
+.hof-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.hof-section-title {
+    color: #000;
+    font-family: Pretendard;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+    /* 24px */
+}
+
+.hof-section-body {
+    width: 291px;
+    color: #000;
+    font-family: Pretendard;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+    /* 21px */
+}
+
+.hof-divider {
+    width: 100%;
+    border-top: 2px dashed #838383;
+}
+
+.hof-answer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+}
+
+.hof-answer::-webkit-scrollbar {
+    display: none;
+}
+
+.hof-answer-box {
+    width: 140px;
+    height: 137px;
+    flex-shrink: 0;
+    background: #FFF;
+    border-radius: 10px;
+    padding: 16px 12px;
+    display: flex;
+    align-items: flex-start;
+    color: #000;
+    font-family: Pretendard;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 150%;
+}
+
+.hof-card-footer {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 23px;
+}
+
+.hof-btn,
+.hof-bookmark-btn {
+    border: none;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.icon {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+}
+
+.icon-count {
+    color: #000;
+    text-align: center;
+    font-family: Inter;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+}
+
+.stamp {
+    position: relative;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gonggam {
+    width: 30px;
+    height: 40px;
+    object-fit: contain;
+}
