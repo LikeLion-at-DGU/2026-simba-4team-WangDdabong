@@ -45,7 +45,7 @@ def signup(request):
             profile.save()
 
             auth.login(request, newwriter) #로그인 상태 유지 및 로그인 처리 완료
-            return redirect('main:home')  #main:demo_firstpage 메인 첫 화면 url 로 이동
+            return redirect('main:home')  #main:home메인 첫 화면 url 로 이동
         
     return render(request, 'accounts/signup.html') #주소를 치고 들어왔을 때 or 회원가입에 실패헀을 때
                                                         ##accounts/templates/accounts/signup.html 로 이동
@@ -78,4 +78,4 @@ def logout(request):
     [로그아웃 함수]
     """
     auth.logout(request) #로그아웃을 눌렀을 때
-    return redirect('main:home') #main:demo_firstpage 메인 첫 화면 url 로 이동
+    return redirect('main:home') #main:home 메인 첫 화면 url 로 이동

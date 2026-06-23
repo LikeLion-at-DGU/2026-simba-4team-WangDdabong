@@ -75,11 +75,12 @@ def post_cheerup(request, worry_id):
     if request.user in worry.cheerup.all():
         worry.cheerup.remove(request.user)
         worry.cheerup_count -= 1
-        worry.save()
+        
     else:
         worry.cheerup.add(request.user)
         worry.cheerup_count += 1
-        worry.save()
+
+    worry.save()
     
     return redirect("worries:get_worries")
 
@@ -102,6 +103,9 @@ def get_worry_detail(request, worry_id):
 - 기능: POST-고민 답변 작성 / GET-고민 답변 작성 화면 이동
 - 받는 값: worry_id + (POST의 경우: situation, my_action, recommendation)
 - return: GET 성공 시 -> 고민 답변 작성 화면 렌더링 / POST 성공 시 -> 메인 화면 리다이렉트 / 실패 시 -> 로그인 화면 이동
+
+* 유의사항 *
+- 답변은 최대 5개까지만 작성 가능
 """
 def post_answer(request, worry_id):
     if not request.user.is_authenticated:
@@ -109,8 +113,15 @@ def post_answer(request, worry_id):
 
     worry = get_object_or_404(Worry, pk=worry_id)
 
+    answer_count = Answer.objects.filter(worry=worry).count()
+    
+    
+    if answer_count >= 5:       # 답변 5개 초과 시 
+        return redirect("worries:get_worry_detail", worry.id)
+    
     # 고민 답변 작성 후 제출
     if request.method == "POST":
+
         answer = Answer()
         answer.worry = worry
         answer.writer = request.user
@@ -231,5 +242,21 @@ def edit_satisfaction(request, answer_id, is_satisfied):
         answer.is_satisfied = -1
 
     answer.save()
+
+    # 답변 개수 확인 후 모든 답변 평가 여부 확인
+    answer_count = Answer.objects.filter(worry=answer.worry).count()
+
+    answers = Answer.objects.filter(worry=answer.worry)
+
+    all_checked = True
+
+    for a in answers:
+        if a.is_satisfied == 0:
+            all_checked = False
+            
+    # 답변 5개 + 전부 평가 완료 시 배송 완료 처리
+    if answer_count == 5 and all_checked:
+        answer.worry.is_complete = True
+        answer.worry.save()
 
     return redirect("writers:get_worry_answer", answer.worry.id)

@@ -35,7 +35,7 @@ def mypage(request):
     [내 고민 함수]
     - 기능 : 본인이 작성한 고민들 고민배송중/공개O/공개X 로 나누어서 볼 수 있음
     - 가져오는 정보 : Worry
-    - return : demo_my_worry.html 화면 표시
+    - return : my_worry.html 화면 표시
 """
 
 def my_worry(request):
@@ -68,24 +68,24 @@ def my_worry(request):
 
 
 """
-    [내 답변 함수]
-    - 기능 : 본인이 작성한 답변들을 볼 수 있음
+    [내 답변 리스트 함수]
+    - 기능 : 본인이 작성한 답변들을 볼 수 있음.
     - 가져오는 정보 : Answer
-    - return : demo_my_answer.html 화면 표시
+    - return : demo_my_answer_list.html 화면 표시
 """
 
-def my_answer(request):
+def my_answer_list(request):
 
     if not request.user.is_authenticated:
         return redirect("accounts:login")   # 비로그인 시, 로그인 페이지로 넘어감
     
-    my_answers = Answer.objects.filter(writer = request.user)
+    my_answers_list = Answer.objects.filter(writer = request.user)
 
     context = {
-        'my_answers' : my_answers,
+        'my_answers_list' : my_answers_list,
     }
 
-    return render(request, 'writers/demo_my_answer.html', context)
+    return render(request, 'writers/demo_my_answer_list.html', context)
 
 
 """
@@ -215,7 +215,7 @@ def post_epilogue_gonggam(request, epilogue_id):
     [고민-답변-후일담 함수]
     - 기능 : 하나의 고민에 대한 답변, 후일담 전체 보기 가능
     - 가져오는 정보 : Worry, Answer, Epilogue
-    - return : worry_story.html 화면 표시
+    - return : demo_worry_story.html 화면 표시
     
     * 유의사항*
     - 공개 O : 모든 사용자 조회 가능
