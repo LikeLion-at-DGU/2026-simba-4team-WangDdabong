@@ -131,11 +131,14 @@
     aspect-ratio: 1/1;
     background: #FFF;
     border-radius: 99px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .profile-img {
-    width: 150px;
-    height: 150px;
+    width: 100px;
+    height: 100px;
 }
 
 .profile-info {
