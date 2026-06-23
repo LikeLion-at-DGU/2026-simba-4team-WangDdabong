@@ -5,6 +5,8 @@ app_name = 'main'
 
 urlpatterns = [
     path('', home, name = 'home'),
-    path('<str:source>/', home, name = 'home'),
-    path("daily_attend/", daily_attend, name="daily_attend")
+    path("post_epilogue/<int:epilogue_id>/", home_from_post_epilogue, name="home_from_post_epilogue"),
+
+    path("daily_attend/", daily_attend, name="daily_attend"),
+    path("go_epilogue/<int:epilogue_id>/", go_epilogue, name="go_epilogue"),
 ]
