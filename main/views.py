@@ -71,9 +71,7 @@ def home(request, source="DONT_CARE"):
 - return: 성공 시 -> 홈 화면 리다이렉트
 """
 def daily_attend(request):
-    print("daily_attend 진입")
     if not request.user.is_authenticated:
-        print("로그인 안됨")
         return redirect("accounts:login")
 
     if request.method != "POST":
