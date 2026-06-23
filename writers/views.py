@@ -232,6 +232,10 @@ def post_epilogue_gonggam(request, epilogue_id):
 def worry_story(request, worry_id, source):
     worry = get_object_or_404(Worry, pk=worry_id)
 
+    if request.user == worry.writer:    # 답변 안읽음 표시 지움
+        worry.hit = 1
+        worry.save()
+
     if not worry.is_HoF:    # 공개X -> 고민 작성자와 해당 고민에 답변을 한 사람들만 조회 가능                  
         is_writer = (request.user == worry.writer)
 

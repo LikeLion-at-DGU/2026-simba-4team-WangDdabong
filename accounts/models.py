@@ -17,6 +17,7 @@ class Profile(models.Model):
     def __str__(self):
         return self.writer.username
     
+    
 """
     [사용자가 갖고 있는 양]
 """

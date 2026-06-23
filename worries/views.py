@@ -119,6 +119,88 @@ def get_worries(request):
 
     return render(request, "worries/list.html", context)
 
+
+"""
+[우체통 렌더링]
+- 기능: 모든 고민글을 반환
+- 받는 값: X
+- return: 모든 Worry 객체
+"""
+def postbox(request):
+    profile = get_object_or_404(Profile, writer=request.user)
+    worry_count = profile.worry_count
+    points = profile.points
+
+    worries_per_page = 6 # 한 페이지 당 보여줄 고민 개수
+    page = request.GET.get("page", "1") # 현재 페이지 번호 가져오기
+
+    if page.isdigit():
+        page = int(page)
+    else:
+        page = 1
+
+    if page < 1:
+        page = 1
+
+    # 고민 리스트 조회
+    worries = Worry.objects.filter(
+        is_delete=False
+    ).order_by("-pub_date")
+
+    # 전체 고민 개수
+    total_count = worries.count()
+
+    # 전체 페이지 수 계산
+    if total_count == 0:
+        total_page = 1
+    else:
+        total_page = (total_count + worries_per_page - 1) // worries_per_page
+
+    if page > total_page: # 현재 페이지가 전체 페이지보다 크면 마지막 페이지로
+        page = total_page
+
+    # 페이지에 해당하는 고민 리스트 가져오기
+    start = (page - 1) * worries_per_page
+    end = start + worries_per_page
+    worries_in_page = worries[start:end]
+
+    worry_items = []
+    for worry in worries_in_page:   # 작성 경과 시간 함께 묶어서 제공
+        worry_items.append({
+            "worry": worry,
+            "time_ago": get_time_ago(worry.pub_date),
+            "cheerup_count": worry.cheerup_count,
+            "answer_count": Answer.objects.filter(worry=worry).count(),
+        })
+
+    # 하단에 출력할 페이지 번호 리스트
+    page_numbers = []
+    number = page
+
+    while number <= page + 2 and number <= total_page:
+        page_numbers.append(number)
+        number += 1
+        
+    context = {
+        "worry_count": worry_count,
+        "points": points,
+
+        "worries": worry_items,
+
+        "page": page,
+        "total_page": total_page,
+        
+        "has_prev": page > 1,
+        "has_next": page < total_page,
+        
+        "prev_page": page - 1,
+        "next_page": page + 1,
+        "page_numbers": page_numbers,
+    }
+
+    return render(request, "worries/postbox.html", context)
+
+
 """
 [고민 북마크 등록/취소]
 - 기능: 나중에 답변할 고민 북마크를 추가/삭제
@@ -209,6 +291,10 @@ def post_answer(request, worry_id):
 
     worry = get_object_or_404(Worry, pk=worry_id)
 
+    # 자기 고민에는 답변 불가
+    if request.user == worry.writer:
+        return redirect("worries:get_worry_detail", worry.id)
+
     answer_count = Answer.objects.filter(worry=worry).count()
     
     
@@ -226,6 +312,9 @@ def post_answer(request, worry_id):
         answer.recommendation = request.POST["recommendation"]
 
         answer.save()
+
+        worry.hit = 0   # 답변 안읽음 표시
+        worry.save()
 
         return redirect("main:home")
 
@@ -320,6 +409,20 @@ def hall_of_fame_card(request, epilogue_id):
     }
 
     return render(request, 'worries/hof_card.html', context)
+
+
+"""
+[답변 만족/불만족 함수]
+- 기능 : 고민 작성자가 답변에 대해 만족/불만족 평가
+- 받는 값 : answer_id, is_satisfied
+- return : 평가 완료 -> 내 고민-답변 화면 이동
+
+* 유의사항 *
+    + 고민 작성자만 평가 가능
+    + 만족 선택 시 is_satisfied = 1
+    + 불만족 선택 시 is_satisfied = -1
+    + 답변이 5개이고 전부 평가 완료되면 고민 배송 완료 처리
+"""
 
 def edit_satisfaction(request, answer_id, is_satisfied):
     if not request.user.is_authenticated:
