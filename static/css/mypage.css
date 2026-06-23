@@ -10,18 +10,71 @@
 }
 
 .mypage-container {
+    position: relative;
     width: 100%;
+    height: calc(874px - 70px - 85px);
     display: flex;
     flex-direction: column;
     align-items: center;
+
     background-color: #F1EBE4;
-    flex: 1;
+    overflow: hidden;
 }
 
-.point-page {
-    width: 100%;
+/* 오른쪽 상단 질문 / 포인트 */
+.top-info {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+
     display: flex;
-    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+
+    z-index: 20;
+}
+
+.top-info-box {
+    width: 50px;
+    height: 20px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+
+    background: #D5C9BB;
+    border-radius: 8px;
+
+    color: #000000;
+    font-family: Pretendard, sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 100%;
+
+    white-space: nowrap;
+}
+
+.top-question-icon {
+    display: block;
+    width: 17px;
+    height: 17px;
+    flex-shrink: 0;
+}
+
+.point-icon {
+    display: block;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.top-info-count {
+    color: #000000;
+    font-family: Pretendard, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 100%;
 }
 
 .point-btn {
@@ -55,7 +108,7 @@
     line-height: 120%;
     /* 36px */
     margin-bottom: 8px;
-    margin-top: 20px;
+    margin-top: 50px;
 }
 
 .profile {
@@ -68,7 +121,7 @@
     align-items: center;
     justify-content: flex-start;
     padding: 0 20px 0 40px;
-    gap: 40px;
+    gap: 20px;
     border-radius: 20px;
 }
 
@@ -135,13 +188,17 @@
     font-family: Pretendard;
     font-size: 14px;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 500;
     line-height: 150%;
     /* 21px */
     text-decoration: none;
     padding-left: 25px;
     justify-content: space-between;
     border-radius: 20px;
+}
+
+.menu-list:hover {
+    background-color: #9F907E;
 }
 
 .menu-list:active {
@@ -152,4 +209,18 @@
     width: 30px;
     height: 30px;
     margin-right: 10px;
+}
+
+.profile-today {
+    color: #000;
+    font-family: Pretendard, sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 450;
+    line-height: 150%;
+    white-space: nowrap;
+}
+
+.profile-today span {
+    margin-left: 8px;
 }

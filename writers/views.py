@@ -69,7 +69,7 @@ def my_worry(request):
 
 """
     [내 답변 리스트 함수]
-    - 기능 : 본인이 작성한 답변들을 볼 수 있음.
+    - 기능 : 본인이 작성한 답변들을 볼 수 있음
     - 가져오는 정보 : Answer
     - return : demo_my_answer_list.html 화면 표시
     * 유의사항 : 정렬은 최신순으로 *
@@ -292,4 +292,4 @@ def get_point_logs(request):
         "worry_yang_level": profile.worry_yang,
     }
 
-    return render(request, "writers/demo_point_logs.html", context)
+    return render(request, "writers/point_logs.html", context)

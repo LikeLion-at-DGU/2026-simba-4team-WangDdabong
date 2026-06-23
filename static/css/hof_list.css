@@ -1,6 +1,8 @@
 @font-face {
     font-family: 'Chunko Bold Demo';
     src: url('../fonts/ChunkoBoldDemo.ttf');
+    font-weight: 900;
+    font-style: normal;
 }
 
 * {
@@ -9,211 +11,321 @@
     padding: 0;
 }
 
+.top-info {
+    position: absolute;
+    top: 81px;
+    right: 12px;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    z-index: 20;
+}
+
+.top-info-box {
+    width: 50px;
+    height: 20px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+
+    background: #D5C9BB;
+    border-radius: 8px;
+
+    color: #000000;
+    font-family: Pretendard, sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 100%;
+
+    white-space: nowrap;
+}
+
+.top-question-icon {
+    display: block;
+    width: 17px;
+    height: 17px;
+    flex-shrink: 0;
+}
+
+.point-icon {
+    display: block;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.top-info-count {
+    color: #000000;
+    font-family: Pretendard, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 100%;
+}
+
 .hof-container {
     width: 100%;
-    padding: 16px 16px 12px 16px;
+    height: calc(874px - 70px - 85px);
+    padding: 18px 16px 12px;
+
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
+
     background-color: #F1EBE4;
-    flex: 1;
+    overflow: hidden;
 }
 
 .hof-title {
     width: 100%;
+    margin: 50px 0 6px;
+
     color: #2B2D54;
     text-align: center;
-    font-family: "Chunko Bold Demo";
+    font-family: "Chunko Bold Demo", Pretendard, sans-serif;
     font-size: 30px;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 900;
     line-height: 120%;
-    /* 36px */
-    margin-top: 10px;
 }
 
 .hof-list {
-    width: 100%;
+    width: 370px;
+
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 10px;
+
+    flex-shrink: 0;
 }
 
 .hof-card {
     width: 100%;
-    height: 80px;
-    background: #D5C9BB;
+    height: 72px;
+
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 0 15px;
-    gap: 10px;
+
+    padding: 0 12px 0 16px;
+    gap: 8px;
+
+    background: #D5C9BB;
+    border-radius: 20px;
     text-decoration: none;
     position: relative;
-    border-radius: 20px;
+
+    flex-shrink: 0;
 }
 
 .hof-info {
     flex: 1;
+    min-width: 0;
+
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 2px;
+
     text-decoration: none;
 }
 
 .hof-worry-title {
-    font-family: Pretendard;
-    font-size: 16px;
-    font-weight: 400;
     color: #000;
+    font-family: Pretendard, sans-serif;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
     line-height: 150%;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .hof-worry-preview {
-    font-family: Pretendard;
-    font-size: 12px;
-    font-weight: 400;
     color: #868484;
+    font-family: Pretendard, sans-serif;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 400;
     line-height: 150%;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .hof-worry-time {
-    font-family: Pretendard;
-    font-size: 10px;
-    font-weight: 400;
-    color: #868484;
     position: absolute;
-    bottom: 7px;
     right: 170px;
+    bottom: 7px;
+
+    color: #868484;
+    font-family: Pretendard, sans-serif;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+}
+
+.bookmark-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
 }
 
 .bookmark-btn {
-    width: 12px;
+    width: 14px;
     height: 18px;
-    fill: #FFF;
-    flex-shrink: 0;
-    padding-bottom: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     background: none;
     border: none;
-    margin-top: 25px;
-    margin-right: 5px;
+    padding: 0;
+    margin-top: 20px;
+    margin-right: 4px;
+
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.bookmark-btn svg {
+    width: 12px;
+    height: 16px;
 }
 
 .hof-icons {
     width: 141px;
     height: 52px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+
     background: #FFF;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-    flex-shrink: 0;
+    border-radius: 10px;
     padding: 0 8px;
-    border-radius: 10px
-}
 
-.icon-btn {
-    background: none;
-    border: none;
-    padding: 0;
-    display: flex;
-}
-
-.icon {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 0;
-    position: relative;
-}
-
-.icon-count {
-    font-family: Pretendard;
-    font-size: 10px;
-    font-weight: 600;
-    color: #000;
-    margin-left: 6px;
-}
-
-.cheerup {
-    position: relative;
-    width: 32px;
-    height: 38px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: visible;
-    margin-left: 6px;
-    transform: rotate(-3.4deg);
-    top: 1px;
-}
-
-.gonggam {
-    position: relative;
-    width: 33px;
-    height: 38px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: visible;
-    margin-left: 6px;
+    flex-shrink: 0;
 }
 
 .cheerup-form,
 .answer-form {
     display: flex;
     align-items: center;
+    justify-content: center;
+}
+
+.icon-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: none;
+    border: none;
+    padding: 0;
+
+    cursor: pointer;
+}
+
+.icon {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+}
+
+.icon-count {
+    color: #000;
+    font-family: Pretendard, sans-serif;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 100%;
+}
+
+.cheerup {
+    width: 32px;
+    height: 38px;
+    object-fit: contain;
+    transform: rotate(-3.4deg);
+}
+
+.gonggam {
+    width: 33px;
+    height: 38px;
+    object-fit: contain;
+}
+
+.empty-card {
+    height: 80px;
 }
 
 .pagination {
     width: 100%;
+
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
+
     margin-top: auto;
+    margin-bottom: 10px;
 }
 
 .page-btn,
 .page-arrow {
     width: 30px;
     height: 30px;
-    aspect-ratio: 1/1;
-    background: #D5C9BB;
+
     display: flex;
     align-items: center;
     justify-content: center;
-    text-decoration: none;
-    color: #000;
-    font-family: Pretendard;
-    font-size: 14px;
-    font-weight: 500;
+
+    background: #D5C9BB;
     border-radius: 8px;
+
+    color: #000;
+    font-family: Pretendard, sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 100%;
+    text-decoration: none;
 }
 
 .page-btn.active {
     background: #9F907E;
     color: #000;
-    border-radius: 8px;
 }
 
 .hof-go-btn {
-    display: flex;
     width: 370px;
-    padding: 12px 16px;
+    height: 52px;
+
+    display: flex;
     justify-content: center;
     align-items: center;
-    gap: 10px;
+
     border-radius: 20px;
     background: #2B2D54;
+
     color: #FFF;
-    font-family: Pretendard;
+    font-family: Pretendard, sans-serif;
     font-size: 16px;
     font-style: normal;
     font-weight: 500;
     line-height: 150%;
-    /* 24px */
     text-decoration: none;
+
+    flex-shrink: 0;
 }
