@@ -57,6 +57,9 @@ def home(request, source="DONT_CARE"):
         "today_message": today_message,
         "show_epilogue_popup": show_epilogue_popup,
         "show_attendance_popup": show_attendance_popup,
+        "today_weekday": today.weekday(),
+        "attendance_weekdays": weekly_attendance_weekdays
+
     }
 
     return render(request, 'main/home.html', context)
