@@ -1,0 +1,219 @@
+@font-face {
+    font-family: 'Chunko Bold Demo';
+    src: url('../fonts/ChunkoBoldDemo.ttf');
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.hof-container {
+    width: 100%;
+    padding: 16px 16px 12px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    background-color: #F1EBE4;
+    flex: 1;
+}
+
+.hof-title {
+    width: 100%;
+    color: #2B2D54;
+    text-align: center;
+    font-family: "Chunko Bold Demo";
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%;
+    /* 36px */
+    margin-top: 10px;
+}
+
+.hof-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.hof-card {
+    width: 100%;
+    height: 80px;
+    background: #D5C9BB;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 15px;
+    gap: 10px;
+    text-decoration: none;
+    position: relative;
+    border-radius: 20px;
+}
+
+.hof-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    text-decoration: none;
+}
+
+.hof-worry-title {
+    font-family: Pretendard;
+    font-size: 16px;
+    font-weight: 400;
+    color: #000;
+    line-height: 150%;
+}
+
+.hof-worry-preview {
+    font-family: Pretendard;
+    font-size: 12px;
+    font-weight: 400;
+    color: #868484;
+    line-height: 150%;
+}
+
+.hof-worry-time {
+    font-family: Pretendard;
+    font-size: 10px;
+    font-weight: 400;
+    color: #868484;
+    position: absolute;
+    bottom: 7px;
+    right: 170px;
+}
+
+.bookmark-btn {
+    width: 12px;
+    height: 18px;
+    fill: #FFF;
+    flex-shrink: 0;
+    padding-bottom: 0;
+    background: none;
+    border: none;
+    margin-top: 25px;
+    margin-right: 5px;
+}
+
+.hof-icons {
+    width: 141px;
+    height: 52px;
+    background: #FFF;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    flex-shrink: 0;
+    padding: 0 8px;
+    border-radius: 10px
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    display: flex;
+}
+
+.icon {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0;
+    position: relative;
+}
+
+.icon-count {
+    font-family: Pretendard;
+    font-size: 10px;
+    font-weight: 600;
+    color: #000;
+    margin-left: 6px;
+}
+
+.cheerup {
+    position: relative;
+    width: 32px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+    margin-left: 6px;
+    transform: rotate(-3.4deg);
+    top: 1px;
+}
+
+.gonggam {
+    position: relative;
+    width: 33px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+    margin-left: 6px;
+}
+
+.cheerup-form,
+.answer-form {
+    display: flex;
+    align-items: center;
+}
+
+.pagination {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;
+}
+
+.page-btn,
+.page-arrow {
+    width: 30px;
+    height: 30px;
+    aspect-ratio: 1/1;
+    background: #D5C9BB;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #000;
+    font-family: Pretendard;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 8px;
+}
+
+.page-btn.active {
+    background: #9F907E;
+    color: #000;
+    border-radius: 8px;
+}
+
+.hof-go-btn {
+    display: flex;
+    width: 370px;
+    padding: 12px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 20px;
+    background: #2B2D54;
+    color: #FFF;
+    font-family: Pretendard;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 150%;
+    /* 24px */
+    text-decoration: none;
+}

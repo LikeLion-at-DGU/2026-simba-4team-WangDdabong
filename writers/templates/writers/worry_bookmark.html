@@ -1,0 +1,152 @@
+<!-- worry_bookmark.html : 북마크 페이지 ! -->
+
+<!-- 렌더링 시
+    고민 북마크 목록 출력
+    후일담 북마크 목록 출력
+-->
+
+<!-- [고민 북마크 조회]
+    고민 제목          worry.title
+    고민 내용          worry.content
+    응원 도장 수       worry.cheerup_count
+-->
+
+<!-- [후일담 북마크 조회]
+    후일담 제목        epilogue.ep_title
+    후일담 내용        epilogue.ep_content
+    응원 도장 수       epilogue.worry.cheerup_count
+    공감 도장 수       epilogue.ep_gonggam_count
+-->
+
+<!-- [고민 상세 페이지 이동]
+    고민 카드 클릭 시 이동
+
+    호출 : worries:get_worry_detail
+    전달 값 : worry.id
+-->
+
+<!-- [고민 응원 도장 등록/취소]
+    응원 도장 클릭 시 등록/취소
+
+    호출 : worries:post_cheerup
+    전달 값 : worry.id
+-->
+
+<!-- [후일담 상세 페이지 이동]
+    후일담 카드 클릭 시 이동
+
+    호출 : writers:worry_story
+    전달 값 : epilogue.worry.id
+-->
+
+<!-- [후일담 북마크 등록/취소]
+    북마크 클릭 시 등록/취소
+
+    호출 : writers:ep_bookmark
+    전달 값 : epilogue.id
+-->
+
+<!-- [후일담 공감 도장 등록/취소]
+    공감 도장 클릭 시 등록/취소
+
+    호출 : writers:post_epilogue_gonggam
+    전달 값 :epilogue.id
+-->
+
+<!-- bookmark.html : 북마크 페이지 ! -->
+{% extends 'base_nav.html' %}
+{% load static %}
+{% block title %}북마크{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/bookmark.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="bookmark-container">
+    <div class="bookmark-title">MY BOOKMARK</div>
+
+    <div class="bookmark-box">
+        <div class="box-title">후일담 북마크</div>
+
+        <div class="bookmark-list">
+            {% for epilogue in epilogue_bookmarks %}
+            <div class="bookmark-card">
+                <a href="{% url 'writers:worry_story' epilogue.worry.id %}" class="bookmark-info">
+                    <div class="bookmark-card-title">{{ epilogue.ep_title }}</div>
+                    <div class="bookmark-card-preview">{{ epilogue.ep_content|truncatechars:15 }}</div>
+                    <div class="bookmark-card-time">{{ epilogue.worry.pub_date|timesince }} 전</div>
+                </a>
+
+                <div class="bookmark-icons">
+                    <form action="{% url 'worries:post_cheerup' epilogue.worry.id %}" method="post"
+                        class="bookmark-form">
+                        {% csrf_token %}
+                        <button type="submit" class="icon-btn">
+                            <div class="icon">
+                                <div class="stamp">
+                                    <img class="cheerup" src="../../static/images/cheerup.png" alt="응원도장">
+                                </div>
+                                <span class="icon-count">{{ epilogue.worry.cheerup_count }}</span>
+                            </div>
+                        </button>
+                    </form>
+
+                    <form action="{% url 'writers:post_epilogue_gonggam' epilogue.id %}" method="post"
+                        class="bookmark-form">
+                        {% csrf_token %}
+                        <button type="submit" class="icon-btn">
+                            <div class="icon">
+                                <div class="stamp">
+                                    <img class="gonggam" src="../../static/images/gonggam.png" alt="공감도장">
+                                </div>
+                                <span class="icon-count">{{ epilogue.ep_gonggam_count }}</span>
+                            </div>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="bookmark-box">
+        <div class="box-title">고민 북마크</div>
+
+        <div class="bookmark-list">
+            {% for worry in worry_bookmarks %}
+            <a href="{% url 'worries:get_worry_detail' worry.id %}" class="bookmark-card">
+                <div class="bookmark-info">
+                    <div class="bookmark-card-title">{{ worry.title }}</div>
+                    <div class="bookmark-card-preview">{{ worry.content|truncatechars:15 }}</div>
+                    <div class="bookmark-card-time">{{ worry.pub_date|timesince }} 전</div>
+                </div>
+
+                <div class="bookmark-icons">
+                    <div class="icon">
+                        <div class="stamp">
+                            <img class="cheerup" src="../../static/images/cheerup.png" alt="응원도장">
+                        </div>
+                        <span class="icon-count">{{ worry.cheerup_count }}</span>
+                    </div>
+
+                    <div class="icon">
+                        <div class="icon-bubble">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="34" viewBox="0 0 36 34"
+                                fill="none">
+                                <path
+                                    d="M14.463 0.385004C23.4018 -0.763853 31.6047 5.5479 32.7597 14.485L34.8399 30.5826L18.613 32.6682C9.69835 33.8139 1.53764 27.5164 0.385698 18.6026C-0.766127 9.68906 5.54784 1.53083 14.463 0.385004Z"
+                                    stroke="#3A3A3A" stroke-width="0.5" />
+                            </svg>
+                            <span class="bubble-text">A</span>
+                        </div>
+                        <span class="icon-count">{{ worry.answer_count }}</span>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+
+</main>
+{% endblock %}
