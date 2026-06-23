@@ -201,6 +201,9 @@ def post_buy_yang(request, yang_id):
     profile = get_object_or_404(Profile, writer=request.user)
 
     yang = Yang.get(yang_id)
+    if yang is None:
+        return redirect("main:get_store")
+
     source = yang["name"] + "구매"
     success = edit_points(profile, source, -yang["price"])
     

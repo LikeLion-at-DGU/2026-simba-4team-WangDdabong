@@ -23,7 +23,8 @@ def mypage(request):
         return redirect("accounts:login")   # 비로그인 시, 로그인 페이지로 넘어감
 
     profile = get_object_or_404(Profile, writer=request.user)
-    yang_img = Yang[profile.current_yang]["image"]
+    yang = Yang.get(profile.current_yang, Yang["new_yang"])
+    yang_img = yang["image"]
 
     context = {
         'profile_writer' : request.user,
@@ -215,7 +216,7 @@ def post_epilogue_gonggam(request, epilogue_id):
 
     if request.user in epilogue.ep_gonggam.all():   # 공감버튼이 이미 눌려있는 경우 -> 취소
         epilogue.ep_gonggam.remove(request.user)
-        epilogue.ep_gonggam_count -= 1
+        epilogue.ep_gonggam_count = max(0, epilogue.ep_gonggam_count - 1)
 
     else:                                           # 공감버튼 안 눌려있는 경우 -> 눌림
         epilogue.ep_gonggam.add(request.user)
@@ -239,6 +240,9 @@ def post_epilogue_gonggam(request, epilogue_id):
 
 def worry_story(request, worry_id, source):
     worry = get_object_or_404(Worry, pk=worry_id)
+
+    if not request.user.is_authenticated and not worry.is_HoF:
+        return redirect("accounts:login")
 
     if request.user == worry.writer:    # 답변 안읽음 표시 지움
         worry.hit = 1
@@ -303,7 +307,7 @@ def get_point_logs(request):
     )
     profile = get_object_or_404(Profile, writer=request.user)
     
-    yang = Yang[profile.current_yang]
+    yang = Yang.get(profile.current_yang, Yang["new_yang"])
     yang_name = yang["name"]
     yang_img = yang["image"]
     

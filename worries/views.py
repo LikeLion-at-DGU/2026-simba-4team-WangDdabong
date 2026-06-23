@@ -45,6 +45,9 @@ def post_worry(request):
 - return: 모든 Worry 객체
 """
 def get_worries(request):
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
     profile = get_object_or_404(Profile, writer=request.user)
     worry_count = profile.worry_count
     points = profile.points
@@ -127,6 +130,9 @@ def get_worries(request):
 - return: 모든 Worry 객체
 """
 def postbox(request):
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
     profile = get_object_or_404(Profile, writer=request.user)
     worry_count = profile.worry_count
     points = profile.points
@@ -242,7 +248,7 @@ def post_cheerup(request, worry_id):
 
     if request.user in worry.cheerup.all():
         worry.cheerup.remove(request.user)
-        worry.cheerup_count -= 1
+        worry.cheerup_count = max(0, worry.cheerup_count - 1)
         
     else:
         worry.cheerup.add(request.user)
@@ -391,6 +397,9 @@ def hall_of_fame_card(request, epilogue_id):
         ).order_by('-ep_gonggam_count')
     )
 
+    if epilogue not in all_epilogues:
+        return redirect("worries:hall_of_fame")
+
     current_index = all_epilogues.index(epilogue)
 
     is_main = (current_index == 0)
@@ -430,15 +439,20 @@ def edit_satisfaction(request, answer_id, is_satisfied):
     
     answer = get_object_or_404(Answer, pk=answer_id)
 
+    if request.method != "POST":
+        return redirect("writers:get_worry_answer", answer.worry.id)
+
     # 고민 작성자만 답변에 만족/불만족 가능
     if answer.worry.writer != request.user:
-        return
+        return redirect("main:home")
 
     # 답변 만족/불만족 처리
     if (is_satisfied > 0): # 만족
+        was_satisfied = (answer.is_satisfied == 1)
         answer.is_satisfied = 1
-        answerer = get_object_or_404(Profile, writer=answer.writer)
-        edit_points(answerer, "답변 만족", 1)  # 답변 만족 시 답변자에게 포인트 지급
+        if not was_satisfied and answer.writer is not None:
+            answerer = get_object_or_404(Profile, writer=answer.writer)
+            edit_points(answerer, "답변 만족", 1)  # 답변 만족 시 답변자에게 포인트 지급
     else: # 불만족
         answer.is_satisfied = -1
 
