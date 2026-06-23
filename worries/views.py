@@ -255,6 +255,10 @@ def post_cheerup(request, worry_id):
         worry.cheerup_count += 1
 
     worry.save()
+
+    next_url = request.POST.get("next")
+    if next_url:
+        return redirect(next_url)
     
     return redirect("worries:get_worries")
 

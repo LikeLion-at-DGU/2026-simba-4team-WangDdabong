@@ -145,7 +145,7 @@ def post_epilogue(request, worry_id):
 
     old_epilogue = Epilogue.objects.filter(worry=worry).first()
     if old_epilogue is not None:
-        return redirect("main:home_from_post_epilogue", epilogue_id=old_epilogue.id)
+        return redirect("main:go_epilogue", epilogue_id=old_epilogue.id)
 
     if request.method != "POST":
         context = {
@@ -181,6 +181,8 @@ def post_epilogue(request, worry_id):
     for answer in selected_answers:
         if answer.writer is not None:
             new_epilogue.visible_users.add(answer.writer)
+
+    request.session["show_epilogue_popup_id"] = new_epilogue.id
 
     return redirect("main:home_from_post_epilogue", epilogue_id=new_epilogue.id)
 
