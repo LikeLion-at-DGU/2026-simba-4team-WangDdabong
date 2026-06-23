@@ -72,7 +72,14 @@ def daily_attend(request):
     if profile.last_attendance == today:
         return redirect("main:home")
 
-    current_week_start = today - timedelta(days=today.weekday()) # 이번 주 월요일 날짜
+    # GET 요청에서는 출석 처리하지 않고 출석 페이지를 보여줌
+    if request.method == "GET":
+        return render(request, "main/daily_attend.html")
+
+    # POST 요청일 때만 실제 출석 처리
+    if request.method == "POST":
+        current_week_start = today - timedelta(days=today.weekday())  # 이번 주 월요일 날짜
+
     if profile.last_attendance:
         last_attendance_week_start = profile.last_attendance - timedelta(days=profile.last_attendance.weekday()) # 마지막 출석 주차 월요일 날짜
 

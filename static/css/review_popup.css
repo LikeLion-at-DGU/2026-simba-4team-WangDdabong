@@ -14,12 +14,13 @@
     background: transparent;
 }
 
-.review-popup.active,
-.attendance-popup.active {
+.review-popup.show,
+.attendance-popup.show {
     display: flex;
     justify-content: center;
     align-items: flex-start;
 }
+
 
 /* X 버튼 공통 */
 .popup-close {
@@ -349,4 +350,15 @@
 .attendance-close-btn:hover,
 .attendance-label:hover {
     background: #53546B;
+}
+
+/* 이미 완료된 출석 흐리게 */
+.attendance-item.completed .attendance-face,
+.attendance-item.completed .bonus-faces,
+.attendance-item.completed .attendance-label {
+    opacity: 0.35;
+}
+
+.attendance-label {
+    cursor: pointer;
 }
