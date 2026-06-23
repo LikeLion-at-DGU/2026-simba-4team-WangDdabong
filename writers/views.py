@@ -72,6 +72,7 @@ def my_worry(request):
     - 기능 : 본인이 작성한 답변들을 볼 수 있음
     - 가져오는 정보 : Answer
     - return : demo_my_answer_list.html 화면 표시
+    * 유의사항 : 정렬은 최신순으로 *
 """
 
 def my_answer_list(request):
@@ -79,7 +80,7 @@ def my_answer_list(request):
     if not request.user.is_authenticated:
         return redirect("accounts:login")   # 비로그인 시, 로그인 페이지로 넘어감
     
-    my_answers_list = Answer.objects.filter(writer = request.user)
+    my_answers_list = Answer.objects.filter(writer = request.user).order_by("-pub_date")  # 내 답변 최신순으로 정렬
 
     context = {
         'my_answers_list' : my_answers_list,
@@ -127,7 +128,7 @@ def worry_bookmark(request):
 def post_epilogue(request, worry_id):
     if not request.user.is_authenticated:
         return redirect("accounts:login")
-    
+
     worry = get_object_or_404(Worry, pk=worry_id)
 
     # 현재 사용자 == 고민 작성자인지 검증
@@ -137,7 +138,7 @@ def post_epilogue(request, worry_id):
     # 배송 완료된 고민만 후일담 작성 가능
     if not worry.is_complete:
         return redirect("writers:get_worry_answer", worry.id)
-    
+
     worry.is_HoF = (request.POST["is_HoF"] == "True")   # 공개 여부 설정 (공개 O=True, 공개 X=False)
     worry.save()
 
@@ -162,7 +163,7 @@ def post_epilogue(request, worry_id):
         if answer.writer is not None:
             new_epilogue.visible_users.add(answer.writer)
 
-    return redirect("main:home", source="post_epilogue")
+    return redirect("main:home_from_post_epilogue", epilogue_id=new_epilogue.id)
 
 """
     [후일담 북마크 등록/취소 함수]
