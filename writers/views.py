@@ -59,17 +59,20 @@ def my_worry(request):
 
     delivery_worries = Worry.objects.filter(    # 고민 배송 중
         writer = request.user,
-        is_complete = False
+        is_complete = False,
+        is_delete = False
     )
     public_worries = Worry.objects.filter(      # 공개 O
         writer = request.user, 
         is_complete = True, 
-        is_HoF=True
+        is_HoF=True,
+        is_delete = False
     )
     private_worries = Worry.objects.filter(     # 공개 X
         writer = request.user,
         is_complete = True,
-        is_HoF = False
+        is_HoF = False,
+        is_delete = False
     )
 
     context = {
@@ -80,6 +83,94 @@ def my_worry(request):
     }
 
     return render(request, 'writers/my_worry.html', context)
+
+"""
+    [내 고민 상세 분기 함수]
+    - 기능 : 고민 완료 여부에 따라 배송 중/배송 완료 상세 화면으로 이동
+    - 받는 값 : worry_id
+    - return : 배송 중 또는 배송 완료 상세 화면으로 리다이렉트
+"""
+def my_worry_detail(request, worry_id):
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
+    worry = get_object_or_404(Worry, pk=worry_id, writer=request.user, is_delete=False)
+
+    if worry.is_complete:
+        return redirect("writers:worry_completed", worry_id=worry.id)
+
+    return redirect("writers:worry_ing", worry_id=worry.id)
+
+"""
+    [배송 중 고민 상세 함수]
+    - 기능 : 아직 완료되지 않은 고민과 도착한 답변을 조회
+    - 받는 값 : worry_id
+    - return : worry_ing.html 화면 표시
+"""
+def worry_ing(request, worry_id):
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
+    worry = get_object_or_404(Worry, pk=worry_id, writer=request.user, is_delete=False)
+
+    if worry.is_complete:
+        return redirect("writers:worry_completed", worry_id=worry.id)
+
+    answers = Answer.objects.filter(worry=worry).select_related("writer")
+
+    context = {
+        "worry": worry,
+        "answers": answers,
+        "has_answers": answers.exists(),
+    }
+
+    return render(request, "writers/worry_ing.html", context)
+
+"""
+    [배송 완료 고민 상세 함수]
+    - 기능 : 완료된 고민과 답변, 후일담을 공개/비공개/후일담 유무에 따라 조회
+    - 받는 값 : worry_id
+    - return : worry_complete.html 화면 표시
+"""
+def worry_completed(request, worry_id):
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
+    worry = get_object_or_404(Worry, pk=worry_id, writer=request.user, is_delete=False)
+
+    if not worry.is_complete:
+        return redirect("writers:worry_ing", worry_id=worry.id)
+
+    answers = Answer.objects.filter(worry=worry).select_related("writer")
+    epilogue = Epilogue.objects.filter(worry=worry, ep_is_delete=False).first()
+
+    context = {
+        "worry": worry,
+        "answers": answers,
+        "epilogue": epilogue,
+        "is_public_epilogue": worry.is_HoF,
+        "has_epilogue": epilogue is not None,
+    }
+
+    return render(request, "writers/worry_complete.html", context)
+
+"""
+    [내 고민 삭제 함수]
+    - 기능 : 내 고민을 삭제 상태로 변경
+    - 받는 값 : worry_id
+    - return : 내 고민 목록으로 리다이렉트
+"""
+def delete_worry(request, worry_id):
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
+    worry = get_object_or_404(Worry, pk=worry_id, writer=request.user, is_delete=False)
+
+    if request.method == "POST":
+        worry.is_delete = True
+        worry.save()
+
+    return redirect("writers:my_worry")
 
 
 """

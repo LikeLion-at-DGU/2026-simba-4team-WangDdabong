@@ -34,7 +34,6 @@
                 </div>
             </div>
 
-            {% if answers %}
             {% for answer in answers %}
             <div class="section">
                 <div class="section-header">
@@ -75,10 +74,22 @@
                     <textarea class="textarea-box" readonly>{{ answer.content }}</textarea>
                 </div>
             </div>
-            {% endfor %}
-            {% endif %}
+            {% empty %}
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-label">고민 답변</div>
+                </div>
 
-            <a href="#" class="delete-btn"> 고민 삭제하기 </a>
+                <div class="card">
+                    <textarea class="textarea-box" readonly>아직 도착한 답변이 없어요.</textarea>
+                </div>
+            </div>
+            {% endfor %}
+
+            <form method="post" action="{% url 'writers:delete_worry' worry.id %}" class="delete-form">
+                {% csrf_token %}
+                <button type="submit" class="delete-btn">고민 삭제하기</button>
+            </form>
         </div>
     </div>
 
