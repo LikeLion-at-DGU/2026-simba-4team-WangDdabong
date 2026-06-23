@@ -80,6 +80,7 @@ def get_worries(request):
             "time_ago": get_time_ago(worry.pub_date),
             "cheerup_count": worry.cheerup_count,
             "answer_count": Answer.objects.filter(worry=worry).count(),
+            "is_bookmarked": request.user in worry.later_answer.all(),
         })
 
     # 하단에 출력할 페이지 번호 리스트
@@ -170,9 +171,19 @@ def get_worry_detail(request, worry_id):
     if not request.user.is_authenticated:
         return redirect("accounts:login")
 
+    profile = get_object_or_404(Profile, writer=request.user)
     worry = get_object_or_404(Worry, pk=worry_id)
 
-    return render(request, "worries/worry_detail.html", {"worry": worry})
+    is_bookmarked = request.user in worry.later_answer.all()
+
+    context = {
+        "worry": worry,
+        "worry_count": profile.worry_count,
+        "points": profile.points,
+        "is_bookmarked": is_bookmarked,
+    }
+
+    return render(request, "worries/worry_detail.html", context)
 
 """
 [고민 답변 작성]
