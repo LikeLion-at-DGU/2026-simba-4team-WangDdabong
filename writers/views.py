@@ -35,7 +35,7 @@ def mypage(request):
     [내 고민 함수]
     - 기능 : 본인이 작성한 고민들 고민배송중/공개O/공개X 로 나누어서 볼 수 있음
     - 가져오는 정보 : Worry
-    - return : demo_my_worry.html 화면 표시
+    - return : my_worry.html 화면 표시
 """
 
 def my_worry(request):
@@ -69,7 +69,7 @@ def my_worry(request):
 
 """
     [내 답변 리스트 함수]
-    - 기능 : 본인이 작성한 답변들을 볼 수 있음
+    - 기능 : 본인이 작성한 답변들을 볼 수 있음.
     - 가져오는 정보 : Answer
     - return : demo_my_answer_list.html 화면 표시
 """
@@ -215,7 +215,7 @@ def post_epilogue_gonggam(request, epilogue_id):
     [고민-답변-후일담 함수]
     - 기능 : 하나의 고민에 대한 답변, 후일담 전체 보기 가능
     - 가져오는 정보 : Worry, Answer, Epilogue
-    - return : worry_story.html 화면 표시
+    - return : demo_worry_story.html 화면 표시
     
     * 유의사항*
     - 공개 O : 모든 사용자 조회 가능
