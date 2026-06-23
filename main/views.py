@@ -148,11 +148,40 @@ def get_store(request):
         return redirect("accounts:login")
 
     profile = get_object_or_404(Profile, writer=request.user)
-    
+
+    if request.method == "POST":
+        source = "고민 구매"
+        success = edit_points(profile, source, -5)  # 고민 구매 시 포인트 차감
+        
+        if success:
+            profile.worry_count += 1
+            profile.save()
+            
+        return redirect("main:get_store")
+
+    yang_items = []
+
+    for yang_id in Yang:
+        yang = Yang[yang_id]
+
+        is_owned = UserYang.objects.filter(
+            writer=request.user,
+            yang_id=yang_id
+        ).exists()
+
+        yang_items.append({
+            "id": yang_id,
+            "name": yang["name"],
+            "price": yang["price"],
+            "image": yang["image"],
+            "description": yang["description"],
+            "is_owned": is_owned,
+        })
+
     context = {
         "worry_count": profile.worry_count,
         "points": profile.points,
-        "yangs": Yang,
+        "yangs": yang_items,
     }
 
     return render(request, "main/demo_yang_store.html", context)
@@ -173,14 +202,17 @@ def post_buy_yang(request, yang_id):
 
     yang = Yang.get(yang_id)
     source = yang["name"] + "구매"
-    edit_points(profile, source, -yang["price"])
+    success = edit_points(profile, source, -yang["price"])
     
+    if not success:
+        return redirect("main:get_store")
+
     user_yang = UserYang()
     user_yang.writer = profile.writer
     user_yang.yang_id = yang_id
     user_yang.save()
 
-    return redirect("writers:get_store")
+    return redirect("writers:mypage")
 
 """
     [후일담 팝업 처리]
