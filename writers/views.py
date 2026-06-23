@@ -162,7 +162,7 @@ def post_epilogue(request, worry_id):
         if answer.writer is not None:
             new_epilogue.visible_users.add(answer.writer)
 
-    return redirect("main:demo_home", source="post_epilogue")
+    return redirect("main:home", source="post_epilogue")
 
 """
     [후일담 북마크 등록/취소 함수]
