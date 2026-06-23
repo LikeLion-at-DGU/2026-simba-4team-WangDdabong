@@ -30,7 +30,7 @@ class Worry(models.Model):
 
 class Answer(models.Model):
     worry = models.ForeignKey(Worry, on_delete=models.CASCADE)                  # 관련된 고민
-    writer = models.ForeignKey(User, on_delete=models.SET_DEFAULT, default=0)   # 답변 작성자. 답변 삭제되어도 답변은 유지(0=탈퇴한 사용자)
+    writer = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)   # 답변 작성자. 답변 삭제되어도 답변은 유지(NULL=탈퇴한 사용자)
     situation = models.TextField()                                              # 내가 인식한 상황
     my_action = models.TextField()                                              # 나라면 어떻게?
     recommendation = models.TextField()                                         # 당장 추천할 행동
