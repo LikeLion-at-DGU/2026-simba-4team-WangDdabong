@@ -85,7 +85,7 @@ def my_answer_list(request):
         'my_answers_list' : my_answers_list,
     }
 
-    return render(request, 'writers/demo_my_answer_list.html', context)
+    return render(request, 'writers/my_answer_list.html', context)
 
 
 """

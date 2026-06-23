@@ -9,7 +9,8 @@
 .reply-section {
     width: 100%;
     height: calc(874px - 70px - 85px);
-    padding: 32px 16px 12px;
+    padding: 50px 16px 10px;
+    box-sizing: border-box;
 
     display: flex;
     flex-direction: column;
@@ -21,7 +22,7 @@
 }
 
 .reply-page-title {
-    margin: 0 0 16px;
+    margin: 0 0 4px;
 
     color: #2B2D54;
     text-align: center;
@@ -37,7 +38,7 @@
 
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 18px;
 
     flex: 1;
     min-height: 0;
@@ -70,11 +71,15 @@
 
     border-radius: 20px;
     padding: 14px 16px;
+
+    resize: none;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 /* 안내 문구 */
 .reply-guide {
-    margin: 0 0 2px;
+    margin: 3px 0 0;
 
     color: #000;
     font-family: Pretendard, sans-serif;
@@ -83,9 +88,20 @@
     line-height: 150%;
 }
 
+.reply-template-guide {
+    margin: 3px 0 0;
+
+    color: #000;
+    font-family: Pretendard, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 150%;
+}
+
+
 /* 고민 내용 미리보기 박스 */
 .worry-preview {
-    height: 82px;
+    height: 80px;
     padding: 16px 20px;
     resize: none;
     overflow-y: auto;
@@ -105,7 +121,7 @@
 
 /* 답변 작성 박스 */
 .reply-content {
-    height: 96px;
+    height: 94px;
 
     background: #D5C9BB;
     resize: none;
@@ -115,9 +131,8 @@
     -ms-overflow-style: none;
 }
 
-/* 마지막 추천 칸만 조금 크게 */
-.reply-small-content#recommendation {
-    height: 120px;
+#recommendation {
+    height: 108px;
 }
 
 /* Chrome, Edge, Safari 스크롤바 숨김 */
@@ -135,7 +150,7 @@
 .reply-content::placeholder {
     color: #868484;
     font-family: Pretendard, sans-serif;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 400;
     line-height: 150%;
     font-style: normal;
@@ -145,6 +160,19 @@
 .worry-preview:focus,
 .reply-content:focus {
     outline: none;
+}
+
+.reply-warning {
+    width: 370px;
+    margin: 3px 0;
+
+    color: #868484;
+    font-family: Pretendard, sans-serif;
+    font-size: 8px;
+    font-weight: 400;
+    line-height: 150%;
+    transform: translateY(12px);
+    text-align: center;
 }
 
 /* 등록 버튼 */
@@ -170,8 +198,6 @@
     font-style: normal;
     font-weight: 600;
     line-height: 150%;
-
-    margin-top: 8px;
     cursor: pointer;
 }
 
@@ -186,4 +212,55 @@
     text-decoration: none;
     color: #FFF;
     outline: none;
+}
+
+/* 입력 누락 팝업 */
+.worry-alert-popup {
+    position: absolute;
+    left: 50%;
+    top: 360px;
+
+    width: 370px;
+    transform: translateX(-50%);
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 200;
+}
+
+.worry-alert-popup.show {
+    display: flex;
+}
+
+.worry-alert-box {
+    width: 370px;
+    min-height: 40px;
+    padding: 10px 16px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+
+    background: #FFFFFF;
+    border-radius: 20px;
+}
+
+.worry-alert-icon {
+    width: 35px;
+    height: 35px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.worry-alert-text {
+    margin: 0;
+
+    color: #AE4959;
+    font-family: Pretendard, sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 150%;
 }
