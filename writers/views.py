@@ -291,4 +291,4 @@ def get_point_logs(request):
         "worry_yang_level": profile.worry_yang,
     }
 
-    return render(request, "writers/demo_point_logs.html", context)
+    return render(request, "writers/point_logs.html", context)

@@ -13,4 +13,5 @@ urlpatterns = [
     path('post_epilogue_gonggam/<int:epilogue_id>', post_epilogue_gonggam, name='post_epilogue_gonggam'),
     path('worry_story/<int:worry_id>', worry_story, name='worry_story'),
     path('get_worry_answer/<int:worry_id>', get_worry_answer, name='get_worry_answer'),
+    path('point_logs/', get_point_logs, name='point_logs'),
 ]
