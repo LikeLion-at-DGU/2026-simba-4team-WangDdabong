@@ -75,11 +75,12 @@ def post_cheerup(request, worry_id):
     if request.user in worry.cheerup.all():
         worry.cheerup.remove(request.user)
         worry.cheerup_count -= 1
-        worry.save()
+        
     else:
         worry.cheerup.add(request.user)
         worry.cheerup_count += 1
-        worry.save()
+
+    worry.save()
     
     return redirect("worries:get_worries")
 

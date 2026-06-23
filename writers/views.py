@@ -35,7 +35,7 @@ def mypage(request):
     [내 고민 함수]
     - 기능 : 본인이 작성한 고민들 고민배송중/공개O/공개X 로 나누어서 볼 수 있음
     - 가져오는 정보 : Worry
-    - return : demo_my_worry.html 화면 표시
+    - return : my_worry.html 화면 표시
 """
 
 def my_worry(request):
@@ -112,7 +112,6 @@ def worry_bookmark(request):
     }
 
     return render(request, 'writers/demo_worry_bookmark.html', context)
-
 
 """
     [후일담 작성]
@@ -232,7 +231,7 @@ def worry_story(request, worry_id):
         is_answerer = Answer.objects.filter(worry=worry, writer=request.user).exists()
 
         if not is_writer and not is_answerer:
-            return redirect("main:demo_home")
+            return redirect("main:home")
         
     answers = Answer.objects.filter(worry=worry)
     epilogue = Epilogue.objects.filter(worry=worry)
