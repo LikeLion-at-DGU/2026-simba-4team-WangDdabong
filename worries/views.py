@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from writers.models import Epilogue
+from accounts.models import Profile
 from .models import *
 from main.utils import get_time_ago
 
@@ -35,6 +36,10 @@ def post_worry(request):
 - return: 모든 Worry 객체
 """
 def get_worries(request):
+    profile = get_object_or_404(Profile, user=request.user)
+    worry_count = profile.worry_count
+    points = profile.points
+
     worries_per_page = 6 # 한 페이지 당 보여줄 고민 개수
     page = request.GET.get("page", "1") # 현재 페이지 번호 가져오기
 
@@ -73,6 +78,8 @@ def get_worries(request):
         worry_items.append({
             "worry": worry,
             "time_ago": get_time_ago(worry.pub_date),
+            "cheerup_count": worry.cheerup_count,
+            "answer_count": Answer.objects.filter(worry=worry).count(),
         })
 
     # 하단에 출력할 페이지 번호 리스트
@@ -84,6 +91,9 @@ def get_worries(request):
         number += 1
         
     context = {
+        "worry_count": worry_count,
+        "points": points,
+
         "worries": worry_items,
 
         "page": page,
