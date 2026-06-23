@@ -118,7 +118,7 @@
                          </form>
 
                          <!-- 불만족 -->
-                         <form method="post" action="{% url 'worries:edit_satisfaction' ans.id -1 %}" class="reaction-form">
+                         <form method="post" action="{% url 'worries:edit_satisfaction' ans.id 0 %}" class="reaction-form">
                               {% csrf_token %}
 
                               <button type="submit"
