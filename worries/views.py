@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from writers.models import Epilogue
 from .models import *
-from django.http import JsonResponse
+from main.utils import get_time_ago
 
 """
 [고민 작성]
@@ -35,9 +35,69 @@ def post_worry(request):
 - return: 모든 Worry 객체
 """
 def get_worries(request):
-    worries = Worry.objects.all()
+    worries_per_page = 6 # 한 페이지 당 보여줄 고민 개수
+    page = request.GET.get("page", "1") # 현재 페이지 번호 가져오기
 
-    return render(request, "worries/list.html", {"worries": worries})
+    if page.isdigit():
+        page = int(page)
+    else:
+        page = 1
+
+    if page < 1:
+        page = 1
+
+    # 고민 리스트 조회
+    worries = Worry.objects.filter(
+        is_delete=False
+    ).order_by("-pub_date")
+
+    # 전체 고민 개수
+    total_count = worries.count()
+
+    # 전체 페이지 수 계산
+    if total_count == 0:
+        total_page = 1
+    else:
+        total_page = (total_count + worries_per_page - 1) // worries_per_page
+
+    if page > total_page: # 현재 페이지가 전체 페이지보다 크면 마지막 페이지로
+        page = total_page
+
+    # 페이지에 해당하는 고민 리스트 가져오기
+    start = (page - 1) * worries_per_page
+    end = start + worries_per_page
+    worries_in_page = worries[start:end]
+
+    worry_items = []
+    for worry in worries_in_page:   # 작성 경과 시간 함께 묶어서 제공
+        worry_items.append({
+            "worry": worry,
+            "time_ago": get_time_ago(worry.pub_date),
+        })
+
+    # 하단에 출력할 페이지 번호 리스트
+    page_numbers = []
+    number = page
+
+    while number <= page + 2 and number <= total_page:
+        page_numbers.append(number)
+        number += 1
+        
+    context = {
+        "worries": worry_items,
+
+        "page": page,
+        "total_page": total_page,
+        
+        "has_prev": page > 1,
+        "has_next": page < total_page,
+        
+        "prev_page": page - 1,
+        "next_page": page + 1,
+        "page_numbers": page_numbers,
+    }
+
+    return render(request, "worries/list.html", context)
 
 """
 [고민 북마크 등록/취소]
