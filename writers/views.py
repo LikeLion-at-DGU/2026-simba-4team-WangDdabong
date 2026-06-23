@@ -136,32 +136,54 @@ def post_epilogue(request, worry_id):
 
     # 현재 사용자 == 고민 작성자인지 검증
     if request.user != worry.writer:
-        return render(request, "writers/worry_answer.html")
+        return redirect("main:home")
 
-    # 배송 완료된 고민만 후일담 작성 가능
-    if not worry.is_complete:
-        return redirect("writers:get_worry_answer", worry.id)
+    profile = get_object_or_404(Profile, writer=request.user)
 
-    worry.is_HoF = (request.POST["is_HoF"] == "True")   # 공개 여부 설정 (공개 O=True, 공개 X=False)
+    # 1단계: worry_answer.html에서 "후일담 작성하기" 눌렀을 때
+    # 아직 ep_title, ep_content 등이 없으므로 저장하지 말고 작성 화면만 보여줌
+    if request.method == "POST" and "ep_title" not in request.POST:
+        selected_answer_ids = request.POST.getlist("answer_ids")
+
+        context = {
+            "worry": worry,
+            "selected_answer_ids": selected_answer_ids,
+            "worry_count": profile.worry_count,
+            "points": profile.points,
+        }
+
+        return render(request, "writers/post_epilogue.html", context)
+
+    # GET으로 직접 들어온 경우도 작성 화면 보여주기
+    if request.method == "GET":
+        context = {
+            "worry": worry,
+            "selected_answer_ids": [],
+            "worry_count": profile.worry_count,
+            "points": profile.points,
+        }
+
+        return render(request, "writers/post_epilogue.html", context)
+
+    # 2단계: post_epilogue.html에서 "후일담 제출하기" 눌렀을 때 실제 저장
+    worry.is_HoF = (request.POST.get("is_HoF") == "True")
+    worry.is_complete = True
     worry.save()
 
     new_epilogue = Epilogue()
-
     new_epilogue.worry = worry
     new_epilogue.writer = request.user
-    new_epilogue.ep_han_madi = request.POST["ep_han_madi"]
-    new_epilogue.ep_title = request.POST["ep_title"]
-    new_epilogue.ep_content = request.POST["ep_content"]
-
+    new_epilogue.ep_han_madi = request.POST.get("ep_han_madi", "")
+    new_epilogue.ep_title = request.POST.get("ep_title", "")
+    new_epilogue.ep_content = request.POST.get("ep_content", "")
     new_epilogue.save()
 
-    profile = get_object_or_404(Profile, writer=request.user)
-    edit_points(profile, "후일담 작성", 2)  # 후일담 작성 시 포인트 지급
+    edit_points(profile, "후일담 작성", 2)
 
-    # 선택된 답변 작성자만 추출
     selected_answers_ids = request.POST.getlist("answer_ids")
+
     selected_answers = Answer.objects.filter(
-        id__in = selected_answers_ids,
+        id__in=selected_answers_ids,
         worry=worry
     )
 
@@ -267,19 +289,24 @@ def get_worry_answer(request, worry_id):
         return redirect("accounts:login")
 
     profile = get_object_or_404(Profile, writer=request.user)
-    worry = get_object_or_404(Worry, pk=worry_id)
-    answers = Answer.objects.filter(
-        worry = worry
+
+    worry = get_object_or_404(
+        Worry,
+        id=worry_id,
+        writer=request.user,
+        is_delete=False
     )
 
+    answers = Answer.objects.filter(worry=worry).order_by("id")
+
     context = {
+        "worry": worry,
+        "answers": answers,
         "worry_count": profile.worry_count,
         "points": profile.points,
-        "worry": worry,
-        "answers": answers
     }
 
-    return render(request, "writers/demo_worry_answer.html", context)
+    return render(request, "writers/worry_answer.html", context)
 
 """
     [포인트 이용 내역 화면 렌더링]
