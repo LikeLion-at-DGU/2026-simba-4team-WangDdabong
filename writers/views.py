@@ -113,6 +113,7 @@ def worry_bookmark(request):
 
     return render(request, 'writers/demo_worry_bookmark.html', context)
 
+
 """
     [후일담 작성]
     - 기능 : 후일담 작성 및 공개 여부 설정
