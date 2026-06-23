@@ -5,6 +5,21 @@ from django.conf import settings
 from django.db import migrations, models
 
 
+def assign_existing_worries_to_fallback_user(apps, schema_editor):
+    Worry = apps.get_model("worries", "Worry")
+    app_label, model_name = settings.AUTH_USER_MODEL.split(".")
+    User = apps.get_model(app_label, model_name)
+
+    fallback_user = User.objects.order_by("pk").first()
+    if fallback_user is None:
+        fallback_user = User.objects.create(
+            username="migration_worry_writer",
+            password="!",
+        )
+
+    Worry.objects.filter(writer__isnull=True).update(writer_id=fallback_user.pk)
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -17,11 +32,22 @@ class Migration(migrations.Migration):
             model_name="worry",
             name="writer",
             field=models.ForeignKey(
-                default=0,
+                null=True,
                 on_delete=django.db.models.deletion.CASCADE,
                 to=settings.AUTH_USER_MODEL,
             ),
-            preserve_default=False,
+        ),
+        migrations.RunPython(
+            assign_existing_worries_to_fallback_user,
+            migrations.RunPython.noop,
+        ),
+        migrations.AlterField(
+            model_name="worry",
+            name="writer",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
         migrations.CreateModel(
             name="Answer",
@@ -49,8 +75,8 @@ class Migration(migrations.Migration):
                 (
                     "writer",
                     models.ForeignKey(
-                        default=0,
-                        on_delete=django.db.models.deletion.SET_DEFAULT,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
                         to=settings.AUTH_USER_MODEL,
                     ),
                 ),
