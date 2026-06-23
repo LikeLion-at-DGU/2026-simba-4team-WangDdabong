@@ -1,6 +1,8 @@
 @font-face {
-    font-family: 'Chunko Bold Demo';
+    font-family: "Chunko Bold Demo";
     src: url('../fonts/ChunkoBoldDemo.ttf');
+    font-weight: 900;
+    font-style: normal;
 }
 
 * {
@@ -9,142 +11,255 @@
     padding: 0;
 }
 
+/* 전체 화면: 고민 리스트랑 동일한 구조 */
 .my-worry-container {
+    position: relative;
     width: 100%;
-    padding: 16px 16px 100px 16px;
+    height: calc(874px - 70px - 85px);
+    padding: 44px 16px 0;
+
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
-    background-color: #F1EBE4;
-    flex: 1;
+
+    background: #F3EEE8;
+    overflow: hidden;
+}
+
+/* 오른쪽 상단 질문 / 포인트 */
+.top-info {
+    position: absolute;
+    top: 10px;
+    right: 16px;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    z-index: 20;
+}
+
+.top-info-box {
+    width: 50px;
+    height: 20px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+
+    background: #D5C9BB;
+    border-radius: 8px;
+
+    color: #000000;
+    font-family: Pretendard, sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 100%;
+    white-space: nowrap;
+}
+
+.top-question-icon {
+    display: block;
+    width: 17px;
+    height: 17px;
+    flex-shrink: 0;
+}
+
+.point-icon {
+    display: block;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.top-info-count {
+    color: #000000;
+    font-family: Pretendard, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 100%;
 }
 
 .my-worry-title {
-    width: 100%;
+    margin: 0 0 14px;
+
     color: #2B2D54;
     text-align: center;
-    font-family: "Chunko Bold Demo";
+    font-family: "Chunko Bold Demo", Pretendard, sans-serif;
     font-size: 30px;
-    font-style: normal;
-    font-weight: 400;
+    font-weight: 900;
     line-height: 120%;
-    /* 36px */
-    margin-top: 10px;
 }
 
+/* 탭 */
 .tab-bar {
-    width: 100%;
+    width: 370px;
+
     display: flex;
-    gap: 8px;
+    align-items: center;
     justify-content: flex-start;
+    gap: 8px;
+
+    margin-bottom: 12px;
 }
 
 .tab {
     height: 30px;
-    padding: 5px 10px;
+    padding: 5px 12px 4px;
+
     border-radius: 30px;
     background: #D5C9BB;
     border: none;
-    font-family: Pretendard;
+
+    color: #3A3A3A;
+    font-family: Pretendard, sans-serif;
     font-size: 14px;
     font-weight: 400;
-    color: #3a3a3a;
-    transition: all 0.2s;
-    padding-top: 4px;
+
+    cursor: pointer;
 }
 
 .tab.active {
-    background: #9f907e;
+    background: #9F907E;
     color: #000000;
 }
 
 .eye-button {
     width: 20px;
     height: 20px;
+
     background: none;
     border: none;
     padding: 0;
+    margin-left: 4px;
+
     display: flex;
     align-items: center;
-    margin-top: 4px;
-    margin-left: 6px;
+    justify-content: center;
+
+    cursor: pointer;
 }
 
 .eye-button.hidden {
     display: none;
 }
 
+/* 카드 6개 들어가는 영역 */
 .worry-list {
-    width: 100%;
+    width: 370px;
+    height: 482px;
+    min-height: 482px;
+    flex-shrink: 0;
+
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
+
+    overflow: hidden;
 }
+
 
 .worry-list.hidden {
     display: none;
 }
 
+.worry-card.hidden-card {
+    display: none;
+}
 
+/* 카드 본체 */
 .worry-card {
-    width: 100%;
-    height: 80px;
-    background: #D5C9BB;
+    width: 370px;
+    height: 72px;
+    flex-shrink: 0;
+
     display: flex;
-    flex-direction: row;
     align-items: center;
-    padding: 0 15px;
-    gap: 10px;
-    text-decoration: none;
+
+    border-radius: 20px;
     position: relative;
-    border-radius: 10px;
+    background: #D5C9BB;
+    padding: 0 14px;
+
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+.worry-card:visited,
+.worry-card:hover,
+.worry-card:active,
+.worry-card:focus {
+    text-decoration: none;
+    color: inherit;
 }
 
 .worry-info {
-    flex: 1;
+    width: 170px;
+
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 2px;
+
+    min-width: 0;
 }
 
 .worry-title {
-    font-family: Pretendard;
-    font-size: 16px;
-    font-weight: 400;
+    width: 130px;
+
     color: #000;
+    font-family: Pretendard, sans-serif;
+    font-size: 15px;
+    font-weight: 400;
     line-height: 150%;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .worry-preview {
-    font-family: Pretendard;
-    font-size: 12px;
-    font-weight: 400;
     color: #868484;
+    font-family: Pretendard, sans-serif;
+    font-size: 11px;
+    font-weight: 400;
     line-height: 150%;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .worry-time {
-    font-family: Pretendard;
-    font-size: 10px;
-    font-weight: 400;
-    color: #868484;
     position: absolute;
-    bottom: 11px;
     right: 170px;
+    bottom: 9px;
+
+    color: #868484;
+    font-family: Pretendard, sans-serif;
+    font-size: 8px;
+    font-weight: 400;
+    line-height: 150%;
+    white-space: nowrap;
 }
 
+/* 오른쪽 아이콘 박스 */
 .worry-icons {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+
     width: 141px;
     height: 52px;
-    background: #FFF;
+
     display: flex;
-    flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 20px;
-    flex-shrink: 0;
-    padding: 0 8px;
+    gap: 6px;
+
+    background: #FFFFFF;
     border-radius: 10px;
 }
 
@@ -152,68 +267,149 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 2px;
-    position: relative;
+    gap: 4px;
 }
 
 .icon-count {
-    font-family: Pretendard;
-    font-size: 10px;
-    font-weight: 600;
     color: #000;
-}
-
-.icon-bubble {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 2px;
-    justify-content: center;
-    flex-shrink: 0;
-    position: relative;
-    width: 36px;
-    height: 34px;
-}
-
-.bubble-text {
-    display: flex;
-    width: auto;
-    height: auto;
-    flex-direction: column;
-    justify-content: center;
-    color: #3A3A3A;
-    text-align: center;
-    font-family: Pretendard;
+    font-family: Pretendard, sans-serif;
     font-size: 13px;
-    font-style: normal;
-    font-weight: 900;
-    line-height: 120%;
-    /* 15.6px */
-    position: absolute;
-    top: 45%;
-    left: 47%;
-    transform: translate(-50%, -50%);
+    font-weight: 700;
+    line-height: 1;
 }
 
+/* 응원 도장 */
 .stamp {
-    position: relative;
-    width: 28px;
-    height: 28px;
+    width: 31px;
+    height: 35px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+    overflow: visible;
+}
+
+.stamp-body {
+    width: 31px;
+    height: 35px;
+
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: visible;
 }
 
 .cheerup {
+    width: 31px;
+    height: 35px;
+
+    display: block;
+    object-fit: contain;
+    transform: rotate(-4.66deg);
+}
+
+/* 말풍선 A 아이콘 */
+.icon-bubble {
     position: relative;
-    width: 32px;
-    height: 38px;
+    width: 34px;
+    height: 31px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+}
+
+.icon-bubble svg {
+    position: absolute;
+    inset: 0;
+    width: 34px;
+    height: 31px;
+}
+
+.bubble-text {
+    position: relative;
+    z-index: 1;
+
+    color: #3A3A3A;
+    font-family: Pretendard, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+/* 혹시 gonggam 이미지가 남아있으면 숨기지 않고 크기만 정리 */
+.gonggam {
+    width: 34px;
+    height: 31px;
+    object-fit: contain;
+}
+
+/* 페이지네이션 */
+.pagination {
+    flex-shrink: 0;
+
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: visible;
-    margin-left: 6px;
-    transform: rotate(-3.4deg);
-    top: 1px;
+    gap: 10px;
+
+    margin: 24px 0 10px;
+}
+
+.page-btn {
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 8px;
+    border: 2px solid transparent;
+    background: #D5C9BB;
+
+    color: #000;
+    font-family: Pretendard, sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1;
+
+    cursor: pointer;
+    padding: 0;
+}
+
+.page-btn.active {
+    background: #9F907E;
+    color: #000;
+}
+
+.page-arrow {
+    width: 12px;
+    height: 33px;
+
+    border: none;
+    background: transparent;
+
+    color: #C8C1BA;
+    font-family: Pretendard, sans-serif;
+    font-size: 36px;
+    font-weight: 300;
+    line-height: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(-5px);
+    cursor: pointer;
+}
+
+.empty-message {
+    color: #868484;
+    font-family: Pretendard, sans-serif;
+    font-size: 13px;
+    text-align: center;
+    margin-top: 40px;
 }
