@@ -4,8 +4,6 @@ from PIL import Image
 
 class Profile(models.Model):
     writer = models.OneToOneField(User, on_delete=models.CASCADE)
-    # bookmark_for_answer = models.ForeignKey('main.WorryPost',on_delete = models.SET_NULL, null = True, blank = True)
-    # epilogue = models.ForeignKey('main.Epilogue', on_delete = models.SET_NULL, null = True, blank = True)
     signup_date = models.DateTimeField(auto_now_add=True)
     name = models.CharField(max_length = 20)                      #이름
     mbti = models.CharField(max_length = 4)                       #성향
@@ -18,3 +16,10 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.writer.username
+    
+"""
+[출석기록 모델]
+"""
+class Attendance(models.Model):
+    writer = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateField()
