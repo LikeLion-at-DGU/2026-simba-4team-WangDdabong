@@ -195,7 +195,7 @@
 /* 공개 여부 눈 아이콘 영역 */
 .open-box {
     position: absolute;
-    right: 170px;
+    right: 145px;
     top: 50%;
     transform: translateY(-50%);
 
