@@ -23,14 +23,14 @@ Yang = {
     "very_yang": {
         "name": "버리양",
         "price": 20,
-        "image": "images/worryang2.png",
+        "image": "images/store_2.png",
         "description": "하루 당 +3 고민",
     },
     "worry_yang": {
         "name": "워리양",
         "price": 50,
-        "image": "images/worryang3.png",
-        "description": "하루 당 +1 고민\n새벽 배송 입장 가능",
+        "image": "images/store_3.png",
+        "description": "하루 당 +5 고민\n새벽 배송 입장 가능",
     },
 }
 
