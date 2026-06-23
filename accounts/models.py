@@ -13,9 +13,18 @@ class Profile(models.Model):
     worry_yang = models.IntegerField(default = 0)
     attendance_count = models.IntegerField(default = 0)           # 출석체크 카운트
     last_attendance = models.DateField(blank=True, null=True)     # 마지막 출석체크 날짜  
-
+    character_image = models.IntegerField(default=1)
     def __str__(self):
         return self.writer.username
+    
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+        if self.profile_image:
+            image = Image.open(self.profile_image.path)
+            max_size = (300, 300)
+            image.thumbnail(max_size)
+            image.save(self.profile_image.path)
     
 """
 [출석기록 모델]
