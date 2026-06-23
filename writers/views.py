@@ -113,7 +113,6 @@ def worry_bookmark(request):
 
     return render(request, 'writers/demo_worry_bookmark.html', context)
 
-
 """
     [후일담 작성]
     - 기능 : 후일담 작성 및 공개 여부 설정
@@ -125,21 +124,21 @@ def worry_bookmark(request):
     - 공개 O 선택 시 is_HoF = True
     - 공개 X 선택 시 is_HoF = False
 """
-
 def post_epilogue(request, worry_id):
     if not request.user.is_authenticated:
         return redirect("accounts:login")
+    
     worry = get_object_or_404(Worry, pk=worry_id)
 
     # 현재 사용자 == 고민 작성자인지 검증
     if request.user != worry.writer:
-        return render(request, "writers/demo_worry_answer.html")
+        return render(request, "writers/worry_answer.html")
 
-    # 배송 완료 고민만 후일담 작성 가능
+    # 배송 완료된 고민만 후일담 작성 가능
     if not worry.is_complete:
         return redirect("writers:get_worry_answer", worry.id)
-
-    worry.is_HoF = (request.POST["is_HoF"] == "True")
+    
+    worry.is_HoF = (request.POST["is_HoF"] == "True")   # 공개 여부 설정 (공개 O=True, 공개 X=False)
     worry.save()
 
     new_epilogue = Epilogue()
@@ -152,9 +151,18 @@ def post_epilogue(request, worry_id):
 
     new_epilogue.save()
 
-    return redirect("main:home", {"source": "post_epilogue"})
-    
+    # 선택된 답변 작성자만 추출
+    selected_answers_ids = request.POST.getlist("answer_ids")
+    selected_answers = Answer.objects.filter(
+        id__in = selected_answers_ids,
+        worry=worry
+    )
 
+    for answer in selected_answers:
+        if answer.writer is not None:
+            new_epilogue.visible_users.add(answer.writer)
+
+    return redirect("main:home", source="post_epilogue")
 
 """
     [후일담 북마크 등록/취소 함수]
@@ -184,7 +192,6 @@ def ep_bookmark(request, epilogue_id):
     - return : 성공 -> 명예의 전당 화면으로 전환
     * 유의사항 : 해당 worry story로 전환하는게 맞을까?*
 """
-
 def post_epilogue_gonggam(request, epilogue_id):
     if not request.user.is_authenticated:
         return redirect("accounts:login")
@@ -235,7 +242,7 @@ def worry_story(request, worry_id):
         'epilogue' : epilogue,
     }
 
-    return render(request, 'writers/demo_worry_story.html', context)
+    return render(request, 'writers/worry_story.html', context)
 
 """
     [고민 답변 확인 함수]
@@ -261,3 +268,26 @@ def get_worry_answer(request, worry_id):
     }
 
     return render(request, "writers/demo_worry_answer.html", context)
+
+"""
+    [포인트 이용 내역 화면 렌더링]
+    - 기능: 포인트 이용 내역 화면 렌더링
+    - 받는 값: X
+"""
+def get_point_logs(request):
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
+    point_logs = PointLog.objects.filter(
+        writer=request.user
+    )
+    profile = get_object_or_404(Profile, writer=request.user)
+
+    context = {
+        "worry_count": profile.worry_count,
+        "points": profile.points,
+        "point_logs": point_logs,
+        "worry_yang_level": profile.worry_yang,
+    }
+
+    return render(request, "writers/demo_point_logs.html", context)
