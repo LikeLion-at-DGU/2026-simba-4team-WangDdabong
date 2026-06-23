@@ -132,7 +132,7 @@ def post_epilogue(request, worry_id):
 
     # 현재 사용자 == 고민 작성자인지 검증
     if request.user != worry.writer:
-        return render(request, "writers/demo_worry_answer.html")
+        return render(request, "writers/worry_answer.html")
 
     # 배송 완료된 고민만 후일담 작성 가능
     if not worry.is_complete:
@@ -192,7 +192,6 @@ def ep_bookmark(request, epilogue_id):
     - return : 성공 -> 명예의 전당 화면으로 전환
     * 유의사항 : 해당 worry story로 전환하는게 맞을까?*
 """
-
 def post_epilogue_gonggam(request, epilogue_id):
     if not request.user.is_authenticated:
         return redirect("accounts:login")
@@ -243,7 +242,7 @@ def worry_story(request, worry_id):
         'epilogue' : epilogue,
     }
 
-    return render(request, 'writers/demo_worry_story.html', context)
+    return render(request, 'writers/worry_story.html', context)
 
 """
     [고민 답변 확인 함수]
