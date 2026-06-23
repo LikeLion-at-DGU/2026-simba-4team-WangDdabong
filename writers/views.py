@@ -68,24 +68,24 @@ def my_worry(request):
 
 
 """
-    [내 답변 함수]
+    [내 답변 리스트 함수]
     - 기능 : 본인이 작성한 답변들을 볼 수 있음
     - 가져오는 정보 : Answer
-    - return : demo_my_answer.html 화면 표시
+    - return : demo_my_answer_list.html 화면 표시
 """
 
-def my_answer(request):
+def my_answer_list(request):
 
     if not request.user.is_authenticated:
         return redirect("accounts:login")   # 비로그인 시, 로그인 페이지로 넘어감
     
-    my_answers = Answer.objects.filter(writer = request.user)
+    my_answers_list = Answer.objects.filter(writer = request.user)
 
     context = {
-        'my_answers' : my_answers,
+        'my_answers_list' : my_answers_list,
     }
 
-    return render(request, 'writers/demo_my_answer.html', context)
+    return render(request, 'writers/my_answer_list.html', context)
 
 
 """

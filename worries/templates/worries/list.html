@@ -84,7 +84,9 @@
                     <!-- 응원 도장 등록/취소 -->
                     <form method="post" action="{% url 'worries:post_cheerup' worry.id %}" class="cheer-form">
                          {% csrf_token %}
-                         <button type="button" class="stamp-btn" aria-label="응원 도장">
+                         <button type="button"
+                              class="stamp-btn {% if request.user in worry.cheerup.all %}active{% endif %}"
+                              aria-label="응원 도장">
                               <span class="stamp-icon">
                                    <img src="{% static 'images/yellowstamp.png' %}" alt="스탬프">
                               </span>
@@ -92,7 +94,7 @@
                     </form>
 
                     <span class="stamp-count">
-                         {{ worry.cheer_count }}
+                         {{ worry.cheer_count|default:0 }}
                     </span>
 
                     <span class="answer-icon">
@@ -104,7 +106,7 @@
                     </span>
 
                     <span class="answer-count">
-                         {{ worry.answer_count }}
+                         {{ worry.answer_count|default:0 }}
                     </span>
                </div>
           </article>
@@ -117,13 +119,13 @@
 
      <!-- 페이지네이션 -->
      <div class="pagination">
-          <button type="button" class="page-arrow">‹</button>
+          <button type="button" class="page-arrow prev-page">‹</button>
 
-          <button type="button" class="page-btn active">1</button>
-          <button type="button" class="page-btn">2</button>
-          <button type="button" class="page-btn">3</button>
+          <button type="button" class="page-btn active" data-page="1">1</button>
+          <button type="button" class="page-btn" data-page="2">2</button>
+          <button type="button" class="page-btn" data-page="3">3</button>
 
-          <button type="button" class="page-arrow">›</button>
+          <button type="button" class="page-arrow next-page">›</button>
      </div>
 
      <!-- 고민 작성하기 버튼 -->
@@ -164,6 +166,66 @@
                });
           });
 
+          const cards = Array.from(document.querySelectorAll(".worry-card"));
+          const pageButtons = Array.from(document.querySelectorAll(".page-btn"));
+          const prevButton = document.querySelector(".prev-page");
+          const nextButton = document.querySelector(".next-page");
+
+          const cardsPerPage = 6;
+          let currentPage = 1;
+          const totalPages = Math.ceil(cards.length / cardsPerPage);
+
+          function showPage(page) {
+               if (page < 1) {
+                    page = 1;
+               }
+
+               if (page > totalPages) {
+                    page = totalPages;
+               }
+
+               currentPage = page;
+
+               cards.forEach((card, index) => {
+                    const start = (currentPage - 1) * cardsPerPage;
+                    const end = start + cardsPerPage;
+
+                    if (index >= start && index < end) {
+                         card.classList.remove("hidden");
+                    } else {
+                         card.classList.add("hidden");
+                    }
+               });
+
+               pageButtons.forEach((button) => {
+                    const buttonPage = Number(button.dataset.page);
+
+                    button.classList.toggle("active", buttonPage === currentPage);
+
+                    if (buttonPage > totalPages) {
+                         button.style.display = "none";
+                    } else {
+                         button.style.display = "flex";
+                    }
+               });
+          }
+
+          pageButtons.forEach((button) => {
+               button.addEventListener("click", function () {
+                    showPage(Number(button.dataset.page));
+               });
+          });
+
+          prevButton.addEventListener("click", function () {
+               showPage(currentPage - 1);
+          });
+
+          nextButton.addEventListener("click", function () {
+               showPage(currentPage + 1);
+          });
+
+          showPage(1);
+
           document.querySelectorAll(".cheer-form").forEach((form) => {
                const button = form.querySelector(".stamp-btn");
                const count = form.parentElement.querySelector(".stamp-count");
@@ -187,14 +249,18 @@
                                    throw new Error("공감도장 요청 실패");
                               }
 
-                              return response.json();
-                         })
-                         .then((data) => {
-                              count.textContent = data.cheer_count;
+                              const isActive = button.classList.contains("active");
+                              let currentCount = Number(count.textContent.trim()) || 0;
 
-                              if (data.is_cheered !== undefined) {
-                                   button.classList.toggle("active", data.is_cheered);
+                              if (isActive) {
+                                   currentCount = Math.max(0, currentCount - 1);
+                                   button.classList.remove("active");
+                              } else {
+                                   currentCount += 1;
+                                   button.classList.add("active");
                               }
+
+                              count.textContent = currentCount;
                          })
                          .catch((error) => {
                               console.error(error);
