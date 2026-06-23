@@ -22,7 +22,7 @@
                          font-weight="1000" font-family="Pretendard, sans-serif">?</text>
                </svg>
 
-               <span class="top-info-count">{{ remaining_worries }}</span>
+               <span class="top-info-count">{{ worry_count|default:0 }}</span>
           </span>
 
           <span class="top-info-box">
@@ -37,7 +37,7 @@
                     <path d="M5.5 10.25C6.25 10.9583 8.125 11.95 9.625 10.25" stroke="black" stroke-width="0.5"
                          stroke-linecap="round" />
                </svg>
-               <span class="top-info-count">{{ remaining_points }}</span>
+               <span class="top-info-count">{{ points|default:0 }}</span>
           </span>
      </div>
 
@@ -69,14 +69,15 @@
                          </button>
                     </form>
 
-                    <span class="stamp-count" id="cheerCount">{{ worry.cheer_count }}</span>
+                    <span class="stamp-count" id="cheerCount">{{ worry.cheer_count|default:0 }}</span>
 
                     <!-- 북마크 등록/취소 -->
                     <form method="post" action="{% url 'worries:post_bookmark' worry.id %}" class="bookmark-form"
                          id="bookmarkForm">
                          {% csrf_token %}
-                         <button type="button" class="bookmark-btn {% if worry.is_bookmarked %}active{% endif %}"
-                              id="bookmarkBtn" aria-label="북마크">
+                         <button type="button"
+                              class="bookmark-btn {% if request.user in worry.later_answer.all %}active{% endif %}"
+                              aria-label="북마크">
                               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="31" viewBox="0 0 24 31"
                                    fill="none">
                                    <path d="M4 3C4 1.89543 4.89543 1 6 1H18C19.1046 1 20 1.89543 20 3V29L12 23L4 29V3Z"
@@ -164,6 +165,39 @@
                     });
           });
      });
+
+     document.addEventListener("DOMContentLoaded", function () {
+          document.querySelectorAll(".bookmark-form").forEach((form) => {
+               const button = form.querySelector(".bookmark-btn");
+
+               button.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                    const csrfToken = form.querySelector("[name=csrfmiddlewaretoken]").value;
+
+                    fetch(form.action, {
+                         method: "POST",
+                         headers: {
+                              "X-CSRFToken": csrfToken,
+                              "X-Requested-With": "XMLHttpRequest"
+                         },
+                         credentials: "same-origin"
+                    })
+                         .then((response) => {
+                              if (!response.ok) {
+                                   throw new Error("북마크 요청 실패");
+                              }
+
+                              button.classList.toggle("active");
+                         })
+                         .catch((error) => {
+                              console.error(error);
+                         });
+               });
+          });
+     });
 </script>
+
 
 {% endblock %}
