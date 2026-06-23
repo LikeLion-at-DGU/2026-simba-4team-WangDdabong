@@ -121,17 +121,21 @@
 </section>
 
 <script>
-    const upBtn = document.querySelector('.up-btn');
-    const downBtn = document.querySelector('.down-btn');
+    document.querySelectorAll(".reaction-icons").forEach((reactionGroup) => {
+        const upBtn = reactionGroup.querySelector(".up-btn");
+        const downBtn = reactionGroup.querySelector(".down-btn");
 
-    upBtn.addEventListener('click', function () {
-        upBtn.classList.toggle('active');
-        downBtn.classList.remove('active');
-    });
+        if (!upBtn || !downBtn) return;
 
-    downBtn.addEventListener('click', function () {
-        downBtn.classList.toggle('active');
-        upBtn.classList.remove('active');
+        upBtn.addEventListener("click", function () {
+            upBtn.classList.toggle("active");
+            downBtn.classList.remove("active");
+        });
+
+        downBtn.addEventListener("click", function () {
+            downBtn.classList.toggle("active");
+            upBtn.classList.remove("active");
+        });
     });
 </script>
 {% endblock %}

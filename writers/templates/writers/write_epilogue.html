@@ -13,11 +13,14 @@
 <section class="write-section">
         <h1 class="write-page-title">EPILOGUE</h1>
 
-        <form class="epilogue-form" method="post" action="{% url 'writer:post_epilogue' worry_id %}">
+        <form class="epilogue-form" method="post" action="{% url 'writers:post_epilogue' worry_id %}">
                 {% csrf_token %}
 
                 <!-- 백에서 worry_id를 POST로도 받을 수 있게 같이 전달 -->
                 <input type="hidden" name="worry_id" value="{{ worry_id }}">
+                {% for answer_id in selected_answer_ids %}
+                <input type="hidden" name="answer_ids" value="{{ answer_id }}">
+                {% endfor %}
 
                 <div class="textfield">
                         <textarea id="ep-han-madi" name="ep_han_madi" class="epilogue-keyword"

@@ -13,8 +13,7 @@
 <section class="page">
 
      <!-- 후일담 제출용 form -->
-     <form id="epilogue-form" method="post" action="{% url 'writers:post_epilogue' worry.id %}">
-          {% csrf_token %}
+     <form id="epilogue-form" method="get" action="{% url 'writers:post_epilogue' worry.id %}">
           <input type="hidden" name="worry_id" value="{{ worry.id }}">
      </form>
 
@@ -48,7 +47,7 @@
           </span>
      </div>
 
-     <h1 class="title">RECEIVED REPLIES</h1>
+     <h1 class="title">RECEIVED REPLY</h1>
 
      <div class="scroll-area">
           <div class="form">
@@ -61,7 +60,7 @@
                <textarea class="textarea-box detail-box" readonly>{{ worry.content }}</textarea>
 
                <!-- 답변 리스트 -->
-               {% for ans in answer %}
+               {% for ans in answers %}
                <div class="reply-header">
                     <div class="reply-card">고민 답변 {{ forloop.counter }}</div>
 
@@ -100,10 +99,8 @@
                     <div class="reaction-icons">
 
                          <!-- 만족 -->
-                         <form method="post" action="{% url 'worries:edit_satisfaction' %}" class="reaction-form">
+                         <form method="post" action="{% url 'worries:edit_satisfaction' ans.id 1 %}" class="reaction-form">
                               {% csrf_token %}
-                              <input type="hidden" name="answer_id" value="{{ ans.id }}">
-                              <input type="hidden" name="is_satisfaction" value="1">
 
                               <button type="submit"
                                    class="reaction-btn up-btn {% if ans.is_satisfied == 1 %}active{% endif %}"
@@ -121,10 +118,8 @@
                          </form>
 
                          <!-- 불만족 -->
-                         <form method="post" action="{% url 'worries:edit_satisfaction' %}" class="reaction-form">
+                         <form method="post" action="{% url 'worries:edit_satisfaction' ans.id 0 %}" class="reaction-form">
                               {% csrf_token %}
-                              <input type="hidden" name="answer_id" value="{{ ans.id }}">
-                              <input type="hidden" name="is_satisfaction" value="-1">
 
                               <button type="submit"
                                    class="reaction-btn down-btn {% if ans.is_satisfied == -1 %}active{% endif %}"
@@ -150,9 +145,9 @@
           </div>
      </div>
 
-     <button type="submit" form="epilogue-form" class="submit-btn">
+     <a href="{% url 'writers:post_epilogue' worry.id %}" class="submit-btn">
           후일담 작성하기
-     </button>
+     </a>
 
 </section>
 

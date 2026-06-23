@@ -68,8 +68,8 @@
                               stroke-linecap="round" />
                     </svg>
                </div>
-               <div class="point-now">현재 포인트: {{ profile.point }}</div>
-               <div class="point-chance">하루 당 {{ profile.daily_worry_limit }} 고민</div>
+               <div class="point-now">현재 포인트: {{ profile.points|default:0 }}</div>
+               <div class="point-chance">남은 고민: {{ profile.worry_count|default:0 }}</div>
           </div>
 
      </div>
@@ -81,7 +81,7 @@
 
           {% for log in point_logs %}
           <div class="point-history-item">
-               <span class="point-history-label">{{ log.reason }}</span>
+               <span class="point-history-label">{{ log.source }}</span>
                <span class="point-history-amount {% if log.amount > 0 %}plus{% else %}minus{% endif %}">
                     {% if log.amount > 0 %}+{% endif %}{{ log.amount }} 포인트
                </span>

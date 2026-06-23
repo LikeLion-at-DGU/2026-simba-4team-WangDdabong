@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from accounts.models import Profile, UserYang, Attendance
 from writers.models import PointLog, Epilogue
-from worries.models import Worry
+from worries.models import Worry, Answer
 from .utils import *
 from django.utils import timezone
 from datetime import timedelta
@@ -31,18 +31,38 @@ def home(request, source="DONT_CARE", epilogue_id=None):
 
     weekly_attendance_weekdays = []
     for attendance in weekly_attendance:
-        weekly_attendance_weekdays.append(attendance.date.weekday())
+        weekly_attendance_weekdays.append(attendance.date.weekday() + 1)
 
-    show_attendance_popup = today.weekday() not in weekly_attendance_weekdays # 오늘 요일이 이번 주 출석 기록에 없으면 팝업 출력
+    today_day = today.weekday() + 1
+    show_attendance_popup = today_day not in weekly_attendance_weekdays # 오늘 요일이 이번 주 출석 기록에 없으면 팝업 출력
 
     # 상단 남은 고민 개수, 남은 포인트
     worry_count = profile.worry_count
     points = profile.points
 
     # 최신 고민 5개 추출
-    now_worries = Worry.objects.filter(
+    latest_worries = Worry.objects.filter(
         is_delete = False
     ).order_by("-pub_date")[:5]
+
+    now_worries = []
+    for worry in latest_worries:
+        try:
+            writer_profile = worry.writer.profile
+        except Profile.DoesNotExist:
+            writer_profile = None
+
+        writer_yang = Yang.get(
+            writer_profile.current_yang if writer_profile else "new_yang",
+            Yang["new_yang"]
+        )
+        now_worries.append({
+            "worry": worry,
+            "yang_image": writer_yang["image"],
+            "yang_name": writer_yang["name"],
+            "cheerup_count": worry.cheerup_count,
+            "answer_count": Answer.objects.filter(worry=worry).count(),
+        })
 
     # 오늘의 멘트 선정
     today_message = random.choice(TODAY_MESSAGES)
@@ -53,7 +73,13 @@ def home(request, source="DONT_CARE", epilogue_id=None):
     epilogue_han_madi = None
     popup_epilogue_id = None
 
-    if source == "post_epilogue" and epilogue_id is not None:
+    session_epilogue_id = request.session.pop("show_epilogue_popup_id", None)
+
+    if (
+        source == "post_epilogue"
+        and epilogue_id is not None
+        and session_epilogue_id == epilogue_id
+    ):
         epilogue = get_object_or_404(Epilogue, pk=epilogue_id, ep_is_delete=False)
         
         show_epilogue_popup = True
@@ -71,7 +97,7 @@ def home(request, source="DONT_CARE", epilogue_id=None):
         "popup_epilogue_id": popup_epilogue_id,
 
         "show_attendance_popup": show_attendance_popup,
-        "today_weekday": today.weekday(),
+        "today_day": today_day,
         "attendance_weekdays": weekly_attendance_weekdays
     
     }
@@ -179,6 +205,7 @@ def get_store(request):
         })
 
     context = {
+        "profile": profile,
         "worry_count": profile.worry_count,
         "points": profile.points,
         "yangs": yang_items,
@@ -196,11 +223,14 @@ def post_buy_yang(request, yang_id):
         return redirect("accounts:login")
 
     if UserYang.objects.filter(writer=request.user, yang_id=yang_id).exists():
-        return redirect("writers:get_store")
+        return redirect("main:get_store")
 
     profile = get_object_or_404(Profile, writer=request.user)
 
     yang = Yang.get(yang_id)
+    if yang is None:
+        return redirect("main:get_store")
+
     source = yang["name"] + "구매"
     success = edit_points(profile, source, -yang["price"])
     
@@ -229,6 +259,6 @@ def go_epilogue(request, epilogue_id):
     worry = epilogue.worry
 
     if worry.is_HoF:    # 공개 O -> 명예의 전당 일반 카드 화면 전환
-        return redirect("worries:hall_of_fame", epilogue_id=epilogue_id)
+        return redirect("worries:hall_of_fame_card", epilogue_id)
 
     return redirect("writers:worry_story", worry_id=worry.id)
