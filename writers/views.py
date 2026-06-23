@@ -121,7 +121,7 @@ def post_epilogue(request, worry_id):
     
     # 현재 사용자 == 고민 작성자인지 검증
     if request.user != worry.writer:
-        return render("writer/worry_answer.html")
+        return render(request, "writers/worry_answer.html")
     else:
         worry = get_object_or_404(Worry, pk=worry_id)
         worry.is_HoF = request.POST["is_HoF"]
@@ -138,8 +138,6 @@ def post_epilogue(request, worry_id):
         new_epilogue.save()
 
         return redirect("main:home", {"source": "post_epilogue"})
-    
-
 
 """
     [후일담 북마크 등록/취소 함수]
@@ -169,7 +167,6 @@ def ep_bookmark(request, epilogue_id):
     - return : 성공 -> 명예의 전당 화면으로 전환
     * 유의사항 : 해당 worry story로 전환하는게 맞을까?*
 """
-
 def post_epilogue_gonggam(request, epilogue_id):
     if not request.user.is_authenticated:
         return redirect("accounts:login")
@@ -221,3 +218,28 @@ def worry_story(request, worry_id):
     }
 
     return render(request, 'writers/worry_story.html', context)
+
+"""
+    [고민 답변 확인 함수]
+    - 기능: 고민-답변들 확인
+    - 받는 값: worry_id
+    - return: 성공 -> worry_answer.html 렌더링 / 실패(인증 에러) -> 로그인으로 리다이렉트
+"""
+def get_worry_answer(request, worry_id):
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
+    profile = get_object_or_404(Profile, writer=request.user)
+    worry = get_object_or_404(Worry, pk=worry_id)
+    answers = Answer.objects.filter(
+        worry = worry
+    )
+
+    context = {
+        "worry_count": profile.worry_count,
+        "points": profile.points,
+        "worry": worry,
+        "answers": answers
+    }
+
+    return render(request, "writers/demo_worry_answer.html", context)
