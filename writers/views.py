@@ -143,6 +143,10 @@ def post_epilogue(request, worry_id):
     if not worry.is_complete:
         return redirect("writers:get_worry_answer", worry.id)
 
+    old_epilogue = Epilogue.objects.filter(worry=worry).first()
+    if old_epilogue is not None:
+        return redirect("main:home_from_post_epilogue", epilogue_id=old_epilogue.id)
+
     if request.method != "POST":
         context = {
             "worry": worry,
@@ -257,7 +261,7 @@ def worry_story(request, worry_id, source):
             return redirect("main:home")
         
     answers = Answer.objects.filter(worry=worry)
-    epilogue = Epilogue.objects.filter(worry=worry)
+    epilogue = Epilogue.objects.filter(worry=worry).first()
 
     context = {
         'worry' : worry,
