@@ -353,6 +353,18 @@ def hall_of_fame(request):
         'hof_worries' : hof_worries,
     }
 
+    if request.user.is_authenticated:
+        try:
+            profile = request.user.profile
+        except Profile.DoesNotExist:
+            profile = None
+
+        if profile is not None:
+            context.update({
+                "worry_count": profile.worry_count,
+                "points": profile.points,
+            })
+
     return render(request, 'worries/hof_list.html', context)
 
 
