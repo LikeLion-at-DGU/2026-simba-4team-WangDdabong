@@ -142,16 +142,24 @@ def post_epilogue(request, worry_id):
     if not worry.is_complete:
         return redirect("writers:get_worry_answer", worry.id)
 
-    worry.is_HoF = (request.POST["is_HoF"] == "True")   # 공개 여부 설정 (공개 O=True, 공개 X=False)
+    if request.method != "POST":
+        context = {
+            "worry": worry,
+            "worry_id": worry.id,
+            "selected_answer_ids": request.GET.getlist("answer_ids"),
+        }
+        return render(request, "writers/write_epilogue.html", context)
+
+    worry.is_HoF = (request.POST.get("is_HoF") == "True")   # 공개 여부 설정 (공개 O=True, 공개 X=False)
     worry.save()
 
     new_epilogue = Epilogue()
 
     new_epilogue.worry = worry
     new_epilogue.writer = request.user
-    new_epilogue.ep_han_madi = request.POST["ep_han_madi"]
-    new_epilogue.ep_title = request.POST["ep_title"]
-    new_epilogue.ep_content = request.POST["ep_content"]
+    new_epilogue.ep_han_madi = request.POST.get("ep_han_madi", "")
+    new_epilogue.ep_title = request.POST.get("ep_title", "")
+    new_epilogue.ep_content = request.POST.get("ep_content", "")
 
     new_epilogue.save()
 
@@ -279,7 +287,7 @@ def get_worry_answer(request, worry_id):
         "answers": answers
     }
 
-    return render(request, "writers/demo_worry_answer.html", context)
+    return render(request, "writers/worry_answer.html", context)
 
 """
     [포인트 이용 내역 화면 렌더링]

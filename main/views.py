@@ -196,7 +196,7 @@ def post_buy_yang(request, yang_id):
         return redirect("accounts:login")
 
     if UserYang.objects.filter(writer=request.user, yang_id=yang_id).exists():
-        return redirect("writers:get_store")
+        return redirect("main:get_store")
 
     profile = get_object_or_404(Profile, writer=request.user)
 
@@ -229,6 +229,6 @@ def go_epilogue(request, epilogue_id):
     worry = epilogue.worry
 
     if worry.is_HoF:    # 공개 O -> 명예의 전당 일반 카드 화면 전환
-        return redirect("worries:hall_of_fame", epilogue_id=epilogue_id)
+        return redirect("worries:hall_of_fame_card", epilogue_id)
 
     return redirect("writers:worry_story", worry_id=worry.id)
