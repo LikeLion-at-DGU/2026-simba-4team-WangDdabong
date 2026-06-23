@@ -189,14 +189,18 @@
                             throw new Error("공감도장 요청 실패");
                         }
 
-                        return response.json();
-                    })
-                    .then((data) => {
-                        count.textContent = data.cheer_count;
+                        const isActive = button.classList.contains("active");
+                        let currentCount = Number(count.textContent.trim()) || 0;
 
-                        if (data.is_cheered !== undefined) {
-                            button.classList.toggle("active", data.is_cheered);
+                        if (isActive) {
+                            currentCount = Math.max(0, currentCount - 1);
+                            button.classList.remove("active");
+                        } else {
+                            currentCount += 1;
+                            button.classList.add("active");
                         }
+
+                        count.textContent = currentCount;
                     })
                     .catch((error) => {
                         console.error(error);
