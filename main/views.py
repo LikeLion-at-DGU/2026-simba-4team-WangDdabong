@@ -79,42 +79,6 @@ def daily_attend(request):
     profile = get_object_or_404(Profile, writer=request.user)
     today = timezone.now().date()
 
-<<<<<<< HEAD
-    # 중복 출석 방지 (직접 URL로 접근 방어 목적)
-    if profile.last_attendance == today:
-        print("home으로 리다이렉트")
-        return redirect("main:home")
-
-    # GET 요청에서는 출석 처리하지 않고 출석 페이지를 보여줌
-    if request.method == "GET":
-        print("render 실행")
-        return render(request, "main/daily_attend.html")
-
-    # POST 요청일 때만 실제 출석 처리
-    if request.method == "POST":
-        current_week_start = today - timedelta(days=today.weekday())  # 이번 주 월요일 날짜
-
-    if profile.last_attendance:
-        last_attendance_week_start = profile.last_attendance - timedelta(days=profile.last_attendance.weekday()) # 마지막 출석 주차 월요일 날짜
-
-        # 현재 주차와 마지막 출석 주차가 다르면 주간 출석 횟수 초기화
-        if current_week_start != last_attendance_week_start:
-            profile.attendance_count = 0
-
-    else: # 가입 후 최초 출석
-        profile.attendance_count = 0
-
-    # 주간 출석 횟수 +1
-    profile.attendance_count += 1
-    points = 1
-    source = "출석"
-
-    # 일 출석 (보너스 점수 검사)
-    if today.weekday() == 6:
-        if profile.attendance_count == 7:    # 일주일 모두 출석
-            points += 3                      # 보너스(3) + 출석(1) = 4
-            source = "일주일 출석 보너스"
-=======
     current_week_start = today - timedelta(days=today.weekday())  # 이번 주 월요일 날짜
     current_week_end = current_week_start + timedelta(days=6)    # 이번 주 일요일 날짜
 
@@ -125,8 +89,7 @@ def daily_attend(request):
     )
     if today_attendance.exists():
         return redirect("main:home")
->>>>>>> c3131343ed18cf7fc8d65dc6348570c87db9da57
-    
+
     new_attendance = Attendance()   # 오늘 출석 안 했으면 출석 기록 생성
     new_attendance.writer = request.user
     new_attendance.date = today
