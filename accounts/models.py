@@ -8,8 +8,8 @@ class Profile(models.Model):
     name = models.CharField(max_length = 20)                                #이름
     mbti = models.CharField(max_length = 4)                                 #성향
     email = models.EmailField()                                             #이메일
-    points = models.IntegerField(default = 0)                               #포인트 및 카운트
-    worry_count = models.IntegerField(default = 0)                          # 남은 고민 개수
+    points = models.IntegerField(default = 3)                               #포인트 및 카운트
+    worry_count = models.IntegerField(default = 5)                          # 남은 고민 개수
     current_yang = models.CharField(max_length=50, default="new_yang")      # 현재 활성화 중인 워리양
     attendance_count = models.IntegerField(default = 0)                     # 출석체크 카운트
     last_attendance = models.DateField(blank=True, null=True)               # 마지막 출석체크 날짜  
