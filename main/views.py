@@ -105,7 +105,7 @@ def daily_attend(request):
     - 받는 값: X
     - return: 성공 시 -> main/yang_store.html / 실패 시 -> 로그인 화면
 """
-def get_yang_store(request):
+def get_store(request):
     if not request.user.is_authenticated:
         return redirect("accounts:login")
 
@@ -129,7 +129,7 @@ def post_buy_yang(request, yang_id):
         return redirect("accounts:login")
 
     if UserYang.objects.filter(writer=request.user, yang_id=yang_id).exists():
-        return redirect("writers:get_yang_store")
+        return redirect("writers:get_store")
 
     profile = get_object_or_404(Profile, writer=request.user)
 
@@ -142,4 +142,4 @@ def post_buy_yang(request, yang_id):
     user_yang.yang_id = yang_id
     user_yang.save()
 
-    return redirect("writers:get_yang_store")
+    return redirect("writers:get_store")
