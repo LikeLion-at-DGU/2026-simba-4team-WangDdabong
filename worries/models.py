@@ -28,6 +28,26 @@ class Worry(models.Model):
             str = str[:20] + "..."
         return str
 
+    @property
+    def created_at(self):
+        return self.pub_date
+
+    @property
+    def cheer_count(self):
+        return self.cheerup_count
+
+    @property
+    def like_count(self):
+        return self.cheerup_count
+
+    @property
+    def answer_count(self):
+        return self.answer_set.count()
+
+    @property
+    def comment_count(self):
+        return self.answer_count
+
 class Answer(models.Model):
     worry = models.ForeignKey(Worry, on_delete=models.CASCADE)                  # 관련된 고민
     writer = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)   # 답변 작성자. 답변 삭제되어도 답변은 유지(NULL=탈퇴한 사용자)
@@ -37,3 +57,22 @@ class Answer(models.Model):
     pub_date = models.DateField(auto_now_add=True)                              # 작성일
     is_satisfied = models.IntegerField(default=0)                               # 해당 답변 만족(1)/불만족(-1) 여부. 미선택 0
     hit = models.PositiveBigIntegerField(default=0)                             # 고민 작성자가 해당 답변 조회한 수
+
+    @property
+    def content(self):
+        return (
+            "자기가 인식한 상황\n"
+            f"{self.situation}\n\n"
+            "나라면 어떻게?\n"
+            f"{self.my_action}\n\n"
+            "당장 해봤으면 / 안 했으면 하는 행동\n"
+            f"{self.recommendation}"
+        )
+
+    @property
+    def is_up(self):
+        return self.is_satisfied == 1
+
+    @property
+    def is_down(self):
+        return self.is_satisfied == -1
