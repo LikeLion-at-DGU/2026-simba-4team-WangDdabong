@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from writers.models import Epilogue
 from accounts.models import Profile
 from .models import *
-from main.utils import get_time_ago
+from main.utils import get_time_ago, edit_points
 
 """
 [고민 작성]
@@ -14,6 +14,15 @@ def post_worry(request):
     if not request.user.is_authenticated:
         return redirect("accounts:login")
     
+    profile = get_object_or_404(Profile, writer=request.user)
+    
+    # 잔여 고민 작성 가능 개수 확인
+    if profile.worry_count <= 0:
+        return redirect("main:home")
+    
+    profile.worry_count -= 1
+    profile.save()
+
     if request.method == "POST":
         new_worry = Worry()
 
@@ -428,6 +437,8 @@ def edit_satisfaction(request, answer_id, is_satisfied):
     # 답변 만족/불만족 처리
     if (is_satisfied > 0): # 만족
         answer.is_satisfied = 1
+        answerer = get_object_or_404(Profile, writer=answer.writer)
+        edit_points(answerer, "답변 만족", 1)  # 답변 만족 시 답변자에게 포인트 지급
     else: # 불만족
         answer.is_satisfied = -1
 

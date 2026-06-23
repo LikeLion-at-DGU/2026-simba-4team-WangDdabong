@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect , get_object_or_404
 from accounts.models import Profile
 from worries.models import Worry, Answer
 from writers.models import Epilogue
+from main.utils import Yang, edit_points
 from .models import *
 
 # Create your views here.
@@ -22,10 +23,12 @@ def mypage(request):
         return redirect("accounts:login")   # 비로그인 시, 로그인 페이지로 넘어감
 
     profile = get_object_or_404(Profile, writer=request.user)
+    yang_img = Yang[profile.current_yang]["image"]
 
     context = {
         'profile_writer' : request.user,
         'profile' : profile,
+        'yang_img' : yang_img,
     }
 
     return render(request, 'writers/mypage.html', context)
@@ -151,6 +154,9 @@ def post_epilogue(request, worry_id):
     new_epilogue.ep_content = request.POST["ep_content"]
 
     new_epilogue.save()
+
+    profile = get_object_or_404(Profile, writer=request.user)
+    edit_points(profile, "후일담 작성", 2)  # 후일담 작성 시 포인트 지급
 
     # 선택된 답변 작성자만 추출
     selected_answers_ids = request.POST.getlist("answer_ids")
@@ -288,12 +294,17 @@ def get_point_logs(request):
         writer=request.user
     )
     profile = get_object_or_404(Profile, writer=request.user)
-
+    
+    yang = Yang[profile.current_yang]
+    yang_name = yang["name"]
+    yang_img = yang["image"]
+    
     context = {
         "worry_count": profile.worry_count,
         "points": profile.points,
         "point_logs": point_logs,
-        "worry_yang_level": profile.current_yang,
+        "yang_img": yang_img,
+        "yang_name": yang_name,
     }
 
     return render(request, "writers/point_logs.html", context)

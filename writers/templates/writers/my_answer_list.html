@@ -13,13 +13,13 @@
 <section class="reply-section">
     <div class="top-info">
         <span class="top-info-box">
-            <svg class="top-question-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                viewBox="0 0 16 16" fill="none">
+            <svg class="top-question-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"
+                fill="none">
                 <path
                     d="M6.6083 0.310702C10.6006 -0.203632 14.2538 2.6161 14.7683 6.60844L15.6998 13.8368L8.4715 14.7683C4.47915 15.2828 0.825354 12.4639 0.310685 8.47164C-0.203835 4.47919 2.61585 0.825222 6.6083 0.310702Z"
                     fill="white" stroke="#3A3A3A" stroke-width="0.5" />
-                <text x="8" y="9.5" text-anchor="middle" dominant-baseline="middle" fill="#3A3A3A"
-                    font-size="8" font-weight="1000" font-family="Pretendard, sans-serif">?</text>
+                <text x="8" y="9.5" text-anchor="middle" dominant-baseline="middle" fill="#3A3A3A" font-size="8"
+                    font-weight="1000" font-family="Pretendard, sans-serif">?</text>
             </svg>
 
             <span class="top-info-count">{{ worry_count }}</span>
@@ -34,8 +34,8 @@
                     stroke-linecap="round" />
                 <circle cx="9.375" cy="8.125" r="0.375" fill="black" stroke="black" stroke-width="0.5"
                     stroke-linecap="round" />
-                <path d="M5.5 10.25C6.25 10.9583 8.125 11.95 9.625 10.25" stroke="black"
-                    stroke-width="0.5" stroke-linecap="round" />
+                <path d="M5.5 10.25C6.25 10.9583 8.125 11.95 9.625 10.25" stroke="black" stroke-width="0.5"
+                    stroke-linecap="round" />
             </svg>
 
             <span class="top-info-count">{{ points }}</span>
@@ -50,8 +50,8 @@
         <article class="reply-card">
 
             <!-- 답변 관련 상세 이동: 필요하면 href만 백 url에 맞춰 수정 -->
-            <a href="#" class="card-link-overlay" aria-label="답변 상세로 이동"></a>
-
+            <a href="{% url 'writers:worry_story' answer.worry.id %}" class="card-link-overlay"
+                aria-label="답변 상세로 이동"></a>
             <div class="reply-text">
                 <span class="reply-title">
                     {{ answer.worry.keyword }}
@@ -66,26 +66,35 @@
             <div class="open-box">
                 {% if answer.worry.is_HoF %}
                 <span class="open-icon active" aria-label="공개됨">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
                         <path
-                            d="M2.5 12C4.2 7.8 7.7 5.5 12 5.5C16.3 5.5 19.8 7.8 21.5 12C19.8 16.2 16.3 18.5 12 18.5C7.7 18.5 4.2 16.2 2.5 12Z"
-                            fill="white" stroke="#3A3A3A" stroke-width="1.2" />
-                        <circle cx="12" cy="12" r="3.2" fill="#D5C9BB" stroke="#3A3A3A" stroke-width="1.2" />
-                        <circle cx="12" cy="12" r="1.2" fill="#3A3A3A" />
+                            d="M8.5 3.72412C13.0215 3.72412 16.4998 6.67706 16.5 10.1118C16.5 13.5467 13.0216 16.4995 8.5 16.4995C3.97836 16.4995 0.5 13.5467 0.5 10.1118C0.500159 6.67706 3.97846 3.72412 8.5 3.72412Z"
+                            fill="white" stroke="#3A3A3A" />
+                        <circle cx="8.64657" cy="10.1119" r="2.87069" fill="#3A3A3A" stroke="#3A3A3A" />
+                        <line x1="3.32505" y1="1.6313" x2="4.53264" y2="3.60766" stroke="#3A3A3A"
+                            stroke-linecap="round" />
+                        <line x1="0.5" y1="-0.5" x2="2.81609" y2="-0.5"
+                            transform="matrix(-0.52139 0.853318 0.853318 0.52139 14.6255 1.46533)" stroke="#3A3A3A"
+                            stroke-linecap="round" />
+                        <line x1="8.70703" y1="0.5" x2="8.70703" y2="2.72414" stroke="#3A3A3A" stroke-linecap="round" />
                     </svg>
                 </span>
-                <span class="open-text">공개</span>
                 {% else %}
                 <span class="open-icon" aria-label="비공개">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
                         <path
-                            d="M2.5 12C4.2 7.8 7.7 5.5 12 5.5C16.3 5.5 19.8 7.8 21.5 12C19.8 16.2 16.3 18.5 12 18.5C7.7 18.5 4.2 16.2 2.5 12Z"
-                            fill="white" stroke="#3A3A3A" stroke-width="1.2" />
-                        <circle cx="12" cy="12" r="3.2" fill="#D5C9BB" stroke="#3A3A3A" stroke-width="1.2" />
-                        <circle cx="12" cy="12" r="1.2" fill="#3A3A3A" />
+                            d="M8.5 3.72412C13.0215 3.72412 16.4998 6.67706 16.5 10.1118C16.5 13.5467 13.0216 16.4995 8.5 16.4995C3.97836 16.4995 0.5 13.5467 0.5 10.1118C0.500159 6.67706 3.97846 3.72412 8.5 3.72412Z"
+                            fill="white" stroke="#3A3A3A" />
+                        <line x1="3.32505" y1="1.6313" x2="4.53264" y2="3.60766" stroke="#3A3A3A"
+                            stroke-linecap="round" />
+                        <line x1="0.5" y1="-0.5" x2="2.81609" y2="-0.5"
+                            transform="matrix(-0.52139 0.853318 0.853318 0.52139 14.6255 1.46533)" stroke="#3A3A3A"
+                            stroke-linecap="round" />
+                        <line x1="8.70703" y1="0.5" x2="8.70703" y2="2.72414" stroke="#3A3A3A" stroke-linecap="round" />
+                        <path d="M1.6123 10.2588C3.95713 12.2617 9.99506 15.0657 15.3882 10.2588" stroke="#3A3A3A"
+                            stroke-width="2" stroke-linecap="round" />
                     </svg>
                 </span>
-                <span class="open-text">비공개</span>
                 {% endif %}
             </div>
 
@@ -97,8 +106,8 @@
                             d="M2.61172 20.8774C-1.21281 16.1264 1.01817 6.03046 2.61172 1.57636C8.17468 -2.38283 7.2475 5.53556 6.08854 9.98965C8.26157 8.83489 13.5638 7.21822 17.3883 9.98965C21.2128 12.7611 20.023 19.5262 18.4294 22.0007C15.0975 23.9803 6.43625 25.6285 2.61172 20.8774Z"
                             fill="currentColor" stroke="black" stroke-linecap="round" />
                         <circle cx="9.62944" cy="15.2007" r="0.7" fill="black" />
-                        <path d="M7.42944 17.5007C8.09611 18.5007 9.92944 20.2007 11.9294 19.0007"
-                            stroke="black" stroke-linecap="round" />
+                        <path d="M7.42944 17.5007C8.09611 18.5007 9.92944 20.2007 11.9294 19.0007" stroke="black"
+                            stroke-linecap="round" />
                         <circle cx="13.6294" cy="15.2007" r="0.7" fill="black" />
                     </svg>
                 </span>
@@ -109,8 +118,8 @@
                             d="M17.8292 3.58936C21.6537 8.34039 19.4228 18.4363 17.8292 22.8904C12.2662 26.8496 13.1934 18.9312 14.3524 14.4771C12.1793 15.6319 6.87716 17.2486 3.05264 14.4771C-0.771891 11.7057 0.417921 4.94056 2.01147 2.46606C5.34344 0.486465 14.0047 -1.16168 17.8292 3.58936Z"
                             fill="currentColor" stroke="black" stroke-linecap="round" />
                         <circle cx="7.75688" cy="6.20024" r="0.7" fill="black" />
-                        <path d="M9.99023 10.5564C9.38966 9.51536 7.67016 7.70031 5.59671 8.76839"
-                            stroke="black" stroke-linecap="round" />
+                        <path d="M9.99023 10.5564C9.38966 9.51536 7.67016 7.70031 5.59671 8.76839" stroke="black"
+                            stroke-linecap="round" />
                         <circle cx="11.7569" cy="6.20024" r="0.7" fill="black" />
                     </svg>
                 </span>
