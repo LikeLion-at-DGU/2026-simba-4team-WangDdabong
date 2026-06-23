@@ -16,23 +16,6 @@ def post_worry(request):
     if request.method == "POST":
         new_worry = Worry()
 
-    new_worry.writer = request.user
-    new_worry.keyword = request.POST["keyword"]
-    new_worry.title = request.POST["title"]
-    new_worry.content = request.POST["content"]
-    new_worry.mbti = request.POST["mbti"]
-
-    new_worry.save()
-
-    return redirect("main:home")
-
-def post_worry(request):
-    if not request.user.is_authenticated:
-        return redirect("accounts:login")
-    
-    if request.method == "POST":
-        new_worry = Worry()
-
         new_worry.writer = request.user
         new_worry.keyword = request.POST["keyword"]
         new_worry.title = request.POST["title"]
@@ -151,8 +134,12 @@ def post_answer(request, worry_id):
 
     # 고민 답변 작성 화면 이동
     else:
-        return render(request, "worries/write_answer.html", {"answer_user": request.user, "worry_writer": worry.writer.profile, "worry": worry})
-    
+        context = {
+            "answer_user": request.user,
+            "worry_writer": worry.writer.profile,
+            "worry": worry,
+        }
+        return render(request, "worries/write_answer.html", context)
 
 """
     [명예의 전당 리스트 함수]

@@ -7,10 +7,13 @@
 -->
 
 <!-- [포인트 이용내역 조회]
+     포인트 부분 클릭 시
+     호출: writers:get_point_logs
+     전달 값: X
 -->
 
 <!-- [후일담 작성]
-     호출: post_epilogue
+     호출: writers:post_epilogue
      전달 값:
         고민 id                     worry_id
         후일담 보낼 답변 id들       answer_ids
@@ -18,7 +21,7 @@
 
 <!-- [답변 좋아요/싫어요]
      따봉/붐따 클릭 시 호출
-     호출: edit_satisfaction
+     호출: worries:edit_satisfaction
      전달 값:
         답변 id                          answer_id
         만족(=1)/불만족(=-1) 여부        is_satisfaction
