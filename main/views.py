@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from accounts.models import Profile, Attendance
-from writers.models import PointLog
+from writers.models import PointLog, Epilogue
 from worries.models import Worry
 from .utils import TODAY_MESSAGES
 from django.utils import timezone
@@ -13,7 +13,7 @@ import random
 - 받는 값 : source
 - return: 성공 -> home 렌더링
 """
-def home(request, source="DONT_CARE"):
+def home(request, source="DONT_CARE", epilogue_id=None):
     if not request.user.is_authenticated:
         return redirect("accounts:login")
     
@@ -48,21 +48,42 @@ def home(request, source="DONT_CARE"):
     today_message = random.choice(TODAY_MESSAGES)
 
     # 후일담 작성 화면에서 왔다면 팝업 출력
-    show_epilogue_popup = (source == "post_epilogue")
+    # 기본값
+    show_epilogue_popup = False
+    epilogue_han_madi = None
+    popup_epilogue_id = None
+
+    if source == "post_epilogue" and epilogue_id is not None:
+        epilogue = get_object_or_404(Epilogue, pk=epilogue_id, ep_is_delete=False)
+        
+        show_epilogue_popup = True
+        epilogue_han_madi = epilogue.ep_han_madi
+        popup_epilogue_id = epilogue.id
 
     context = {
         "worry_count": worry_count,
         "points": points,
         "now_worries": now_worries,
         "today_message": today_message,
+
         "show_epilogue_popup": show_epilogue_popup,
+        "epilogue_han_madi": epilogue_han_madi,
+        "popup_epilogue_id": popup_epilogue_id,
+
         "show_attendance_popup": show_attendance_popup,
         "today_weekday": today.weekday(),
         "attendance_weekdays": weekly_attendance_weekdays
-
+    
     }
 
     return render(request, 'main/home.html', context)
+
+"""
+    [후일담 작성 후 홈 화면으로 전환]
+    - 기능: 후일담 작성 후 해당 함수로 진입. 홈 화면으로 전환
+"""
+def home_from_post_epilogue(request, epilogue_id):
+    return home(request, source="post_epilogue", epilogue_id=epilogue_id)
 
 """
 [출석 체크]
@@ -111,7 +132,7 @@ def daily_attend(request):
 
     # 마지막 출석 정보 최신화
     profile.last_attendance = today
-    profile.attendance_count += 1
+    profile.attendance_count = weekly_attendance_count
     profile.save()
 
     return redirect("main:home")
@@ -141,3 +162,22 @@ def edit_points(profile, source, amount):
     point_log.points_after = profile.points
 
     point_log.save()
+
+"""
+    [후일담 팝업 처리]
+    - 기능: 후일담 보러가기 클릭 시
+                공개 O -> 명예의 전당 일반 카드 화면 전환
+                공개 X -> 고민-답변-후일담 화면 전환
+"""
+def go_epilogue(request, epilogue_id):
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
+    epilogue = get_object_or_404(Epilogue, pk=epilogue_id, ep_is_delete=False)
+
+    worry = epilogue.worry
+
+    if worry.is_HoF:    # 공개 O -> 명예의 전당 일반 카드 화면 전환
+        return redirect("worries:hall_of_fame", epilogue_id=epilogue_id)
+
+    return redirect("writers:worry_story", worry_id=worry.id)
