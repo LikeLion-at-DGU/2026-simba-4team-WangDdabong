@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect , get_object_or_404
 from accounts.models import Profile
 from worries.models import Worry, Answer
 from writers.models import Epilogue
-from main.utils import Yang
+from main.utils import Yang, edit_points
 from .models import *
 
 # Create your views here.
@@ -154,6 +154,9 @@ def post_epilogue(request, worry_id):
     new_epilogue.ep_content = request.POST["ep_content"]
 
     new_epilogue.save()
+
+    profile = get_object_or_404(Profile, writer=request.user)
+    edit_points(profile, "후일담 작성", 2)  # 후일담 작성 시 포인트 지급
 
     # 선택된 답변 작성자만 추출
     selected_answers_ids = request.POST.getlist("answer_ids")
