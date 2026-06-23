@@ -5,6 +5,32 @@ from django.conf import settings
 from django.db import migrations, models
 
 
+def column_exists(schema_editor, table_name, column_name):
+    with schema_editor.connection.cursor() as cursor:
+        columns = schema_editor.connection.introspection.get_table_description(
+            cursor,
+            table_name,
+        )
+    return column_name in {column.name for column in columns}
+
+
+def add_worry_writer_column_if_missing(apps, schema_editor):
+    Worry = apps.get_model("worries", "Worry")
+
+    if column_exists(schema_editor, Worry._meta.db_table, "writer_id"):
+        return
+
+    app_label, model_name = settings.AUTH_USER_MODEL.split(".")
+    User = apps.get_model(app_label, model_name)
+    field = models.ForeignKey(
+        User,
+        null=True,
+        on_delete=django.db.models.deletion.CASCADE,
+    )
+    field.set_attributes_from_name("writer")
+    schema_editor.add_field(Worry, field)
+
+
 def assign_existing_worries_to_fallback_user(apps, schema_editor):
     Worry = apps.get_model("worries", "Worry")
     app_label, model_name = settings.AUTH_USER_MODEL.split(".")
@@ -28,14 +54,24 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name="worry",
-            name="writer",
-            field=models.ForeignKey(
-                null=True,
-                on_delete=django.db.models.deletion.CASCADE,
-                to=settings.AUTH_USER_MODEL,
-            ),
+        migrations.SeparateDatabaseAndState(
+            database_operations=[
+                migrations.RunPython(
+                    add_worry_writer_column_if_missing,
+                    migrations.RunPython.noop,
+                ),
+            ],
+            state_operations=[
+                migrations.AddField(
+                    model_name="worry",
+                    name="writer",
+                    field=models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+            ],
         ),
         migrations.RunPython(
             assign_existing_worries_to_fallback_user,
