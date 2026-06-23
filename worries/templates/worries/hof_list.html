@@ -44,7 +44,7 @@
 
     <div class="hof-list">
         {% for worry in hof_worries %}
-        {% with epilogue=worry.epilogue_set.first %}
+        {% with epilogue=worry.epilogue %}
         <div class="hof-card">
 
             {% if epilogue %}

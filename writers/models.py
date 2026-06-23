@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 후일담
 """
 class Epilogue(models.Model):
-    worry = models.ForeignKey("worries.Worry", on_delete=models.CASCADE)                        # 관련된 고민
+    worry = models.OneToOneField("worries.Worry", on_delete=models.CASCADE)                        # 관련된 고민
     writer = models.ForeignKey(User, on_delete=models.CASCADE)                                  # 고민, 후일담 작성자
     visible_users = models.ManyToManyField(User, related_name="visible_epilogue", blank=True)   # 해당 후일담을 조회할 수 있는 사용자들
     ep_han_madi = models.CharField(max_length=50)                                               # 한 마디

@@ -8,6 +8,14 @@ from .models import *
 
 # Create your views here.
 
+def get_profile_context(user):
+    profile = get_object_or_404(Profile, writer=user)
+    return {
+        "profile": profile,
+        "worry_count": profile.worry_count,
+        "points": profile.points,
+    }
+
 """
     [마이페이지 함수]
     - 기능 : 내 정보, 내 활동 정보들 한눈에 리스트 확인 가능
@@ -23,7 +31,8 @@ def mypage(request):
         return redirect("accounts:login")   # 비로그인 시, 로그인 페이지로 넘어감
 
     profile = get_object_or_404(Profile, writer=request.user)
-    yang_img = Yang[profile.current_yang]["image"]
+    yang = Yang.get(profile.current_yang, Yang["new_yang"])
+    yang_img = yang["image"]
 
     context = {
         'profile_writer' : request.user,
@@ -46,28 +55,122 @@ def my_worry(request):
     if not request.user.is_authenticated:
         return redirect("accounts:login")   # 비로그인 시, 로그인 페이지로 넘어감
 
+    profile_context = get_profile_context(request.user)
+
     delivery_worries = Worry.objects.filter(    # 고민 배송 중
         writer = request.user,
-        is_complete = False
+        is_complete = False,
+        is_delete = False
     )
     public_worries = Worry.objects.filter(      # 공개 O
         writer = request.user, 
         is_complete = True, 
-        is_HoF=True
+        is_HoF=True,
+        is_delete = False
     )
     private_worries = Worry.objects.filter(     # 공개 X
         writer = request.user,
         is_complete = True,
-        is_HoF = False
+        is_HoF = False,
+        is_delete = False
     )
 
     context = {
+        **profile_context,
         'delivery_worries' : delivery_worries,
         'public_worries' : public_worries,
         'private_worries' : private_worries,
     }
 
     return render(request, 'writers/my_worry.html', context)
+
+"""
+    [내 고민 상세 분기 함수]
+    - 기능 : 고민 완료 여부에 따라 배송 중/배송 완료 상세 화면으로 이동
+    - 받는 값 : worry_id
+    - return : 배송 중 또는 배송 완료 상세 화면으로 리다이렉트
+"""
+def my_worry_detail(request, worry_id):
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
+    worry = get_object_or_404(Worry, pk=worry_id, writer=request.user, is_delete=False)
+
+    if worry.is_complete:
+        return redirect("writers:worry_completed", worry_id=worry.id)
+
+    return redirect("writers:worry_ing", worry_id=worry.id)
+
+"""
+    [배송 중 고민 상세 함수]
+    - 기능 : 아직 완료되지 않은 고민과 도착한 답변을 조회
+    - 받는 값 : worry_id
+    - return : worry_ing.html 화면 표시
+"""
+def worry_ing(request, worry_id):
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
+    worry = get_object_or_404(Worry, pk=worry_id, writer=request.user, is_delete=False)
+
+    if worry.is_complete:
+        return redirect("writers:worry_completed", worry_id=worry.id)
+
+    answers = Answer.objects.filter(worry=worry).select_related("writer")
+
+    context = {
+        "worry": worry,
+        "answers": answers,
+        "has_answers": answers.exists(),
+    }
+
+    return render(request, "writers/worry_ing.html", context)
+
+"""
+    [배송 완료 고민 상세 함수]
+    - 기능 : 완료된 고민과 답변, 후일담을 공개/비공개/후일담 유무에 따라 조회
+    - 받는 값 : worry_id
+    - return : worry_complete.html 화면 표시
+"""
+def worry_completed(request, worry_id):
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
+    worry = get_object_or_404(Worry, pk=worry_id, writer=request.user, is_delete=False)
+
+    if not worry.is_complete:
+        return redirect("writers:worry_ing", worry_id=worry.id)
+
+    answers = Answer.objects.filter(worry=worry).select_related("writer")
+    epilogue = Epilogue.objects.filter(worry=worry, ep_is_delete=False).first()
+
+    context = {
+        "worry": worry,
+        "answers": answers,
+        "epilogue": epilogue,
+        "is_public_epilogue": worry.is_HoF,
+        "has_epilogue": epilogue is not None,
+    }
+
+    return render(request, "writers/worry_complete.html", context)
+
+"""
+    [내 고민 삭제 함수]
+    - 기능 : 내 고민을 삭제 상태로 변경
+    - 받는 값 : worry_id
+    - return : 내 고민 목록으로 리다이렉트
+"""
+def delete_worry(request, worry_id):
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
+    worry = get_object_or_404(Worry, pk=worry_id, writer=request.user, is_delete=False)
+
+    if request.method == "POST":
+        worry.is_delete = True
+        worry.save()
+
+    return redirect("writers:my_worry")
 
 
 """
@@ -86,10 +189,36 @@ def my_answer_list(request):
     my_answers_list = Answer.objects.filter(writer = request.user).order_by("-pub_date")  # 내 답변 최신순으로 정렬
 
     context = {
+        **get_profile_context(request.user),
         'my_answers_list' : my_answers_list,
     }
 
     return render(request, 'writers/my_answer_list.html', context)
+
+"""
+    [내 답변 상세 함수]
+    - 기능 : 내 답변 목록에서 선택한 답변이 포함된 고민-답변-후일담 상세 화면 조회
+    - 가져오는 정보 : Answer
+    - return : my_answer.html 화면 표시
+"""
+def my_answer_detail(request, answer_id):
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
+    answer = get_object_or_404(Answer, pk=answer_id, writer=request.user)
+    worry = answer.worry
+
+    answers = Answer.objects.filter(worry=worry).select_related("writer")
+    epilogue = Epilogue.objects.filter(worry=worry).first()
+
+    context = {
+        "selected_answer": answer,
+        "worry": worry,
+        "answers": answers,
+        "epilogue": epilogue,
+    }
+
+    return render(request, "writers/my_answer.html", context)
 
 
 """
@@ -111,6 +240,7 @@ def worry_bookmark(request):
     epilogue_bookmark = Epilogue.objects.filter(later_check = request.user)       # 후일담 북마크
 
     context = {
+        **get_profile_context(request.user),
         'worry_bookmarks' : worry_bookmarks,
         'epilogue_bookmark' : epilogue_bookmark,
     }
@@ -142,16 +272,28 @@ def post_epilogue(request, worry_id):
     if not worry.is_complete:
         return redirect("writers:get_worry_answer", worry.id)
 
-    worry.is_HoF = (request.POST["is_HoF"] == "True")   # 공개 여부 설정 (공개 O=True, 공개 X=False)
+    old_epilogue = Epilogue.objects.filter(worry=worry).first()
+    if old_epilogue is not None:
+        return redirect("main:go_epilogue", epilogue_id=old_epilogue.id)
+
+    if request.method != "POST":
+        context = {
+            "worry": worry,
+            "worry_id": worry.id,
+            "selected_answer_ids": request.GET.getlist("answer_ids"),
+        }
+        return render(request, "writers/write_epilogue.html", context)
+
+    worry.is_HoF = (request.POST.get("is_HoF") == "True")   # 공개 여부 설정 (공개 O=True, 공개 X=False)
     worry.save()
 
     new_epilogue = Epilogue()
 
     new_epilogue.worry = worry
     new_epilogue.writer = request.user
-    new_epilogue.ep_han_madi = request.POST["ep_han_madi"]
-    new_epilogue.ep_title = request.POST["ep_title"]
-    new_epilogue.ep_content = request.POST["ep_content"]
+    new_epilogue.ep_han_madi = request.POST.get("ep_han_madi", "")
+    new_epilogue.ep_title = request.POST.get("ep_title", "")
+    new_epilogue.ep_content = request.POST.get("ep_content", "")
 
     new_epilogue.save()
 
@@ -168,6 +310,8 @@ def post_epilogue(request, worry_id):
     for answer in selected_answers:
         if answer.writer is not None:
             new_epilogue.visible_users.add(answer.writer)
+
+    request.session["show_epilogue_popup_id"] = new_epilogue.id
 
     return redirect("main:home_from_post_epilogue", epilogue_id=new_epilogue.id)
 
@@ -207,7 +351,7 @@ def post_epilogue_gonggam(request, epilogue_id):
 
     if request.user in epilogue.ep_gonggam.all():   # 공감버튼이 이미 눌려있는 경우 -> 취소
         epilogue.ep_gonggam.remove(request.user)
-        epilogue.ep_gonggam_count -= 1
+        epilogue.ep_gonggam_count = max(0, epilogue.ep_gonggam_count - 1)
 
     else:                                           # 공감버튼 안 눌려있는 경우 -> 눌림
         epilogue.ep_gonggam.add(request.user)
@@ -232,6 +376,9 @@ def post_epilogue_gonggam(request, epilogue_id):
 def worry_story(request, worry_id, source):
     worry = get_object_or_404(Worry, pk=worry_id)
 
+    if not request.user.is_authenticated and not worry.is_HoF:
+        return redirect("accounts:login")
+
     if request.user == worry.writer:    # 답변 안읽음 표시 지움
         worry.hit = 1
         worry.save()
@@ -245,7 +392,7 @@ def worry_story(request, worry_id, source):
             return redirect("main:home")
         
     answers = Answer.objects.filter(worry=worry)
-    epilogue = Epilogue.objects.filter(worry=worry)
+    epilogue = Epilogue.objects.filter(worry=worry).first()
 
     context = {
         'worry' : worry,
@@ -279,7 +426,7 @@ def get_worry_answer(request, worry_id):
         "answers": answers
     }
 
-    return render(request, "writers/demo_worry_answer.html", context)
+    return render(request, "writers/worry_answer.html", context)
 
 """
     [포인트 이용 내역 화면 렌더링]
@@ -295,11 +442,12 @@ def get_point_logs(request):
     )
     profile = get_object_or_404(Profile, writer=request.user)
     
-    yang = Yang[profile.current_yang]
+    yang = Yang.get(profile.current_yang, Yang["new_yang"])
     yang_name = yang["name"]
     yang_img = yang["image"]
     
     context = {
+        "profile": profile,
         "worry_count": profile.worry_count,
         "points": profile.points,
         "point_logs": point_logs,

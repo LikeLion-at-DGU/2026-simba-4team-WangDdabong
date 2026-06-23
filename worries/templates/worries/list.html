@@ -21,7 +21,7 @@
                          font-weight="1000" font-family="Pretendard, sans-serif">?</text>
                </svg>
 
-               <span class="top-info-count">3</span>
+               <span class="top-info-count">{{ worry_count|default:0 }}</span>
           </span>
 
           <span class="top-info-box">
@@ -36,7 +36,7 @@
                     <path d="M5.5 10.25C6.25 10.9583 8.125 11.95 9.625 10.25" stroke="black" stroke-width="0.5"
                          stroke-linecap="round" />
                </svg>
-               <span class="top-info-count">3</span>
+               <span class="top-info-count">{{ points|default:0 }}</span>
           </span>
      </div>
 
@@ -64,7 +64,7 @@
                <div class="bookmark-box">
                     <form method="post" action="{% url 'worries:post_bookmark' item.worry.id %}" class="bookmark-form">
                          {% csrf_token %}
-                         <button type="button" class="bookmark-btn {% if item.worry.is_bookmarked %}active{% endif %}"
+                         <button type="button" class="bookmark-btn {% if item.is_bookmarked %}active{% endif %}"
                               aria-label="북마크">
                               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="18" viewBox="0 0 12 18"
                                    fill="none">
@@ -94,7 +94,7 @@
                     </form>
 
                     <span class="stamp-count">
-                         {{ item.worry.cheer_count|default:0 }}
+                         {{ item.cheerup_count|default:0 }}
                     </span>
 
                     <span class="answer-icon">
@@ -106,7 +106,7 @@
                     </span>
 
                     <span class="answer-count">
-                         {{ item.worry.answer_count|default:0 }}
+                         {{ item.answer_count|default:0 }}
                     </span>
                </div>
           </article>
