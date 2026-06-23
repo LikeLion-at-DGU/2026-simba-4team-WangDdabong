@@ -304,6 +304,9 @@ def post_answer(request, worry_id):
 
         answer.save()
 
+        worry.hit = 0   # 답변 안읽음 표시
+        worry.save()
+
         return redirect("main:home")
 
     # 고민 답변 작성 화면 이동
