@@ -121,12 +121,18 @@ def post_bookmark(request, worry_id):
 
     worry = get_object_or_404(Worry, pk=worry_id)
 
-    if request.user in worry.later_answer.all():
-        worry.later_answer.remove(request.user)
+    if request.method == "POST":
+        if request.user in worry.later_answer.all():
+            worry.later_answer.remove(request.user)
+        else:
+            worry.later_answer.add(request.user)
+        
         worry.save()
-    else:
-        worry.later_answer.add(request.user)
-        worry.save()
+    
+    next_url = request.POST.get("next")
+
+    if next_url:
+        return redirect(next_url)
 
     return redirect("worries:get_worries")
 
