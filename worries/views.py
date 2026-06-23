@@ -36,7 +36,7 @@ def post_worry(request):
 - return: 모든 Worry 객체
 """
 def get_worries(request):
-    profile = get_object_or_404(Profile, user=request.user)
+    profile = get_object_or_404(Profile, writer=request.user)
     worry_count = profile.worry_count
     points = profile.points
 
