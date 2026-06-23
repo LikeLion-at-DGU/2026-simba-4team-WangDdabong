@@ -91,7 +91,7 @@ def my_answer_list(request):
 
 """
     [북마크 함수]
-    - 기능 : 본인이 작성한 답변들을 볼 수 있음
+    - 기능 : 본인이 누른 북마크들을 볼 수 있음
     - 가져오는 정보 : Worry
     - return : worry_bookmark.html 화면 표시
     
@@ -223,7 +223,7 @@ def post_epilogue_gonggam(request, epilogue_id):
     - 공개 X : 고민 작성자와 해당 고민에 답변한 사람들만 조회 가능
 """
 
-def worry_story(request, worry_id):
+def worry_story(request, worry_id, source):
     worry = get_object_or_404(Worry, pk=worry_id)
 
     if not worry.is_HoF:    # 공개X -> 고민 작성자와 해당 고민에 답변을 한 사람들만 조회 가능                  
@@ -241,6 +241,7 @@ def worry_story(request, worry_id):
         'worry' : worry,
         'answers' : answers,
         'epilogue' : epilogue,
+        'source' : source,
     }
 
     return render(request, 'writers/worry_story.html', context)
