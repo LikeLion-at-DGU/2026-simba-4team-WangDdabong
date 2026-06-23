@@ -12,8 +12,7 @@ class Profile(models.Model):
     worry_count = models.IntegerField(default = 0)
     worry_yang = models.IntegerField(default = 0)
     attendance_count = models.IntegerField(default = 0)           # 출석체크 카운트
-    last_attendance = models.DateField(blank=True, null=True)     # 마지막 출석체크 날짜  
-    character_image = models.IntegerField(default=1)
+    last_attendance = models.DateField(blank=True, null=True)     # 마지막 출석체크 날짜 
 
     def __str__(self):
         return self.writer.username

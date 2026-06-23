@@ -145,7 +145,7 @@ def post_cheerup(request, worry_id):
     return redirect("worries:get_worries")
 
 """
-[고민 상세 화면 리다이렉트]
+[고민 상세 화면 리다이렉트]S
 - 기능: 고민 상세 화면으로 이동
 - 받는 값: worry_id
 - return: 성공 시 -> 고민 상세 화면으로 리다이렉트
@@ -172,6 +172,10 @@ def post_answer(request, worry_id):
         return redirect("accounts:login")
 
     worry = get_object_or_404(Worry, pk=worry_id)
+
+    # 자기 고민에는 답변 불가
+    if request.user == worry.writer:
+        return redirect("worries:get_worry_detail", worry.id)
 
     answer_count = Answer.objects.filter(worry=worry).count()
     
@@ -284,6 +288,20 @@ def hall_of_fame_card(request, epilogue_id):
     }
 
     return render(request, 'worries/hof_card.html', context)
+
+
+"""
+[답변 만족/불만족 함수]
+- 기능 : 고민 작성자가 답변에 대해 만족/불만족 평가
+- 받는 값 : answer_id, is_satisfied
+- return : 평가 완료 -> 내 고민-답변 화면 이동
+
+* 유의사항 *
+    + 고민 작성자만 평가 가능
+    + 만족 선택 시 is_satisfied = 1
+    + 불만족 선택 시 is_satisfied = -1
+    + 답변이 5개이고 전부 평가 완료되면 고민 배송 완료 처리
+"""
 
 def edit_satisfaction(request, answer_id, is_satisfied):
     if not request.user.is_authenticated:
