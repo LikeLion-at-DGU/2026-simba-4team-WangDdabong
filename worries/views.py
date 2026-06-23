@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from writers.models import Epilogue
+from accounts.models import Profile
 from .models import *
 from main.utils import get_time_ago
 
@@ -35,6 +36,10 @@ def post_worry(request):
 - return: 모든 Worry 객체
 """
 def get_worries(request):
+    profile = get_object_or_404(Profile, writer=request.user)
+    worry_count = profile.worry_count
+    points = profile.points
+
     worries_per_page = 6 # 한 페이지 당 보여줄 고민 개수
     page = request.GET.get("page", "1") # 현재 페이지 번호 가져오기
 
@@ -73,6 +78,9 @@ def get_worries(request):
         worry_items.append({
             "worry": worry,
             "time_ago": get_time_ago(worry.pub_date),
+            "cheerup_count": worry.cheerup_count,
+            "answer_count": Answer.objects.filter(worry=worry).count(),
+            "is_bookmarked": request.user in worry.later_answer.all(),
         })
 
     # 하단에 출력할 페이지 번호 리스트
@@ -84,6 +92,9 @@ def get_worries(request):
         number += 1
         
     context = {
+        "worry_count": worry_count,
+        "points": points,
+
         "worries": worry_items,
 
         "page": page,
@@ -111,12 +122,18 @@ def post_bookmark(request, worry_id):
 
     worry = get_object_or_404(Worry, pk=worry_id)
 
-    if request.user in worry.later_answer.all():
-        worry.later_answer.remove(request.user)
+    if request.method == "POST":
+        if request.user in worry.later_answer.all():
+            worry.later_answer.remove(request.user)
+        else:
+            worry.later_answer.add(request.user)
+        
         worry.save()
-    else:
-        worry.later_answer.add(request.user)
-        worry.save()
+    
+    next_url = request.POST.get("next")
+
+    if next_url:
+        return redirect(next_url)
 
     return redirect("worries:get_worries")
 
@@ -154,9 +171,19 @@ def get_worry_detail(request, worry_id):
     if not request.user.is_authenticated:
         return redirect("accounts:login")
 
+    profile = get_object_or_404(Profile, writer=request.user)
     worry = get_object_or_404(Worry, pk=worry_id)
 
-    return render(request, "worries/worry_detail.html", {"worry": worry})
+    is_bookmarked = request.user in worry.later_answer.all()
+
+    context = {
+        "worry": worry,
+        "worry_count": profile.worry_count,
+        "points": profile.points,
+        "is_bookmarked": is_bookmarked,
+    }
+
+    return render(request, "worries/worry_detail.html", context)
 
 """
 [고민 답변 작성]
