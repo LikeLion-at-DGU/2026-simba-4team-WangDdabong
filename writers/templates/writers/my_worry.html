@@ -73,7 +73,7 @@
             <div class="worry-info">
                 <div class="worry-title">{{ worry.title }}</div>
                 <div class="worry-preview">{{ worry.content|truncatechars:15 }}</div>
-                <div class="worry-time">{{ worry.created_at|timesince }} 전</div>
+                <div class="worry-time">{{ worry.pub_date|timesince }} 전</div>
             </div>
 
             <div class="worry-icons">
@@ -114,7 +114,7 @@
             <div class="worry-info">
                 <div class="worry-title">{{ worry.title }}</div>
                 <div class="worry-preview">{{ worry.content|truncatechars:15 }}</div>
-                <div class="worry-time">{{ worry.created_at|timesince }} 전</div>
+                <div class="worry-time">{{ worry.pub_date|timesince }} 전</div>
             </div>
 
             <div class="worry-icons">
@@ -152,7 +152,7 @@
             <div class="worry-info">
                 <div class="worry-title">{{ worry.title }}</div>
                 <div class="worry-preview">{{ worry.content|truncatechars:20 }}</div>
-                <div class="worry-time">{{ worry.created_at|timesince }} 전</div>
+                <div class="worry-time">{{ worry.pub_date|timesince }} 전</div>
             </div>
 
             <div class="worry-icons">
