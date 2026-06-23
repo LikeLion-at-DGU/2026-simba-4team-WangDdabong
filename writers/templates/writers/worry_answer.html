@@ -47,7 +47,7 @@
           </span>
      </div>
 
-     <h1 class="title">RECEIVED REPLIES</h1>
+     <h1 class="title">RECEIVED REPLY</h1>
 
      <div class="scroll-area">
           <div class="form">
@@ -145,9 +145,9 @@
           </div>
      </div>
 
-     <button type="submit" form="epilogue-form" class="submit-btn">
+     <a href="{% url 'writers:post_epilogue' worry.id %}" class="submit-btn">
           후일담 작성하기
-     </button>
+     </a>
 
 </section>
 
