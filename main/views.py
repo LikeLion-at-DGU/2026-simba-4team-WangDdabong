@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from accounts.models import Profile, UserYang
+from accounts.models import Profile, UserYang, Attendance
+from writers.models import PointLog, Epilogue
 from worries.models import Worry
 from .utils import *
 from django.utils import timezone
@@ -10,20 +11,29 @@ import random
 [홈 화면]
 - 기능: 홈 화면 렌더링
 - 받는 값 : source
-- return: 성공 -> demo_home 렌더링
+- return: 성공 -> home 렌더링
 """
-def demo_home(request, source="DONT_CARE"):
+def home(request, source="DONT_CARE", epilogue_id=None):
     if not request.user.is_authenticated:
         return redirect("accounts:login")
     
-    today = timezone.localdate()
+    today = timezone.now().date()
     profile = get_object_or_404(Profile, writer=request.user)
-    already_attendance = True
 
     # 출석 체크 가능 여부 검사
-    if today != profile.last_attendance:
-        already_attendance = False
-        return redirect("main:daily_attend")
+    current_week_start = today - timedelta(days=today.weekday())  # 이번 주 월요일 날짜
+    current_week_end = current_week_start + timedelta(days=6)    # 이번 주 일요일 날짜
+
+    weekly_attendance = Attendance.objects.filter( # 이번 주 출석 기록
+        writer=request.user,
+        date__range=(current_week_start, current_week_end)
+    )
+
+    weekly_attendance_weekdays = []
+    for attendance in weekly_attendance:
+        weekly_attendance_weekdays.append(attendance.date.weekday())
+
+    show_attendance_popup = today.weekday() not in weekly_attendance_weekdays # 오늘 요일이 이번 주 출석 기록에 없으면 팝업 출력
 
     # 상단 남은 고민 개수, 남은 포인트
     worry_count = profile.worry_count
@@ -37,22 +47,43 @@ def demo_home(request, source="DONT_CARE"):
     # 오늘의 멘트 선정
     today_message = random.choice(TODAY_MESSAGES)
 
-    # 팝업 출력 여부
-    is_popup = False
     # 후일담 작성 화면에서 왔다면 팝업 출력
-    if source == "post_epilogue":
-        is_popup = True
+    # 기본값
+    show_epilogue_popup = False
+    epilogue_han_madi = None
+    popup_epilogue_id = None
+
+    if source == "post_epilogue" and epilogue_id is not None:
+        epilogue = get_object_or_404(Epilogue, pk=epilogue_id, ep_is_delete=False)
+        
+        show_epilogue_popup = True
+        epilogue_han_madi = epilogue.ep_han_madi
+        popup_epilogue_id = epilogue.id
 
     context = {
         "worry_count": worry_count,
         "points": points,
         "now_worries": now_worries,
         "today_message": today_message,
-        "is_popup": is_popup,
-        "already_attendance": already_attendance,
+
+        "show_epilogue_popup": show_epilogue_popup,
+        "epilogue_han_madi": epilogue_han_madi,
+        "popup_epilogue_id": popup_epilogue_id,
+
+        "show_attendance_popup": show_attendance_popup,
+        "today_weekday": today.weekday(),
+        "attendance_weekdays": weekly_attendance_weekdays
+    
     }
 
-    return render(request, 'main/demo_home.html', context)
+    return render(request, 'main/home.html', context)
+
+"""
+    [후일담 작성 후 홈 화면으로 전환]
+    - 기능: 후일담 작성 후 해당 함수로 진입. 홈 화면으로 전환
+"""
+def home_from_post_epilogue(request, epilogue_id):
+    return home(request, source="post_epilogue", epilogue_id=epilogue_id)
 
 """
 [출석 체크]
@@ -64,40 +95,47 @@ def daily_attend(request):
     if not request.user.is_authenticated:
         return redirect("accounts:login")
 
+    if request.method != "POST":
+        return redirect("main:home")
+
     profile = get_object_or_404(Profile, writer=request.user)
-    today = timezone.localdate()
+    today = timezone.now().date()
 
-    # 중복 출석 방지 (직접 URL로 접근 방어 목적)
-    if profile.last_attendance == today:
-        return redirect("main:demo_home")
+    current_week_start = today - timedelta(days=today.weekday())  # 이번 주 월요일 날짜
+    current_week_end = current_week_start + timedelta(days=6)    # 이번 주 일요일 날짜
 
-    current_week_start = today - timedelta(days=today.weekday()) # 이번 주 월요일 날짜
-    if profile.last_attendance:
-        last_attendance_week_start = profile.last_attendance - timedelta(days=profile.last_attendance.weekday()) # 마지막 출석 주차 월요일 날짜
+    # 오늘 출석 여부 검사
+    today_attendance = Attendance.objects.filter(
+        writer=request.user,
+        date=today
+    )
+    if today_attendance.exists():
+        return redirect("main:home")
 
-        # 현재 주차와 마지막 출석 주차가 다르면 주간 출석 횟수 초기화
-        if current_week_start != last_attendance_week_start:
-            profile.attendance_count = 0
+    new_attendance = Attendance()   # 오늘 출석 안 했으면 출석 기록 생성
+    new_attendance.writer = request.user
+    new_attendance.date = today
+    new_attendance.save()
 
-    else: # 가입 후 최초 출석
-        profile.attendance_count = 0
+    # 기본 출석
+    edit_points(profile, "출석", 1)
+    profile.last_attendance = today
 
-    # 주간 출석 횟수 +1
-    profile.attendance_count += 1
-    points = 1
-    source = "출석"
+    # 보너스 점수 검사 (일주일 모두 출석)
+    weekly_attendance_count = Attendance.objects.filter(
+        writer=request.user,
+        date__range=(current_week_start, current_week_end)
+    ).count()
 
-    # 일 출석 (보너스 점수 검사)
-    if today.weekday() == 6:
-        if profile.attendance_count == 7:    # 일주일 모두 출석
-            points += 3                      # 보너스(3) + 출석(1) = 4
-            source = "일주일 출석 보너스"
-    
-    edit_points(profile, source, points)              # 점수 반영
-    profile.last_attendance = today           # 마지막 출석 날짜 최신화
+    if weekly_attendance_count == 7:    # 일주일 모두 출석
+        edit_points(profile, "일주일 출석 보너스", 3)                      # 보너스(3) + 출석(1) = 4
+
+    # 마지막 출석 정보 최신화
+    profile.last_attendance = today
+    profile.attendance_count = weekly_attendance_count
     profile.save()
 
-    return redirect("main:demo_home")
+    return redirect("main:home")
 
 """
     [양 성장 과정 구매 화면 렌더링]
@@ -143,3 +181,22 @@ def post_buy_yang(request, yang_id):
     user_yang.save()
 
     return redirect("writers:get_store")
+
+"""
+    [후일담 팝업 처리]
+    - 기능: 후일담 보러가기 클릭 시
+                공개 O -> 명예의 전당 일반 카드 화면 전환
+                공개 X -> 고민-답변-후일담 화면 전환
+"""
+def go_epilogue(request, epilogue_id):
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
+    epilogue = get_object_or_404(Epilogue, pk=epilogue_id, ep_is_delete=False)
+
+    worry = epilogue.worry
+
+    if worry.is_HoF:    # 공개 O -> 명예의 전당 일반 카드 화면 전환
+        return redirect("worries:hall_of_fame", epilogue_id=epilogue_id)
+
+    return redirect("writers:worry_story", worry_id=worry.id)

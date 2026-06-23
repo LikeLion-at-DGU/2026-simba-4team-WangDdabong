@@ -57,7 +57,7 @@
 <!-- footer 추가 ! -->
             <nav class="footer-nav">
 
-                <a href="{% url 'main:demo_home' %}" class="nav-item">
+                <a href="{% url 'main:home' %}" class="nav-item">
                     <svg xmlns="http://www.w3.org/2000/svg" width="41" height="27" viewBox="0 0 41 27" fill="none">
                         <path
                             d="M18.4094 2.0313C19.5736 0.900114 21.4264 0.900113 22.5906 2.0313L32.9515 12.0984C34.8834 13.9754 33.5545 17.25 30.8609 17.25H10.1391C7.44548 17.25 6.11663 13.9754 8.04847 12.0984L18.4094 2.0313Z"
@@ -67,7 +67,7 @@
                     <span>홈</span>
                 </a>
 
-                <a href="#" class="nav-item">
+                <a href="{% url 'worries:get_worries' %}" class="nav-item">
                     <svg xmlns="http://www.w3.org/2000/svg" width="23" height="16" viewBox="0 0 23 16" fill="none">
                         <rect width="23" height="3" rx="1" fill="#F1EBE4" />
                         <rect y="6" width="23" height="3" rx="1" fill="#F1EBE4" />
@@ -76,7 +76,7 @@
                     <span>고민 목록</span>
                 </a>
 
-                <a href="#" class="nav-item">
+                <a href="{% url 'worries:hall_of_fame' %}" class="nav-item">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="38" viewBox="0 0 26 38" fill="none">
                         <path
                             d="M3.83787 4.14293C3.99765 3.10248 5.44961 2.98341 5.77676 3.98393L13.5714 27.8226C13.7828 28.469 13.3011 29.1333 12.6209 29.1333H1.1653C0.55252 29.1333 0.0838692 28.5872 0.176885 27.9815L3.83787 4.14293Z"

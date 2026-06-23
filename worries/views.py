@@ -1,28 +1,32 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from writers.models import Epilogue
 from .models import *
+from main.utils import get_time_ago
 
 """
 [고민 작성]
 - 기능: 작성한 내용으로 Worry 객체 생성 및 저장
 - 받는 값: keyword, title, content, mbti
-- return: 성공 -> demo_home 리다이렉트 / 실패(인증 에러) -> 로그인 메서드로 리다이렉트
+- return: 성공 -> home 리다이렉트 / 실패(인증 에러) -> 로그인 메서드로 리다이렉트
 """
 def post_worry(request):
     if not request.user.is_authenticated:
         return redirect("accounts:login")
     
-    new_worry = Worry()
+    if request.method == "POST":
+        new_worry = Worry()
 
-    new_worry.writer = request.user
-    new_worry.keyword = request.POST["keyword"]
-    new_worry.title = request.POST["title"]
-    new_worry.content = request.POST["content"]
-    new_worry.mbti = request.POST["mbti"]
+        new_worry.writer = request.user
+        new_worry.keyword = request.POST["keyword"]
+        new_worry.title = request.POST["title"]
+        new_worry.content = request.POST["content"]
+        new_worry.mbti = request.POST["mbti"]
 
-    new_worry.save()
+        new_worry.save()
 
-    return redirect("main:demo_home")
+        return redirect("main:home")
+
+    return render(request, "worries/post_worry.html")
 
 """
 [고민 리스트 조회]
@@ -31,9 +35,69 @@ def post_worry(request):
 - return: 모든 Worry 객체
 """
 def get_worries(request):
-    worries = Worry.objects.all()
+    worries_per_page = 6 # 한 페이지 당 보여줄 고민 개수
+    page = request.GET.get("page", "1") # 현재 페이지 번호 가져오기
 
-    return render(request, "worries/demo_list.html", {"worries": worries})
+    if page.isdigit():
+        page = int(page)
+    else:
+        page = 1
+
+    if page < 1:
+        page = 1
+
+    # 고민 리스트 조회
+    worries = Worry.objects.filter(
+        is_delete=False
+    ).order_by("-pub_date")
+
+    # 전체 고민 개수
+    total_count = worries.count()
+
+    # 전체 페이지 수 계산
+    if total_count == 0:
+        total_page = 1
+    else:
+        total_page = (total_count + worries_per_page - 1) // worries_per_page
+
+    if page > total_page: # 현재 페이지가 전체 페이지보다 크면 마지막 페이지로
+        page = total_page
+
+    # 페이지에 해당하는 고민 리스트 가져오기
+    start = (page - 1) * worries_per_page
+    end = start + worries_per_page
+    worries_in_page = worries[start:end]
+
+    worry_items = []
+    for worry in worries_in_page:   # 작성 경과 시간 함께 묶어서 제공
+        worry_items.append({
+            "worry": worry,
+            "time_ago": get_time_ago(worry.pub_date),
+        })
+
+    # 하단에 출력할 페이지 번호 리스트
+    page_numbers = []
+    number = page
+
+    while number <= page + 2 and number <= total_page:
+        page_numbers.append(number)
+        number += 1
+        
+    context = {
+        "worries": worry_items,
+
+        "page": page,
+        "total_page": total_page,
+        
+        "has_prev": page > 1,
+        "has_next": page < total_page,
+        
+        "prev_page": page - 1,
+        "next_page": page + 1,
+        "page_numbers": page_numbers,
+    }
+
+    return render(request, "worries/list.html", context)
 
 """
 [고민 북마크 등록/취소]
@@ -71,11 +135,12 @@ def post_cheerup(request, worry_id):
     if request.user in worry.cheerup.all():
         worry.cheerup.remove(request.user)
         worry.cheerup_count -= 1
-        worry.save()
+        
     else:
         worry.cheerup.add(request.user)
         worry.cheerup_count += 1
-        worry.save()
+
+    worry.save()
     
     return redirect("worries:get_worries")
 
@@ -91,13 +156,16 @@ def get_worry_detail(request, worry_id):
 
     worry = get_object_or_404(Worry, pk=worry_id)
 
-    return render(request, "worries/demo_worry_detail.html", {"worry": worry})
+    return render(request, "worries/worry_detail.html", {"worry": worry})
 
 """
 [고민 답변 작성]
 - 기능: POST-고민 답변 작성 / GET-고민 답변 작성 화면 이동
 - 받는 값: worry_id + (POST의 경우: situation, my_action, recommendation)
 - return: GET 성공 시 -> 고민 답변 작성 화면 렌더링 / POST 성공 시 -> 메인 화면 리다이렉트 / 실패 시 -> 로그인 화면 이동
+
+* 유의사항 *
+- 답변은 최대 5개까지만 작성 가능
 """
 def post_answer(request, worry_id):
     if not request.user.is_authenticated:
@@ -105,8 +173,15 @@ def post_answer(request, worry_id):
 
     worry = get_object_or_404(Worry, pk=worry_id)
 
+    answer_count = Answer.objects.filter(worry=worry).count()
+    
+    
+    if answer_count >= 5:       # 답변 5개 초과 시 
+        return redirect("worries:get_worry_detail", worry.id)
+    
     # 고민 답변 작성 후 제출
     if request.method == "POST":
+
         answer = Answer()
         answer.worry = worry
         answer.writer = request.user
@@ -116,30 +191,34 @@ def post_answer(request, worry_id):
 
         answer.save()
 
-        return redirect(request, "main:home")
+        return redirect("main:home")
 
     # 고민 답변 작성 화면 이동
     else:
-        return render(request, "worries/demo_write_answer.html", {"answer_user": request.user, "worry_writer": worry.writer.profile, "worry": worry})
-    
+        context = {
+            "answer_user": request.user,
+            "worry_writer": worry.writer.profile,
+            "worry": worry,
+        }
+        return render(request, "worries/write_answer.html", context)
 
 """
     [명예의 전당 리스트 함수]
     - 기능 : 명예의 전당에 공개된 고민들 리스트 조회
     - 받는 값 : Worry
-    - return : demo_hof_list.html 화면 표시 
-    * 유의사항 : 현재는 리스트만 구현. 추후 일반 카드와 메인 카드 구현 예정  *
+    - return : hof_list.html 화면 표시 
+    * 유의사항 : 후일담 공감도장 많은 순으로 정렬  *
 """
 
 def hall_of_fame(request):
     
-    hof_worries = Worry.objects.filter(is_HoF = True)   # 명예의 전당에 공개된 고민만 조회 가능
+    hof_worries = Worry.objects.filter(is_HoF = True).order_by("-epilogue__ep_gonggam_count")   # 명예의 전당에 공개된 고민만 조회 가능
 
     context = {
         'hof_worries' : hof_worries,
     }
 
-    return render(request, 'worries/demo_hof_list.html', context)
+    return render(request, 'worries/hof_list.html', context)
 
 
 """
@@ -165,7 +244,7 @@ def hall_of_fame_entry(request):
     [명예의 전당 - 메인 & 일반 카드 함수]
     - 기능 : 명예의 전당에 공개된 고민, 답변, 후일담 카드로 조회
     - 받는 값 : Worry, Answer, Epilogue
-    - return : demo_hof_card.html 화면 표시 
+    - return : hof_card.html 화면 표시 
     * 유의사항 : 배우지 않은 문법들이 들어있지만 없으면 구현을 하지 못해서 넣었음 *
             + 공감 수 1등 후일담이면 메인 카드
             + 나머지는 일반 카드
@@ -204,13 +283,17 @@ def hall_of_fame_card(request, epilogue_id):
         'next_epilogue' : next_epilogue,
     }
 
-    return render(request, 'worries/demo_hof_card.html', context)
+    return render(request, 'worries/hof_card.html', context)
 
 def edit_satisfaction(request, answer_id, is_satisfied):
     if not request.user.is_authenticated:
         return redirect("accounts:login")
     
     answer = get_object_or_404(Answer, pk=answer_id)
+
+    # 고민 작성자만 답변에 만족/불만족 가능
+    if answer.worry.writer != request.user:
+        return
 
     # 답변 만족/불만족 처리
     if (is_satisfied > 0): # 만족
@@ -219,5 +302,21 @@ def edit_satisfaction(request, answer_id, is_satisfied):
         answer.is_satisfied = -1
 
     answer.save()
+
+    # 답변 개수 확인 후 모든 답변 평가 여부 확인
+    answer_count = Answer.objects.filter(worry=answer.worry).count()
+
+    answers = Answer.objects.filter(worry=answer.worry)
+
+    all_checked = True
+
+    for a in answers:
+        if a.is_satisfied == 0:
+            all_checked = False
+            
+    # 답변 5개 + 전부 평가 완료 시 배송 완료 처리
+    if answer_count == 5 and all_checked:
+        answer.worry.is_complete = True
+        answer.worry.save()
 
     return redirect("writers:get_worry_answer", answer.worry.id)

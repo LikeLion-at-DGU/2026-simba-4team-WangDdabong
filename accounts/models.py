@@ -24,3 +24,10 @@ class UserYang(models.Model):
     writer = models.ForeignKey(User, related_name="have_yangs", on_delete=models.CASCADE)    # 사용자
     yang_id = models.CharField(max_length=50)
     purchased_at = models.DateField(auto_now_add=True)
+
+"""
+[출석기록 모델]
+"""
+class Attendance(models.Model):
+    writer = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateField()

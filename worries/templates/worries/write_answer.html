@@ -1,0 +1,84 @@
+<!-- 고민 답변 화면 -->
+{% extends 'base_nav.html' %}
+{% load static %}
+
+{% block title %}고민 답변{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/write_answer.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="reply-section">
+     <h1 class="reply-page-title">WORRY REPLY</h1>
+
+     <form method="post" class="reply-form">
+          {% csrf_token %}
+
+          <input type="hidden" name="worry_id" value="{{ worry_id }}">
+
+          <p class="reply-guide">도움을 줄 고민 내용입니다.</p>
+
+          <div class="textfield">
+               <textarea id="worry-preview" class="worry-preview"
+                    readonly>{{ worry.summary|default:worry.content }}</textarea>
+          </div>
+
+          <p class="reply-template-guide">작성 템플릿을 꼭 지켜주세요!</p>
+
+          <div class="textfield">
+               <textarea id="situation" name="situation" class="reply-content" placeholder="자신이 인식한 문제점"></textarea>
+          </div>
+
+          <div class="textfield">
+               <textarea id="my-action" name="my_action" class="reply-content" placeholder="나라면 어떻게?"></textarea>
+          </div>
+
+          <div class="textfield">
+               <textarea id="recommendation" name="recommendation" class="reply-content"
+                    placeholder="당장 해봤으면 / 안 했으면 하는 행동?"></textarea>
+          </div>
+
+          <p class="reply-warning">
+               욕설, 부정적인 언행 시 경고를 받을 수 있습니다. 예쁜 말로 타인에게 도움을 드리면 감사하겠습니다.
+          </p>
+
+          <button type="submit" class="submit-reply">
+               답변 등록하기
+          </button>
+     </form>
+     <div class="worry-alert-popup" id="worryAlertPopup">
+          <div class="worry-alert-box">
+               <img src="{% static 'images/popupsheep.png' %}" alt="Worryang" class="worry-alert-icon">
+               <p class="worry-alert-text">
+                    주어진 문항을 모두 입력해주세요!
+               </p>
+          </div>
+     </div>
+</section>
+
+<script>
+     const replyForm = document.querySelector(".reply-form");
+     const situationInput = document.querySelector("#situation");
+     const myActionInput = document.querySelector("#my-action");
+     const recommendationInput = document.querySelector("#recommendation");
+     const worryAlertPopup = document.querySelector("#worryAlertPopup");
+
+     replyForm.addEventListener("submit", (event) => {
+          const situation = situationInput.value.trim();
+          const myAction = myActionInput.value.trim();
+          const recommendation = recommendationInput.value.trim();
+
+          if (!situation || !myAction || !recommendation) {
+               event.preventDefault();
+
+               worryAlertPopup.classList.add("show");
+
+               setTimeout(() => {
+                    worryAlertPopup.classList.remove("show");
+               }, 1800);
+          }
+     });
+</script>
+{% endblock %}

@@ -11,7 +11,7 @@ class Worry(models.Model):
     title = models.CharField(max_length=50)                                             # 제목
     content = models.TextField()                                                        # 본문
     mbti = models.CharField(max_length=4)                                               # 선호 MBTI
-    pub_date = models.DateField(auto_now_add=True)                                      # 생성일
+    pub_date = models.DateTimeField(auto_now_add=True)                                      # 생성일
     is_delete = models.BooleanField(default=False)                                      # 삭제 여부
     is_complete = models.BooleanField(default=False)                                    # 완료 여부
     is_HoF = models.BooleanField(default=False)                                         # 명예의 전당 등재 여부

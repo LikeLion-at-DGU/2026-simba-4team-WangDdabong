@@ -35,7 +35,7 @@ def mypage(request):
     [내 고민 함수]
     - 기능 : 본인이 작성한 고민들 고민배송중/공개O/공개X 로 나누어서 볼 수 있음
     - 가져오는 정보 : Worry
-    - return : demo_my_worry.html 화면 표시
+    - return : my_worry.html 화면 표시
 """
 
 def my_worry(request):
@@ -64,35 +64,36 @@ def my_worry(request):
         'private_worries' : private_worries,
     }
 
-    return render(request, 'writers/demo_my_worry.html', context)
+    return render(request, 'writers/my_worry.html', context)
 
 
 """
-    [내 답변 함수]
+    [내 답변 리스트 함수]
     - 기능 : 본인이 작성한 답변들을 볼 수 있음
     - 가져오는 정보 : Answer
-    - return : demo_my_answer.html 화면 표시
+    - return : demo_my_answer_list.html 화면 표시
+    * 유의사항 : 정렬은 최신순으로 *
 """
 
-def my_answer(request):
+def my_answer_list(request):
 
     if not request.user.is_authenticated:
         return redirect("accounts:login")   # 비로그인 시, 로그인 페이지로 넘어감
     
-    my_answers = Answer.objects.filter(writer = request.user)
+    my_answers_list = Answer.objects.filter(writer = request.user).order_by("-pub_date")  # 내 답변 최신순으로 정렬
 
     context = {
-        'my_answers' : my_answers,
+        'my_answers_list' : my_answers_list,
     }
 
-    return render(request, 'writers/demo_my_answer.html', context)
+    return render(request, 'writers/my_answer_list.html', context)
 
 
 """
     [북마크 함수]
-    - 기능 : 본인이 작성한 답변들을 볼 수 있음
+    - 기능 : 본인이 누른 북마크들을 볼 수 있음
     - 가져오는 정보 : Worry
-    - return : demo_worry_bookmark.html 화면 표시
+    - return : worry_bookmark.html 화면 표시
     
     * 유의사항 : 현재 후일담 북마크가 없어서 고민 북마크만 넣어둠. 추후에 반영 예정 *
     -> 반영 완료!!
@@ -111,35 +112,58 @@ def worry_bookmark(request):
         'epilogue_bookmark' : epilogue_bookmark,
     }
 
-    return render(request, 'writers/demo_worry_bookmark.html', context)
+    return render(request, 'writers/worry_bookmark.html', context)
 
+"""
+    [후일담 작성]
+    - 기능 : 후일담 작성 및 공개 여부 설정
+    - 받는 값 : worry_id, ep_han_madi, ep_title, ep_content, is_HoF
+    - return : 성공 -> 홈 화면 이동 / 실패 -> 로그인 화면 이동
 
-
+    * 유의사항 *
+    - 고민 작성자만 후일담 작성 가능
+    - 공개 O 선택 시 is_HoF = True
+    - 공개 X 선택 시 is_HoF = False
+"""
 def post_epilogue(request, worry_id):
     if not request.user.is_authenticated:
         return redirect("accounts:login")
-    
+
+    worry = get_object_or_404(Worry, pk=worry_id)
+
     # 현재 사용자 == 고민 작성자인지 검증
     if request.user != worry.writer:
-        return render(request, "writers/demo_worry_answer.html")
-    else:
-        worry = get_object_or_404(Worry, pk=worry_id)
-        worry.is_HoF = request.POST["is_HoF"]
-        worry.save()
+        return render(request, "writers/worry_answer.html")
 
-        new_epilogue = Epilogue()
+    # 배송 완료된 고민만 후일담 작성 가능
+    if not worry.is_complete:
+        return redirect("writers:get_worry_answer", worry.id)
 
-        new_epilogue.worry = worry
-        new_epilogue.writer = request.user
-        new_epilogue.ep_han_madi = request.POST["ep_han_madi"]
-        new_epilogue.ep_title = request.POST["ep_title"]
-        new_epilogue.ep_content = request.POST["ep_content"]
+    worry.is_HoF = (request.POST["is_HoF"] == "True")   # 공개 여부 설정 (공개 O=True, 공개 X=False)
+    worry.save()
 
-        new_epilogue.save()
+    new_epilogue = Epilogue()
 
-        return redirect("main:demo_home", {"source": "post_epilogue"})
-    
+    new_epilogue.worry = worry
+    new_epilogue.writer = request.user
+    new_epilogue.ep_han_madi = request.POST["ep_han_madi"]
+    new_epilogue.ep_title = request.POST["ep_title"]
+    new_epilogue.ep_content = request.POST["ep_content"]
 
+    new_epilogue.save()
+
+    # 선택된 답변 작성자만 추출
+    selected_answers_ids = request.POST.getlist("answer_ids")
+    selected_answers = Answer.objects.filter(
+        id__in = selected_answers_ids,
+        worry=worry
+    )
+
+    for answer in selected_answers:
+        if answer.writer is not None:
+            new_epilogue.visible_users.add(answer.writer)
+
+    return redirect("main:home_from_post_epilogue", epilogue_id=new_epilogue.id)
 
 """
     [후일담 북마크 등록/취소 함수]
@@ -169,7 +193,6 @@ def ep_bookmark(request, epilogue_id):
     - return : 성공 -> 명예의 전당 화면으로 전환
     * 유의사항 : 해당 worry story로 전환하는게 맞을까?*
 """
-
 def post_epilogue_gonggam(request, epilogue_id):
     if not request.user.is_authenticated:
         return redirect("accounts:login")
@@ -200,7 +223,7 @@ def post_epilogue_gonggam(request, epilogue_id):
     - 공개 X : 고민 작성자와 해당 고민에 답변한 사람들만 조회 가능
 """
 
-def worry_story(request, worry_id):
+def worry_story(request, worry_id, source):
     worry = get_object_or_404(Worry, pk=worry_id)
 
     if not worry.is_HoF:    # 공개X -> 고민 작성자와 해당 고민에 답변을 한 사람들만 조회 가능                  
@@ -209,7 +232,7 @@ def worry_story(request, worry_id):
         is_answerer = Answer.objects.filter(worry=worry, writer=request.user).exists()
 
         if not is_writer and not is_answerer:
-            return redirect("main:demo_home")
+            return redirect("main:home")
         
     answers = Answer.objects.filter(worry=worry)
     epilogue = Epilogue.objects.filter(worry=worry)
@@ -218,9 +241,10 @@ def worry_story(request, worry_id):
         'worry' : worry,
         'answers' : answers,
         'epilogue' : epilogue,
+        'source' : source,
     }
 
-    return render(request, 'writers/demo_worry_story.html', context)
+    return render(request, 'writers/worry_story.html', context)
 
 """
     [고민 답변 확인 함수]
@@ -268,4 +292,4 @@ def get_point_logs(request):
         "worry_yang_level": profile.current_yang,
     }
 
-    return render(request, "writers/demo_point_logs.html", context)
+    return render(request, "writers/point_logs.html", context)

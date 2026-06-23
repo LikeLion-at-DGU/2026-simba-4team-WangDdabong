@@ -1,0 +1,331 @@
+@font-face {
+    font-family: "Chunko Bold Demo";
+    src: url('../fonts/ChunkoBoldDemo.ttf');
+    font-weight: 900;
+    font-style: normal;
+}
+
+/* 고민 상세 본문: 874 - 상태바 70 - 푸터 85 = 719 */
+.page {
+    position: relative;
+    width: 100%;
+    height: calc(874px - 70px - 85px);
+    background: #F3EEE8;
+    padding: 10px 16px 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    overflow: hidden;
+}
+
+/* 오른쪽 상단 질문 / 포인트 */
+.top-info {
+    width: 370px;
+
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+
+    margin: 0 0 40px;
+
+    z-index: 20;
+}
+
+.top-info-box {
+    width: 50px;
+    height: 20px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+
+    background: #D5C9BB;
+    border-radius: 8px;
+
+    color: #000000;
+    font-family: Pretendard, sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 100%;
+
+    white-space: nowrap;
+}
+
+.top-question-icon {
+    display: block;
+    width: 17px;
+    height: 17px;
+    flex-shrink: 0;
+}
+
+.point-icon {
+    display: block;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.top-info-count {
+    color: #000000;
+    font-family: Pretendard, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 100%;
+}
+
+/* 제목 */
+.title {
+    margin: 0 0 22px;
+
+    color: #2B2D54;
+    text-align: center;
+    font-family: "Chunko Bold Demo", Pretendard, sans-serif;
+    font-size: 30px;
+    font-weight: 900;
+    line-height: 120%;
+}
+
+/* form처럼 보이는 전체 묶음 */
+.form {
+    width: 370px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    padding-bottom: 0;
+}
+
+/* input 공통 */
+.input-box {
+    width: 100%;
+    height: 50px;
+
+    background: #D5C9BB;
+    border: none;
+    outline: none;
+    border-radius: 18px;
+
+    padding: 14px 16px;
+
+    color: #000;
+    font-family: Pretendard, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 150%;
+}
+
+.input-box:focus {
+    outline: none;
+}
+
+/* readonly여도 흐려지지 않게 */
+.input-box[readonly],
+.content-textarea[readonly] {
+    opacity: 1;
+    cursor: default;
+}
+
+/* 섹션 라벨 */
+.section-label {
+    margin: 4px 0 0;
+
+    color: #000;
+    font-family: Pretendard, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 150%;
+}
+
+/* content card */
+.content-card {
+    position: relative;
+
+    width: 100%;
+    height: 300px;
+}
+
+/* textarea */
+.content-textarea {
+    width: 100%;
+    height: 300px;
+
+    background: #D5C9BB;
+    border: none;
+    outline: none;
+    border-radius: 20px;
+
+    padding: 22px 22px 64px;
+
+    color: #000;
+    font-family: Pretendard, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 150%;
+
+    resize: none;
+    display: block;
+
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.content-textarea::-webkit-scrollbar {
+    display: none;
+}
+
+.content-textarea:focus {
+    outline: none;
+}
+
+/* 오른쪽 아래 스탬프 + 카운트 + 북마크 */
+.stamp-area {
+    position: absolute;
+    right: 18px;
+    bottom: 15px;
+
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    z-index: 10;
+}
+
+/* form 기본 여백 제거 */
+.cheer-form,
+.bookmark-form {
+    margin: 0;
+    padding: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 버튼 기본 스타일 제거 */
+.stamp-btn,
+.bookmark-btn {
+    padding: 0;
+    margin: 0;
+
+    border: none;
+    outline: none;
+    background: transparent;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+}
+
+/* stamp */
+.stamp-icon {
+    width: 28px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.stamp-icon img {
+    width: 28px !important;
+    height: 32px !important;
+
+    max-width: 28px !important;
+    max-height: 32px !important;
+
+    display: block;
+    object-fit: contain;
+
+    transform: rotate(-4.66deg);
+}
+
+/* count */
+.stamp-count {
+    color: #000;
+    font-family: Pretendard, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1;
+
+    margin-left: 2px;
+    flex-shrink: 0;
+}
+
+/* bookmark */
+.bookmark-btn {
+    width: 24px;
+    height: 30px;
+
+    margin-left: 10px;
+
+    color: #FFFFFF;
+    flex-shrink: 0;
+}
+
+.bookmark-btn.active {
+    color: #AE4959;
+}
+
+.bookmark-btn svg {
+    width: 23px;
+    height: 30px;
+
+    display: block;
+}
+
+.bookmark-btn svg path {
+    fill: currentColor;
+}
+
+/* 답변 작성 버튼 */
+.submit-btn {
+    margin-top: 50px;
+
+    width: 100%;
+    height: 48px;
+
+    background: #2B2D54;
+    color: #FFFFFF;
+
+    border: none;
+    border-radius: 20px;
+
+    font-family: Pretendard, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 150%;
+
+    text-decoration: none;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer;
+
+    transition: background 0.15s ease;
+}
+
+.submit-btn:hover {
+    background: #53546B;
+}
+
+.submit-btn:visited,
+.submit-btn:hover,
+.submit-btn:active,
+.submit-btn:focus {
+    text-decoration: none;
+    color: #FFFFFF;
+    outline: none;
+}
