@@ -216,19 +216,19 @@ def post_answer(request, worry_id):
     [명예의 전당 리스트 함수]
     - 기능 : 명예의 전당에 공개된 고민들 리스트 조회
     - 받는 값 : Worry
-    - return : demo_hof_list.html 화면 표시 
-    * 유의사항 : 현재는 리스트만 구현. 추후 일반 카드와 메인 카드 구현 예정  *
+    - return : hof_list.html 화면 표시 
+    * 유의사항 : 후일담 공감도장 많은 순으로 정렬  *
 """
 
 def hall_of_fame(request):
     
-    hof_worries = Worry.objects.filter(is_HoF = True)   # 명예의 전당에 공개된 고민만 조회 가능
+    hof_worries = Worry.objects.filter(is_HoF = True).order_by("-epilogue__ep_gonggam_count")   # 명예의 전당에 공개된 고민만 조회 가능
 
     context = {
         'hof_worries' : hof_worries,
     }
 
-    return render(request, 'worries/demo_hof_list.html', context)
+    return render(request, 'worries/hof_list.html', context)
 
 
 """
@@ -254,7 +254,7 @@ def hall_of_fame_entry(request):
     [명예의 전당 - 메인 & 일반 카드 함수]
     - 기능 : 명예의 전당에 공개된 고민, 답변, 후일담 카드로 조회
     - 받는 값 : Worry, Answer, Epilogue
-    - return : demo_hof_card.html 화면 표시 
+    - return : hof_card.html 화면 표시 
     * 유의사항 : 배우지 않은 문법들이 들어있지만 없으면 구현을 하지 못해서 넣었음 *
             + 공감 수 1등 후일담이면 메인 카드
             + 나머지는 일반 카드
@@ -293,7 +293,7 @@ def hall_of_fame_card(request, epilogue_id):
         'next_epilogue' : next_epilogue,
     }
 
-    return render(request, 'worries/demo_hof_card.html', context)
+    return render(request, 'worries/hof_card.html', context)
 
 def edit_satisfaction(request, answer_id, is_satisfied):
     if not request.user.is_authenticated:

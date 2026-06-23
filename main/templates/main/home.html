@@ -22,7 +22,7 @@
                          font-weight="1000" font-family="Pretendard, sans-serif">?</text>
                </svg>
 
-               <span class="top-info-count">{{ worry_count }}</span>
+               <span class="top-info-count">{{ worry_count|default:0 }}</span>
           </span>
 
           <span class="top-info-box">
@@ -37,7 +37,7 @@
                     <path d="M5.5 10.25C6.25 10.9583 8.125 11.95 9.625 10.25" stroke="black" stroke-width="0.5"
                          stroke-linecap="round" />
                </svg>
-               <span class="top-info-count">{{ points }}</span>
+               <span class="top-info-count">{{ points|default:0 }}</span>
           </span>
      </div>
 
@@ -79,7 +79,7 @@
                     </form>
 
                     <span class="count">
-                         {{ worry.cheer_count }}
+                         {{ worry.cheer_count|default:0 }}
                     </span>
 
                     <span class="answer">
@@ -91,7 +91,7 @@
                     </span>
 
                     <span class="count">
-                         {{ worry.answer_count }}
+                         {{ worry.answer_count|default:0 }}
                     </span>
                </div>
           </article>
@@ -181,7 +181,7 @@
 
           <div class="attendance-grid">
 
-               <div class="attendance-item">
+               <div class="attendance-item" data-day="1">
                     <div class="attendance-face">
                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 55 55" fill="none">
                               <circle cx="27.5" cy="27.5" r="26.5" fill="#C89B25" stroke="black" stroke-width="2"
@@ -197,7 +197,7 @@
                     <span class="attendance-label">DAY 1</span>
                </div>
 
-               <div class="attendance-item">
+               <div class="attendance-item" data-day="2">
                     <div class="attendance-face">
                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 55 55" fill="none">
                               <circle cx="27.5" cy="27.5" r="26.5" fill="#C89B25" stroke="black" stroke-width="2"
@@ -213,7 +213,7 @@
                     <span class="attendance-label">DAY 2</span>
                </div>
 
-               <div class="attendance-item">
+               <div class="attendance-item" data-day="3">
                     <div class="attendance-face">
                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 55 55" fill="none">
                               <circle cx="27.5" cy="27.5" r="26.5" fill="#C89B25" stroke="black" stroke-width="2"
@@ -229,7 +229,7 @@
                     <span class="attendance-label">DAY 3</span>
                </div>
 
-               <div class="attendance-item">
+               <div class="attendance-item" data-day="4">
                     <div class="attendance-face">
                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 55 55" fill="none">
                               <circle cx="27.5" cy="27.5" r="26.5" fill="#C89B25" stroke="black" stroke-width="2"
@@ -245,7 +245,7 @@
                     <span class="attendance-label">DAY 4</span>
                </div>
 
-               <div class="attendance-item">
+               <div class="attendance-item" data-day="5">
                     <div class="attendance-face">
                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 55 55" fill="none">
                               <circle cx="27.5" cy="27.5" r="26.5" fill="#C89B25" stroke="black" stroke-width="2"
@@ -261,7 +261,7 @@
                     <span class="attendance-label">DAY 5</span>
                </div>
 
-               <div class="attendance-item">
+               <div class="attendance-item" data-day="6">
                     <div class="attendance-face">
                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 55 55" fill="none">
                               <circle cx="27.5" cy="27.5" r="26.5" fill="#C89B25" stroke="black" stroke-width="2"
@@ -277,7 +277,7 @@
                     <span class="attendance-label">DAY 6</span>
                </div>
 
-               <div class="attendance-item">
+               <div class="attendance-item" data-day="7">
                     <div class="attendance-face">
                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 55 55" fill="none">
                               <circle cx="27.5" cy="27.5" r="26.5" fill="#C89B25" stroke="black" stroke-width="2"
@@ -293,7 +293,7 @@
                     <span class="attendance-label">DAY 7</span>
                </div>
 
-               <div class="attendance-item bonus-item">
+               <div class="attendance-item bonus-item" data-day="8">
                     <div class="bonus-faces">
                          <div class="bonus-left-faces">
                               <div class="bonus-face bonus-face-1">
@@ -343,13 +343,11 @@
           </div>
 
           <button type="button" class="attendance-close-btn" id="attendanceClose">
-               팝업 닫기
+               출석체크 하기
           </button>
 
      </div>
 </section>
 
-
-<script src="{% static 'js/review_popup.js' %}"></script>
-
+<script src="{% static 'js/home.js' %}"></script>
 {% endblock %}

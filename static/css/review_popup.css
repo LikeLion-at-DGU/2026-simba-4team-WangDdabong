@@ -14,12 +14,13 @@
     background: transparent;
 }
 
-.review-popup.active,
-.attendance-popup.active {
+.review-popup.show,
+.attendance-popup.show {
     display: flex;
     justify-content: center;
     align-items: flex-start;
 }
+
 
 /* X 버튼 공통 */
 .popup-close {
@@ -155,25 +156,10 @@
     line-height: 100%;
 }
 
-/* 하단 팝업 닫기 버튼 */
-.review-close-btn {
-    width: 330px;
-    height: 48px;
-    margin-top: 25px;
-
-    border: none;
-    border-radius: 20px;
-    background: #2B2D54;
-
-    color: #FFFFFF;
-    text-align: center;
-    font-family: Pretendard, sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 100%;
-
-    cursor: pointer;
+.review-link:hover {
+    background-color: #868484;
 }
+
 
 /* 흰색 출첵창 */
 .attendance-content-box {
@@ -313,25 +299,11 @@
     letter-spacing: 0.4px;
 }
 
-/* 하단 팝업 닫기 버튼 */
-.attendance-close-btn {
-    width: 330px;
-    height: 48px;
-    margin-top: 25px;
-
-    border: none;
-    border-radius: 20px;
-    background: #2B2D54;
-
-    color: #FFFFFF;
-    text-align: center;
-    font-family: Pretendard, sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 100%;
-
-    cursor: pointer;
+.review-close-btn:hover,
+.attendance-close-btn:hover {
+    background: #53546B;
 }
+
 
 /* 팝업 뜰 때 양 흐리게 */
 .delivery-area {
@@ -340,4 +312,53 @@
 
 .delivery-area.blurred {
     opacity: 0.3;
+}
+
+/* 팝업 하단 버튼 공통 */
+.review-close-btn,
+.attendance-close-btn {
+    width: 330px;
+    height: 48px;
+    box-sizing: border-box;
+
+    margin-top: 25px;
+    padding: 12px 16px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    border: none;
+    border-radius: 20px;
+    background: #2B2D54;
+
+    color: #FFFFFF;
+    text-align: center;
+    text-decoration: none;
+
+    font-family: Pretendard, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 150%;
+
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.review-close-btn:hover,
+.attendance-close-btn:hover,
+.attendance-label:hover {
+    background: #53546B;
+}
+
+/* 이미 완료된 출석 흐리게 */
+.attendance-item.completed .attendance-face,
+.attendance-item.completed .bonus-faces,
+.attendance-item.completed .attendance-label {
+    opacity: 0.35;
+}
+
+.attendance-label {
+    cursor: pointer;
 }

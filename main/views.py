@@ -111,7 +111,7 @@ def daily_attend(request):
     )
     if today_attendance.exists():
         return redirect("main:home")
-    
+
     new_attendance = Attendance()   # 오늘 출석 안 했으면 출석 기록 생성
     new_attendance.writer = request.user
     new_attendance.date = today
