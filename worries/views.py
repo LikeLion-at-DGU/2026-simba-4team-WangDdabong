@@ -20,9 +20,6 @@ def post_worry(request):
     if profile.worry_count <= 0:
         return redirect("main:home")
     
-    profile.worry_count -= 1
-    profile.save()
-
     if request.method == "POST":
         new_worry = Worry()
 
@@ -33,6 +30,9 @@ def post_worry(request):
         new_worry.mbti = request.POST["mbti"]
 
         new_worry.save()
+
+        profile.worry_count -= 1
+        profile.save()
 
         return redirect("main:home")
 
