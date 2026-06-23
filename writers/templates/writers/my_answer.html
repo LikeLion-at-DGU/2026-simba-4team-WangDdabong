@@ -102,11 +102,11 @@
                     <div class="section-label">고민 내용</div>
 
                     <div class="story-stamp-info">
-                        <img class="cheerup" src="{% static 'images/cheerup.png' %}" alt="응원도장">
+                        <img class="cheerup" src="../../static/images/cheerup.png" alt="응원도장">
                         <span class="story-stamp-count">{{ worry.cheerup_count }}</span>
 
                         {% if worry.is_HoF %}
-                        <img class="gonggam" src="{% static 'images/gonggam.png' %}" alt="공감도장">
+                        <img class="gonggam" src="../../static/images/gonggam.png" alt="공감도장">
                         <span class="story-stamp-count">{{ worry.gonggam_count }}</span>
                         {% endif %}
                     </div>
@@ -137,7 +137,8 @@
                             </svg>
                         </span>
 
-                        <span class="reaction-btn down-btn {% if not answer.is_satisfied %}active{% endif %}" aria-label="불만족">
+                        <span class="reaction-btn down-btn {% if not answer.is_satisfied %}active{% endif %}"
+                            aria-label="불만족">
                             <svg xmlns="http://www.w3.org/2000/svg" width="21" height="25" viewBox="0 0 21 25"
                                 fill="none">
                                 <path
