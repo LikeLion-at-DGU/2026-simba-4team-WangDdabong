@@ -3,44 +3,56 @@ document.addEventListener("DOMContentLoaded", () => {
     const reviewClose = document.querySelector("#reviewClose");
 
     const attendancePopup = document.querySelector("#attendancePopup");
-    const attendanceClose = document.querySelector("#attendanceClose");
+    const attendanceForm = document.querySelector("#attendanceForm");
+    const deliveryArea = document.querySelector(".delivery-area");
 
-    // 테스트용: 현재 출석할 차례
-    // DAY 1 테스트면 1, DAY 3 테스트면 3으로 바꾸면 됨
-    let currentAttendanceDay = 1;
+    const shouldShowReview = reviewPopup?.dataset.showPopup === "true";
+    const shouldShowAttendance = attendancePopup?.dataset.showPopup === "true";
+    const todayDay = Number(attendancePopup?.dataset.todayDay || 0);
+    const attendedDays = (attendancePopup?.dataset.attendanceDays || "")
+        .split(",")
+        .map((day) => Number(day))
+        .filter(Boolean);
 
-    // 새로고침할 때마다 출첵 팝업 무조건 띄우기
-    attendancePopup?.classList.add("show");
+    function showPopup(popup) {
+        popup?.classList.add("show");
+        deliveryArea?.classList.add("blurred");
+    }
 
-    // 현재 차례 이전 DAY들은 처음부터 흐리게 처리
-    document.querySelectorAll(".attendance-item").forEach((item) => {
-        const day = Number(item.dataset.day);
+    function hidePopup(popup) {
+        popup?.classList.remove("show");
 
-        if (day < currentAttendanceDay) {
-            item.classList.add("completed");
+        if (!document.querySelector(".review-popup.show, .attendance-popup.show")) {
+            deliveryArea?.classList.remove("blurred");
         }
-    });
+    }
 
-    // DAY 아이템 누르면 현재 차례 DAY만 즉시 흐리게
     document.querySelectorAll(".attendance-item").forEach((item) => {
         const day = Number(item.dataset.day);
+        const isCompleted = attendedDays.includes(day);
+        const isToday = day === todayDay;
 
-        item.addEventListener("click", () => {
-            if (day === currentAttendanceDay) {
-                item.classList.add("completed");
-                currentAttendanceDay += 1;
-            }
-        });
+        item.classList.toggle("completed", isCompleted);
+        item.classList.toggle("today", isToday && !isCompleted);
+        item.classList.toggle("disabled", !isToday || isCompleted);
     });
 
-    // 출석체크 하기 누르면 출첵 팝업 닫고 후일담 팝업 열기
-    attendanceClose?.addEventListener("click", () => {
-        attendancePopup?.classList.remove("show");
-        reviewPopup?.classList.add("show");
+    if (shouldShowReview) {
+        showPopup(reviewPopup);
+    } else if (shouldShowAttendance) {
+        showPopup(attendancePopup);
+    }
+
+    attendanceForm?.addEventListener("submit", () => {
+        const todayItem = document.querySelector(`.attendance-item[data-day="${todayDay}"]`);
+        todayItem?.classList.add("completed");
     });
 
-    // 후일담 팝업 닫기
     reviewClose?.addEventListener("click", () => {
-        reviewPopup?.classList.remove("show");
+        hidePopup(reviewPopup);
+
+        if (shouldShowAttendance) {
+            showPopup(attendancePopup);
+        }
     });
 });

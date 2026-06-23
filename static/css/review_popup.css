@@ -204,6 +204,14 @@
     gap: 15px;
 }
 
+.attendance-item.disabled {
+    pointer-events: none;
+}
+
+.attendance-item.today .attendance-label {
+    background: #AE4959;
+}
+
 /* 일반 얼굴 */
 .attendance-face {
     width: 55px;
@@ -344,6 +352,15 @@
 
     cursor: pointer;
     transition: background 0.15s ease;
+}
+
+.attendance-form {
+    width: 330px;
+    margin-top: 25px;
+}
+
+.attendance-form .attendance-close-btn {
+    margin-top: 0;
 }
 
 .review-close-btn:hover,

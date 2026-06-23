@@ -52,7 +52,8 @@
                </button>
           </a>
 
-          {% for worry in now_worries %}
+          {% for item in now_worries %}
+          {% with worry=item.worry %}
           <article class="category-card">
 
                <!-- 고민 상세 이동 -->
@@ -60,7 +61,7 @@
                     aria-label="고민 상세로 이동">
                </a>
 
-               <img src="{% static 'images/yellowstamp.png' %}" alt="고민 아이콘" class="category-icon">
+               <img src="{% static item.yang_image %}" alt="{{ item.yang_name }}" class="category-icon">
 
                <p class="category-title">
                     {{ worry.keyword }}
@@ -71,6 +72,7 @@
                     <!-- 응원 도장 -->
                     <form method="post" action="{% url 'worries:post_cheerup' worry.id %}" class="home-cheer-form">
                          {% csrf_token %}
+                         <input type="hidden" name="next" value="{{ request.get_full_path }}">
                          <button type="submit" class="home-stamp-btn" aria-label="응원 도장">
                               <span class="stamp">
                                    <img src="{% static 'images/yellowstamp.png' %}" alt="스탬프">
@@ -79,7 +81,7 @@
                     </form>
 
                     <span class="count">
-                         {{ worry.cheer_count|default:0 }}
+                         {{ item.cheerup_count|default:0 }}
                     </span>
 
                     <span class="answer">
@@ -91,10 +93,11 @@
                     </span>
 
                     <span class="count">
-                         {{ worry.answer_count|default:0 }}
+                         {{ item.answer_count|default:0 }}
                     </span>
                </div>
           </article>
+          {% endwith %}
           {% empty %}
           <p class="empty-home-message">현재 표시할 고민이 없어요.</p>
           {% endfor %}
@@ -131,7 +134,7 @@
 
 <!-- 후일담 팝업 -->
 
-<section class="review-popup" id="reviewPopup">
+<section class="review-popup" id="reviewPopup" data-show-popup="{{ show_epilogue_popup|yesno:'true,false' }}">
      <div class="review-content-box">
 
           <div class="review-header">
@@ -159,10 +162,11 @@
 
           <div class="review-message-box">
                <p class="review-message">
-                    답변자님 덕분에 시험 무사히 잘 봤습니다!
+                    {{ epilogue_han_madi|default:"후일담이 도착했어요." }}
                </p>
 
-               <a href="#" class="review-link">
+               <a href="{% if popup_epilogue_id %}{% url 'main:go_epilogue' popup_epilogue_id %}{% else %}#{% endif %}"
+                    class="review-link">
                     후일담 보러 가기
                </a>
           </div>
@@ -176,7 +180,10 @@
 
 
 <!-- 출석체크 팝업 -->
-<section class="attendance-popup" id="attendancePopup">
+<section class="attendance-popup" id="attendancePopup"
+     data-show-popup="{{ show_attendance_popup|yesno:'true,false' }}"
+     data-today-day="{{ today_day }}"
+     data-attendance-days="{{ attendance_weekdays|join:',' }}">
      <div class="attendance-content-box">
 
           <div class="attendance-grid">
@@ -342,9 +349,12 @@
 
           </div>
 
-          <button type="button" class="attendance-close-btn" id="attendanceClose">
-               출석체크 하기
-          </button>
+          <form method="post" action="{% url 'main:daily_attend' %}" class="attendance-form" id="attendanceForm">
+               {% csrf_token %}
+               <button type="submit" class="attendance-close-btn" id="attendanceClose">
+                    출석체크 하기
+               </button>
+          </form>
 
      </div>
 </section>

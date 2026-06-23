@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils import timezone
 from PIL import Image
 
 class Profile(models.Model):
@@ -16,6 +17,15 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.writer.username
+
+    @property
+    def answer_count(self):
+        from worries.models import Answer
+
+        return Answer.objects.filter(
+            writer=self.writer,
+            pub_date=timezone.now().date(),
+        ).count()
     
     
 """
