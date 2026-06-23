@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from accounts.models import Profile
+from accounts.models import Profile, Attendance
 from writers.models import PointLog
 from worries.models import Worry
 from .utils import TODAY_MESSAGES
@@ -19,12 +19,21 @@ def home(request, source="DONT_CARE"):
     
     today = timezone.now().date()
     profile = get_object_or_404(Profile, writer=request.user)
-    already_attendance = True
 
     # 출석 체크 가능 여부 검사
-    if today != profile.last_attendance:
-        already_attendance = False
-        return redirect("main:daily_attend")
+    current_week_start = today - timedelta(days=today.weekday())  # 이번 주 월요일 날짜
+    current_week_end = current_week_start + timedelta(days=6)    # 이번 주 일요일 날짜
+
+    weekly_attendance = Attendance.objects.filter( # 이번 주 출석 기록
+        writer=request.user,
+        date__range=(current_week_start, current_week_end)
+    )
+
+    weekly_attendance_weekdays = []
+    for attendance in weekly_attendance:
+        weekly_attendance_weekdays.append(attendance.date.weekday())
+
+    show_attendance_popup = today.weekday() not in weekly_attendance_weekdays # 오늘 요일이 이번 주 출석 기록에 없으면 팝업 출력
 
     # 상단 남은 고민 개수, 남은 포인트
     worry_count = profile.worry_count
@@ -38,19 +47,16 @@ def home(request, source="DONT_CARE"):
     # 오늘의 멘트 선정
     today_message = random.choice(TODAY_MESSAGES)
 
-    # 팝업 출력 여부
-    is_popup = False
     # 후일담 작성 화면에서 왔다면 팝업 출력
-    if source == "post_epilogue":
-        is_popup = True
+    show_epilogue_popup = (source == "post_epilogue")
 
     context = {
         "worry_count": worry_count,
         "points": points,
         "now_worries": now_worries,
         "today_message": today_message,
-        "is_popup": is_popup,
-        "already_attendance": already_attendance,
+        "show_epilogue_popup": show_epilogue_popup,
+        "show_attendance_popup": show_attendance_popup,
     }
 
     return render(request, 'main/home.html', context)
@@ -67,9 +73,13 @@ def daily_attend(request):
         print("로그인 안됨")
         return redirect("accounts:login")
 
+    if request.method != "POST":
+        return redirect("main:home")
+
     profile = get_object_or_404(Profile, writer=request.user)
     today = timezone.now().date()
 
+<<<<<<< HEAD
     # 중복 출석 방지 (직접 URL로 접근 방어 목적)
     if profile.last_attendance == today:
         print("home으로 리다이렉트")
@@ -104,9 +114,40 @@ def daily_attend(request):
         if profile.attendance_count == 7:    # 일주일 모두 출석
             points += 3                      # 보너스(3) + 출석(1) = 4
             source = "일주일 출석 보너스"
+=======
+    current_week_start = today - timedelta(days=today.weekday())  # 이번 주 월요일 날짜
+    current_week_end = current_week_start + timedelta(days=6)    # 이번 주 일요일 날짜
+
+    # 오늘 출석 여부 검사
+    today_attendance = Attendance.objects.filter(
+        writer=request.user,
+        date=today
+    )
+    if today_attendance.exists():
+        return redirect("main:home")
+>>>>>>> c3131343ed18cf7fc8d65dc6348570c87db9da57
     
-    edit_points(profile, points)              # 점수 반영
-    profile.last_attendance = today           # 마지막 출석 날짜 최신화
+    new_attendance = Attendance()   # 오늘 출석 안 했으면 출석 기록 생성
+    new_attendance.writer = request.user
+    new_attendance.date = today
+    new_attendance.save()
+
+    # 기본 출석
+    edit_points(profile, "출석", 1)
+    profile.last_attendance = today
+
+    # 보너스 점수 검사 (일주일 모두 출석)
+    weekly_attendance_count = Attendance.objects.filter(
+        writer=request.user,
+        date__range=(current_week_start, current_week_end)
+    ).count()
+
+    if weekly_attendance_count == 7:    # 일주일 모두 출석
+        edit_points(profile, "일주일 출석 보너스", 3)                      # 보너스(3) + 출석(1) = 4
+
+    # 마지막 출석 정보 최신화
+    profile.last_attendance = today
+    profile.attendance_count += 1
     profile.save()
 
     return redirect("main:home")
