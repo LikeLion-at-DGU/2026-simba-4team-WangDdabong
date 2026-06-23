@@ -62,7 +62,9 @@ def home(request, source="DONT_CARE"):
 - return: 성공 시 -> 홈 화면 리다이렉트
 """
 def daily_attend(request):
+    print("daily_attend 진입")
     if not request.user.is_authenticated:
+        print("로그인 안됨")
         return redirect("accounts:login")
 
     profile = get_object_or_404(Profile, writer=request.user)
@@ -70,10 +72,12 @@ def daily_attend(request):
 
     # 중복 출석 방지 (직접 URL로 접근 방어 목적)
     if profile.last_attendance == today:
+        print("home으로 리다이렉트")
         return redirect("main:home")
 
     # GET 요청에서는 출석 처리하지 않고 출석 페이지를 보여줌
     if request.method == "GET":
+        print("render 실행")
         return render(request, "main/daily_attend.html")
 
     # POST 요청일 때만 실제 출석 처리
