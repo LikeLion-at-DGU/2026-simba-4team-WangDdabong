@@ -49,8 +49,7 @@
         {% for answer in my_answers_list %}
         <article class="reply-card">
 
-            <!-- 답변 관련 상세 이동: 필요하면 href만 백 url에 맞춰 수정 -->
-            <a href="{% url 'writers:worry_story' answer.worry.id %}" class="card-link-overlay"
+            <a href="{% url 'writers:my_answer' answer.worry.id %}" class="card-link-overlay"
                 aria-label="답변 상세로 이동"></a>
             <div class="reply-text">
                 <span class="reply-title">
