@@ -69,7 +69,7 @@
     <!-- 고민 배송 중 -->
     <div id="delivering" class="worry-list">
         {% for worry in delivery_worries %}
-        <a href="{% url 'worries:get_worry_detail' worry.id %}" class="worry-card">
+        <a href="{% url 'writers:my_worry_detail' worry.id %}" class="worry-card">
             <div class="worry-info">
                 <div class="worry-title">{{ worry.title }}</div>
                 <div class="worry-preview">{{ worry.content|truncatechars:15 }}</div>
@@ -110,7 +110,7 @@
 
     <div id="public" class="worry-list hidden">
         {% for worry in public_worries %}
-        <a href="{% url 'worries:get_worry_detail' worry.id %}" class="worry-card">
+        <a href="{% url 'writers:my_worry_detail' worry.id %}" class="worry-card">
             <div class="worry-info">
                 <div class="worry-title">{{ worry.title }}</div>
                 <div class="worry-preview">{{ worry.content|truncatechars:15 }}</div>
@@ -148,7 +148,7 @@
 
     <div id="private" class="worry-list hidden">
         {% for worry in private_worries %}
-        <a href="{% url 'worries:get_worry_detail' worry.id %}" class="worry-card">
+        <a href="{% url 'writers:my_worry_detail' worry.id %}" class="worry-card">
             <div class="worry-info">
                 <div class="worry-title">{{ worry.title }}</div>
                 <div class="worry-preview">{{ worry.content|truncatechars:20 }}</div>
