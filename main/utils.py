@@ -11,25 +11,25 @@ Yang = {
     "new_yang": {
         "name": "신규 유저",
         "price": 0,
-        "image": "",
+        "image": "images/newbie.png",
         "description": "",
     },
     "young_yang": {
         "name": "어린양",
         "price": 5,
-        "image": "",
+        "image": "images/worryang1.png",
         "description": "하루 당 +1 고민",
     },
     "very_yang": {
         "name": "버리양",
         "price": 20,
-        "image": "",
+        "image": "images/worryang2.png",
         "description": "하루 당 +3 고민",
     },
     "worry_yang": {
         "name": "워리양",
         "price": 50,
-        "image": "",
+        "image": "images/worryang3.png",
         "description": "하루 당 +1 고민\n새벽 배송 입장 가능",
     },
 }
@@ -46,8 +46,8 @@ def edit_points(profile, source, amount):
     
     # 잔액 부족시
     if profile.points + amount < 0:
-        return
-
+        return False
+    
     profile.points += amount
     profile.save()
 
@@ -59,6 +59,7 @@ def edit_points(profile, source, amount):
     point_log.points_after = profile.points
 
     point_log.save()
+    return True
 
 """
     [시간 계산 util 함수]
