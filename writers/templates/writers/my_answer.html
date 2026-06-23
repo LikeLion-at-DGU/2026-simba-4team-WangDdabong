@@ -124,7 +124,7 @@
                     <div class="section-label">고민 답변 {{ forloop.counter }}</div>
 
                     <div class="reaction-icons">
-                        <span class="reaction-btn up-btn {% if answer.is_satisfied %}active{% endif %}" aria-label="만족">
+                        <span class="reaction-btn up-btn {% if answer.is_up %}active{% endif %}" aria-label="만족">
                             <svg xmlns="http://www.w3.org/2000/svg" width="21" height="25" viewBox="0 0 21 25"
                                 fill="none">
                                 <path
@@ -137,7 +137,7 @@
                             </svg>
                         </span>
 
-                        <span class="reaction-btn down-btn {% if not answer.is_satisfied %}active{% endif %}"
+                        <span class="reaction-btn down-btn {% if answer.is_down %}active{% endif %}"
                             aria-label="불만족">
                             <svg xmlns="http://www.w3.org/2000/svg" width="21" height="25" viewBox="0 0 21 25"
                                 fill="none">
@@ -215,7 +215,7 @@
             </div>
             {% endif %}
 
-            <a href="{% url 'writers:my_answer_list %'}" class="answer-list-btn"> 목록으로 돌아가기 </a>
+            <a href="{% url 'writers:my_answer_list' %}" class="answer-list-btn"> 목록으로 돌아가기 </a>
         </div>
     </div>
 
