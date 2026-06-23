@@ -110,6 +110,88 @@ def get_worries(request):
 
     return render(request, "worries/list.html", context)
 
+
+"""
+[우체통 렌더링]
+- 기능: 모든 고민글을 반환
+- 받는 값: X
+- return: 모든 Worry 객체
+"""
+def postbox(request):
+    profile = get_object_or_404(Profile, writer=request.user)
+    worry_count = profile.worry_count
+    points = profile.points
+
+    worries_per_page = 6 # 한 페이지 당 보여줄 고민 개수
+    page = request.GET.get("page", "1") # 현재 페이지 번호 가져오기
+
+    if page.isdigit():
+        page = int(page)
+    else:
+        page = 1
+
+    if page < 1:
+        page = 1
+
+    # 고민 리스트 조회
+    worries = Worry.objects.filter(
+        is_delete=False
+    ).order_by("-pub_date")
+
+    # 전체 고민 개수
+    total_count = worries.count()
+
+    # 전체 페이지 수 계산
+    if total_count == 0:
+        total_page = 1
+    else:
+        total_page = (total_count + worries_per_page - 1) // worries_per_page
+
+    if page > total_page: # 현재 페이지가 전체 페이지보다 크면 마지막 페이지로
+        page = total_page
+
+    # 페이지에 해당하는 고민 리스트 가져오기
+    start = (page - 1) * worries_per_page
+    end = start + worries_per_page
+    worries_in_page = worries[start:end]
+
+    worry_items = []
+    for worry in worries_in_page:   # 작성 경과 시간 함께 묶어서 제공
+        worry_items.append({
+            "worry": worry,
+            "time_ago": get_time_ago(worry.pub_date),
+            "cheerup_count": worry.cheerup_count,
+            "answer_count": Answer.objects.filter(worry=worry).count(),
+        })
+
+    # 하단에 출력할 페이지 번호 리스트
+    page_numbers = []
+    number = page
+
+    while number <= page + 2 and number <= total_page:
+        page_numbers.append(number)
+        number += 1
+        
+    context = {
+        "worry_count": worry_count,
+        "points": points,
+
+        "worries": worry_items,
+
+        "page": page,
+        "total_page": total_page,
+        
+        "has_prev": page > 1,
+        "has_next": page < total_page,
+        
+        "prev_page": page - 1,
+        "next_page": page + 1,
+        "page_numbers": page_numbers,
+    }
+
+    return render(request, "worries/postbox.html", context)
+
+
 """
 [고민 북마크 등록/취소]
 - 기능: 나중에 답변할 고민 북마크를 추가/삭제
@@ -162,7 +244,7 @@ def post_cheerup(request, worry_id):
     return redirect("worries:get_worries")
 
 """
-[고민 상세 화면 리다이렉트]S
+[고민 상세 화면 리다이렉트]
 - 기능: 고민 상세 화면으로 이동
 - 받는 값: worry_id
 - return: 성공 시 -> 고민 상세 화면으로 리다이렉트
