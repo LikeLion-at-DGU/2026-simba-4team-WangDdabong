@@ -20,24 +20,28 @@ Yang = {
         "price": 0,
         "image": "images/newbie.png",
         "description": "",
+        "worry_count": 0,
     },
     "young_yang": {
         "name": "어린양",
         "price": 5,
         "image": "images/worryang1.png",
         "description": "하루 당 +1 고민",
+        "worry_count": 1,
     },
     "very_yang": {
         "name": "버리양",
         "price": 20,
         "image": "images/store_2.png",
         "description": "하루 당 +3 고민",
+        "worry_count": 3,
     },
     "worry_yang": {
         "name": "워리양",
         "price": 50,
         "image": "images/store_3.png",
         "description": "하루 당 +5 고민\n새벽 배송 입장 가능",
+        "worry_count": 5,
     },
 }
 
