@@ -49,8 +49,7 @@
         {% for answer in my_answers_list %}
         <article class="reply-card">
 
-            <a href="{% url 'writers:my_answer' answer.id %}" class="card-link-overlay"
-                aria-label="답변 상세로 이동"></a>
+            <a href="{% url 'writers:my_answer' answer.id %}" class="card-link-overlay" aria-label="답변 상세로 이동"></a>
             <div class="reply-text">
                 <span class="reply-title">
                     {{ answer.worry.keyword }}
@@ -61,7 +60,6 @@
                 </span>
             </div>
 
-            <!-- 공개 여부: answer.worry.is_HoF -->
             <div class="open-box">
                 {% if answer.worry.is_HoF %}
                 <span class="open-icon active" aria-label="공개됨">
@@ -97,7 +95,6 @@
                 {% endif %}
             </div>
 
-            <!-- 만족 / 불만족 여부: answer.is_satisfied -->
             <div class="reply-meta">
                 <span class="reaction-icon like-icon {% if answer.is_satisfied == 1 %}active{% endif %}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="21" height="25" viewBox="0 0 21 25" fill="none">
@@ -132,14 +129,80 @@
     </div>
 
     <div class="pagination">
-        <button type="button" class="page-arrow">‹</button>
+        <button type="button" class="page-arrow prev-page">‹</button>
 
-        <button type="button" class="page-btn active">1</button>
-        <button type="button" class="page-btn">2</button>
-        <button type="button" class="page-btn">3</button>
+        <button type="button" class="page-btn active" data-page="1">1</button>
+        <button type="button" class="page-btn" data-page="2">2</button>
+        <button type="button" class="page-btn" data-page="3">3</button>
 
-        <button type="button" class="page-arrow">›</button>
+        <button type="button" class="page-arrow next-page">›</button>
     </div>
 </section>
 
+<script>
+    let currentPage = 1;
+    const cardsPerPage = 6;
+
+    function updatePagination() {
+        const cards = Array.from(document.querySelectorAll(".reply-card"));
+        const pageButtons = Array.from(document.querySelectorAll(".page-btn"));
+        const prevButton = document.querySelector(".prev-page");
+        const nextButton = document.querySelector(".next-page");
+
+        const totalPages = Math.max(1, Math.ceil(cards.length / cardsPerPage));
+
+        if (currentPage < 1) {
+            currentPage = 1;
+        }
+
+        if (currentPage > totalPages) {
+            currentPage = totalPages;
+        }
+
+        cards.forEach((card, index) => {
+            const start = (currentPage - 1) * cardsPerPage;
+            const end = start + cardsPerPage;
+
+            if (index >= start && index < end) {
+                card.classList.remove("hidden-card");
+            } else {
+                card.classList.add("hidden-card");
+            }
+        });
+
+        pageButtons.forEach((button) => {
+            const buttonPage = Number(button.dataset.page);
+
+            button.classList.toggle("active", buttonPage === currentPage);
+
+            if (buttonPage > totalPages) {
+                button.style.display = "none";
+            } else {
+                button.style.display = "flex";
+            }
+        });
+
+        prevButton.style.visibility = currentPage === 1 ? "hidden" : "visible";
+        nextButton.style.visibility = currentPage === totalPages ? "hidden" : "visible";
+    }
+
+    document.querySelectorAll(".page-btn").forEach((button) => {
+        button.addEventListener("click", function () {
+            currentPage = Number(button.dataset.page);
+            updatePagination();
+        });
+    });
+
+    document.querySelector(".prev-page").addEventListener("click", function () {
+        currentPage -= 1;
+        updatePagination();
+    });
+
+    document.querySelector(".next-page").addEventListener("click", function () {
+        currentPage += 1;
+        updatePagination();
+    });
+
+    updatePagination();
+</script>
 {% endblock %}
