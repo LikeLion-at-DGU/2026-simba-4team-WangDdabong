@@ -183,16 +183,68 @@ def delete_worry(request, worry_id):
 def my_answer_list(request):
 
     if not request.user.is_authenticated:
-        return redirect("accounts:login")   # 비로그인 시, 로그인 페이지로 넘어감
-    
-    my_answers_list = Answer.objects.filter(writer = request.user).order_by("-pub_date")  # 내 답변 최신순으로 정렬
+        return redirect("accounts:login")
+
+    answers_per_page = 6    # 한 페이지 당 보여줄 고민 개수
+    page = request.GET.get("page", "1") # 현재 페이지 번호 가져오기
+
+    if page.isdigit():
+        page = int(page)
+    else:
+        page = 1
+
+    if page < 1:
+        page = 1
+
+    # 내 답변 최신순 조회
+    my_answers = Answer.objects.filter(
+        writer=request.user
+    ).order_by("-pub_date")
+
+    # 전체 답변 수
+    total_count = my_answers.count()
+
+    # 전체 페이지 수
+    if total_count == 0:
+        total_page = 1
+    else:
+        total_page = (total_count + answers_per_page - 1) // answers_per_page
+
+    if page > total_page:
+        page = total_page
+
+    # 현재 페이지 답변만 가져오기
+    start = (page - 1) * answers_per_page
+    end = start + answers_per_page
+
+    answers_in_page = my_answers[start:end]
+
+    # 페이지 번호
+    page_numbers = []
+    number = page
+
+    while number <= page + 2 and number <= total_page:
+        page_numbers.append(number)
+        number += 1
 
     context = {
         **get_profile_context(request.user),
-        'my_answers_list' : my_answers_list,
+
+        "my_answers_list": answers_in_page,
+
+        "page": page,
+        "total_page": total_page,
+
+        "has_prev": page > 1,
+        "has_next": page < total_page,
+
+        "prev_page": page - 1,
+        "next_page": page + 1,
+
+        "page_numbers": page_numbers,
     }
 
-    return render(request, 'writers/my_answer_list.html', context)
+    return render(request, "writers/my_answer_list.html", context)
 
 """
     [내 답변 상세 함수]
