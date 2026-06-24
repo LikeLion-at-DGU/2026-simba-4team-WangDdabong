@@ -5,5 +5,6 @@ app_name = 'main'
 
 urlpatterns = [
     path('', home, name = 'home'),
+    path('<str:source>/', home, name = 'home'),
     path("daily_attend/", daily_attend, name="daily_attend")
 ]
