@@ -129,7 +129,7 @@ def worry_ing(request, worry_id):
     [배송 완료 고민 상세 함수]
     - 기능 : 완료된 고민과 답변, 후일담을 공개/비공개/후일담 유무에 따라 조회
     - 받는 값 : worry_id
-    - return : worry_complete.html 화면 표시
+    - return : worry_completed.html 화면 표시
 """
 def worry_completed(request, worry_id):
     if not request.user.is_authenticated:
@@ -151,7 +151,7 @@ def worry_completed(request, worry_id):
         "has_epilogue": epilogue is not None,
     }
 
-    return render(request, "writers/worry_complete.html", context)
+    return render(request, "writers/worry_completed.html", context)
 
 """
     [내 고민 삭제 함수]
@@ -476,55 +476,6 @@ def get_point_logs(request):
     }
 
     return render(request, "writers/point_logs.html", context)
-
-def my_worry_detail(request, worry_id):
-    if not request.user.is_authenticated:
-        return redirect("accounts:login")
-
-    profile = get_object_or_404(Profile, writer=request.user)
-
-    worry = get_object_or_404(
-        Worry,
-        pk=worry_id,
-        writer=request.user,
-        is_delete=False
-    )
-
-    answers = Answer.objects.filter(worry=worry).order_by("id")
-
-    context = {
-        "worry": worry,
-        "answers": answers,
-        "worry_count": profile.worry_count,
-        "points": profile.points,
-    }
-
-    return render(request, "writers/worry_answer.html", context)
-
-
-def worry_ing(request, worry_id):
-    return my_worry_detail(request, worry_id)
-
-
-def worry_completed(request, worry_id):
-    return worry_story(request, worry_id, "worry")
-
-
-def delete_worry(request, worry_id):
-    if not request.user.is_authenticated:
-        return redirect("accounts:login")
-
-    worry = get_object_or_404(
-        Worry,
-        pk=worry_id,
-        writer=request.user
-    )
-
-    worry.is_delete = True
-    worry.save()
-
-    return redirect("writers:my_worry")
-
 
 def my_answer_detail(request, answer_id):
     if not request.user.is_authenticated:
