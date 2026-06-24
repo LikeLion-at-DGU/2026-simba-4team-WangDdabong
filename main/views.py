@@ -246,6 +246,9 @@ def post_buy_yang(request, yang_id):
     user_yang.yang_id = yang_id
     user_yang.save()
 
+    profile.current_yang = yang_id
+    profile.save()
+
     return redirect("writers:mypage")
 
 """
