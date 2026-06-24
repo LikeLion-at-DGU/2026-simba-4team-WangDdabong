@@ -65,6 +65,7 @@ def get_worries(request):
 
     # 고민 리스트 조회
     worries = Worry.objects.filter(
+        mbti=profile.mbti,
         is_delete=False
     ).order_by("-pub_date")
 
@@ -273,6 +274,7 @@ def get_worry_detail(request, worry_id):
 
     context = {
         "worry": worry,
+        "worry_mbti": worry.mbti,
         "worry_count": profile.worry_count,
         "points": profile.points,
         "is_bookmarked": is_bookmarked,
