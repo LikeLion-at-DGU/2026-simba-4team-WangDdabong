@@ -256,7 +256,6 @@
     display: block;
 }
 
-/* 삭제 버튼 */
 .delete-form {
     margin: 0;
 }
@@ -278,8 +277,7 @@
     font-size: 16px;
     font-weight: 600;
     line-height: 150%;
-    margin-top: 22px;
-    cursor: pointer;
+    margin-top: 70px;
     flex-shrink: 0;
 }
 

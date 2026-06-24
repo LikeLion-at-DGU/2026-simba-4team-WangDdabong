@@ -213,15 +213,11 @@
 }
 
 .hof-bookmark-btn {
-    color: #FFFFFF;
+    color: white;
 }
 
 .hof-bookmark-btn.active {
     color: #AE4959;
-}
-
-.hof-bookmark-btn svg path {
-    fill: currentColor;
 }
 
 .icon {
