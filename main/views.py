@@ -220,7 +220,7 @@ def get_store(request):
         "store_popup_message": request.session.pop("store_popup_message", None),
     }
 
-    return render(request, "main/demo_yang_store.html", context)
+    return render(request, "main/yang_store.html", context)
 
 """
     [양 성장 과정 구매 함수]
