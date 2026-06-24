@@ -144,6 +144,12 @@ def daily_attend(request):
     new_attendance.save()
 
     # 기본 출석
+    current_week_start = today - timedelta(days=today.weekday())  # 이번 주 월요일 날짜
+    current_week_end = current_week_start + timedelta(days=6)    # 이번 주 일요일 날짜
+    if profile.signup_date.date() > current_week_end:  # 가입 주차는 고민개수 초기화 없음
+        yang = Yang[profile.current_yang]
+        profile.worry_count = yang["worry_count"]  # 현재 활성화 중인 양에 따른 기본 출석 개수
+        profile.save()
     edit_points(profile, "출석", 1)
     profile.last_attendance = today
 
