@@ -52,13 +52,16 @@
                 <div class="hof-worry-time">{{ worry.created_at|timesince }} 전</div>
             </a>
 
-            <form action="{% url 'writers:ep_bookmark' epilogue.id %}" method="post">
+            <form action="{% url 'writers:ep_bookmark' epilogue.id %}" method="post" class="bookmark-form">
                 {% csrf_token %}
-                <button type="submit" class="bookmark-btn">
+                <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                <button type="submit"
+                    class="bookmark-btn {% if request.user in epilogue.later_check.all %}active{% endif %}"
+                    aria-label="후일담 북마크">
                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="16" viewBox="0 0 12 16" fill="none">
                         <path
                             d="M0 1.5C0 0.671573 0.671573 0 1.5 0H10.5C11.3284 0 12 0.671573 12 1.5V14.4425C12 15.7697 10.4031 16.4431 9.45285 15.5165L7.04715 13.171C6.46459 12.603 5.53541 12.603 4.95285 13.171L2.54715 15.5165C1.59686 16.4431 0 15.7698 0 14.4425V1.5Z"
-                            fill="white" />
+                            fill="currentColor" />
                     </svg>
                 </button>
             </form>

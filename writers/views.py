@@ -339,12 +339,17 @@ def ep_bookmark(request, epilogue_id):
     if not request.user.is_authenticated:
         return redirect("accounts:login")   # 비로그인 시, 로그인 페이지로 넘어감
 
-    epilogue = get_object_or_404(Epilogue, pk = epilogue_id)
+    epilogue = get_object_or_404(Epilogue, pk=epilogue_id, ep_is_delete=False)
 
-    if request.user in epilogue.later_check.all():
-        epilogue.later_check.remove(request.user)
-    else:
-        epilogue.later_check.add(request.user)
+    if request.method == "POST":
+        if request.user in epilogue.later_check.all():
+            epilogue.later_check.remove(request.user)
+        else:
+            epilogue.later_check.add(request.user)
+
+    next_url = request.POST.get("next")
+    if next_url:
+        return redirect(next_url)
 
     return redirect("worries:hall_of_fame")
 

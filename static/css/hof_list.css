@@ -194,11 +194,20 @@
 
     flex-shrink: 0;
     cursor: pointer;
+    color: #FFFFFF;
 }
 
 .bookmark-btn svg {
     width: 12px;
     height: 16px;
+}
+
+.bookmark-btn.active {
+    color: #AE4959;
+}
+
+.bookmark-btn svg path {
+    fill: currentColor;
 }
 
 .hof-icons {
