@@ -52,7 +52,7 @@ def get_worries(request):
     worry_count = profile.worry_count
     points = profile.points
 
-    worries_per_page = 6 # 한 페이지 당 보여줄 고민 개수
+    worries_per_page = 100 # 한 페이지 당 보여줄 고민 개수
     page = request.GET.get("page", "1") # 현재 페이지 번호 가져오기
 
     if page.isdigit():
@@ -137,7 +137,7 @@ def postbox(request):
     worry_count = profile.worry_count
     points = profile.points
 
-    worries_per_page = 6
+    worries_per_page = 100
     page = request.GET.get("page", "1")
 
     if page.isdigit():
@@ -340,11 +340,62 @@ def post_answer(request, worry_id):
 """
 
 def hall_of_fame(request):
-    
-    hof_worries = Worry.objects.filter(is_HoF = True).order_by("-epilogue__ep_gonggam_count")   # 명예의 전당에 공개된 고민만 조회 가능
+
+    worries_per_page = 100
+    page = request.GET.get("page", "1")
+
+    if page.isdigit():
+        page = int(page)
+    else:
+        page = 1
+
+    if page < 1:
+        page = 1
+
+    # 후일담 공감도장 순 정렬
+    hof_worries = Worry.objects.filter(
+        is_HoF=True
+    ).order_by("-epilogue__ep_gonggam_count")
+
+    # 전체 고민 수
+    total_count = hof_worries.count()
+
+    # 전체 페이지 수
+    if total_count == 0:
+        total_page = 1
+    else:
+        total_page = (total_count + worries_per_page - 1) // worries_per_page
+
+    if page > total_page:
+        page = total_page
+
+    # 현재 페이지 데이터
+    start = (page - 1) * worries_per_page
+    end = start + worries_per_page
+
+    hof_worries_in_page = hof_worries[start:end]
+
+    # 페이지 번호
+    page_numbers = []
+    number = page
+
+    while number <= page + 2 and number <= total_page:
+        page_numbers.append(number)
+        number += 1
 
     context = {
-        'hof_worries' : hof_worries,
+        'hof_worries': hof_worries_in_page,
+
+        'page': page,
+        'total_page': total_page,
+
+        'has_prev': page > 1,
+        'has_next': page < total_page,
+
+        'prev_page': page - 1,
+        'next_page': page + 1,
+
+        'page_numbers': page_numbers,
     }
 
     if request.user.is_authenticated:

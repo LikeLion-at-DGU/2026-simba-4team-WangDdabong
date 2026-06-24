@@ -49,9 +49,7 @@
         {% for answer in my_answers_list %}
         <article class="reply-card">
 
-            <a href="{% url 'writers:my_answer' answer.id %}" class="card-link-overlay"
-                aria-label="답변 상세로 이동"></a>
-
+            <a href="{% url 'writers:my_answer' answer.id %}" class="card-link-overlay" aria-label="답변 상세로 이동"></a>
             <div class="reply-text">
                 <span class="reply-title">
                     {{ answer.worry.keyword }}
@@ -73,10 +71,9 @@
                         <line x1="3.32505" y1="1.6313" x2="4.53264" y2="3.60766" stroke="#3A3A3A"
                             stroke-linecap="round" />
                         <line x1="0.5" y1="-0.5" x2="2.81609" y2="-0.5"
-                            transform="matrix(-0.52139 0.853318 0.853318 0.52139 14.6255 1.46533)"
-                            stroke="#3A3A3A" stroke-linecap="round" />
-                        <line x1="8.70703" y1="0.5" x2="8.70703" y2="2.72414" stroke="#3A3A3A"
+                            transform="matrix(-0.52139 0.853318 0.853318 0.52139 14.6255 1.46533)" stroke="#3A3A3A"
                             stroke-linecap="round" />
+                        <line x1="8.70703" y1="0.5" x2="8.70703" y2="2.72414" stroke="#3A3A3A" stroke-linecap="round" />
                     </svg>
                 </span>
                 {% else %}
@@ -88,12 +85,11 @@
                         <line x1="3.32505" y1="1.6313" x2="4.53264" y2="3.60766" stroke="#3A3A3A"
                             stroke-linecap="round" />
                         <line x1="0.5" y1="-0.5" x2="2.81609" y2="-0.5"
-                            transform="matrix(-0.52139 0.853318 0.853318 0.52139 14.6255 1.46533)"
-                            stroke="#3A3A3A" stroke-linecap="round" />
-                        <line x1="8.70703" y1="0.5" x2="8.70703" y2="2.72414" stroke="#3A3A3A"
+                            transform="matrix(-0.52139 0.853318 0.853318 0.52139 14.6255 1.46533)" stroke="#3A3A3A"
                             stroke-linecap="round" />
-                        <path d="M1.6123 10.2588C3.95713 12.2617 9.99506 15.0657 15.3882 10.2588"
-                            stroke="#3A3A3A" stroke-width="2" stroke-linecap="round" />
+                        <line x1="8.70703" y1="0.5" x2="8.70703" y2="2.72414" stroke="#3A3A3A" stroke-linecap="round" />
+                        <path d="M1.6123 10.2588C3.95713 12.2617 9.99506 15.0657 15.3882 10.2588" stroke="#3A3A3A"
+                            stroke-width="2" stroke-linecap="round" />
                     </svg>
                 </span>
                 {% endif %}
@@ -106,8 +102,8 @@
                             d="M2.61172 20.8774C-1.21281 16.1264 1.01817 6.03046 2.61172 1.57636C8.17468 -2.38283 7.2475 5.53556 6.08854 9.98965C8.26157 8.83489 13.5638 7.21822 17.3883 9.98965C21.2128 12.7611 20.023 19.5262 18.4294 22.0007C15.0975 23.9803 6.43625 25.6285 2.61172 20.8774Z"
                             fill="currentColor" stroke="black" stroke-linecap="round" />
                         <circle cx="9.62944" cy="15.2007" r="0.7" fill="black" />
-                        <path d="M7.42944 17.5007C8.09611 18.5007 9.92944 20.2007 11.9294 19.0007"
-                            stroke="black" stroke-linecap="round" />
+                        <path d="M7.42944 17.5007C8.09611 18.5007 9.92944 20.2007 11.9294 19.0007" stroke="black"
+                            stroke-linecap="round" />
                         <circle cx="13.6294" cy="15.2007" r="0.7" fill="black" />
                     </svg>
                 </span>
@@ -118,8 +114,8 @@
                             d="M17.8292 3.58936C21.6537 8.34039 19.4228 18.4363 17.8292 22.8904C12.2662 26.8496 13.1934 18.9312 14.3524 14.4771C12.1793 15.6319 6.87716 17.2486 3.05264 14.4771C-0.771891 11.7057 0.417921 4.94056 2.01147 2.46606C5.34344 0.486465 14.0047 -1.16168 17.8292 3.58936Z"
                             fill="currentColor" stroke="black" stroke-linecap="round" />
                         <circle cx="7.75688" cy="6.20024" r="0.7" fill="black" />
-                        <path d="M9.99023 10.5564C9.38966 9.51536 7.67016 7.70031 5.59671 8.76839"
-                            stroke="black" stroke-linecap="round" />
+                        <path d="M9.99023 10.5564C9.38966 9.51536 7.67016 7.70031 5.59671 8.76839" stroke="black"
+                            stroke-linecap="round" />
                         <circle cx="11.7569" cy="6.20024" r="0.7" fill="black" />
                     </svg>
                 </span>
@@ -144,10 +140,10 @@
 </section>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        let currentPage = 1;
-        const cardsPerPage = 6;
+    let currentPage = 1;
+    const cardsPerPage = 6;
 
+    function updatePagination() {
         const cards = Array.from(document.querySelectorAll(".reply-card"));
         const pageButtons = Array.from(document.querySelectorAll(".page-btn"));
         const prevButton = document.querySelector(".prev-page");
@@ -155,61 +151,58 @@
 
         const totalPages = Math.max(1, Math.ceil(cards.length / cardsPerPage));
 
-        function updatePagination() {
-            if (currentPage < 1) {
-                currentPage = 1;
-            }
-
-            if (currentPage > totalPages) {
-                currentPage = totalPages;
-            }
-
-            cards.forEach(function (card, index) {
-                const start = (currentPage - 1) * cardsPerPage;
-                const end = start + cardsPerPage;
-
-                if (index >= start && index < end) {
-                    card.classList.remove("hidden-card");
-                } else {
-                    card.classList.add("hidden-card");
-                }
-            });
-
-            pageButtons.forEach(function (button) {
-                const buttonPage = Number(button.dataset.page);
-
-                button.classList.toggle("active", buttonPage === currentPage);
-
-                if (buttonPage > totalPages) {
-                    button.style.display = "none";
-                } else {
-                    button.style.display = "flex";
-                }
-            });
-
-            prevButton.style.visibility = currentPage === 1 ? "hidden" : "visible";
-            nextButton.style.visibility = currentPage === totalPages ? "hidden" : "visible";
+        if (currentPage < 1) {
+            currentPage = 1;
         }
 
-        pageButtons.forEach(function (button) {
-            button.addEventListener("click", function () {
-                currentPage = Number(button.dataset.page);
-                updatePagination();
-            });
+        if (currentPage > totalPages) {
+            currentPage = totalPages;
+        }
+
+        cards.forEach((card, index) => {
+            const start = (currentPage - 1) * cardsPerPage;
+            const end = start + cardsPerPage;
+
+            if (index >= start && index < end) {
+                card.classList.remove("hidden-card");
+            } else {
+                card.classList.add("hidden-card");
+            }
         });
 
-        prevButton.addEventListener("click", function () {
-            currentPage -= 1;
+        pageButtons.forEach((button) => {
+            const buttonPage = Number(button.dataset.page);
+
+            button.classList.toggle("active", buttonPage === currentPage);
+
+            if (buttonPage > totalPages) {
+                button.style.display = "none";
+            } else {
+                button.style.display = "flex";
+            }
+        });
+
+        prevButton.style.visibility = currentPage === 1 ? "hidden" : "visible";
+        nextButton.style.visibility = currentPage === totalPages ? "hidden" : "visible";
+    }
+
+    document.querySelectorAll(".page-btn").forEach((button) => {
+        button.addEventListener("click", function () {
+            currentPage = Number(button.dataset.page);
             updatePagination();
         });
+    });
 
-        nextButton.addEventListener("click", function () {
-            currentPage += 1;
-            updatePagination();
-        });
-
+    document.querySelector(".prev-page").addEventListener("click", function () {
+        currentPage -= 1;
         updatePagination();
     });
-</script>
 
+    document.querySelector(".next-page").addEventListener("click", function () {
+        currentPage += 1;
+        updatePagination();
+    });
+
+    updatePagination();
+</script>
 {% endblock %}
