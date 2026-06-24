@@ -65,9 +65,8 @@ def get_worries(request):
 
     # 고민 리스트 조회
     worries = Worry.objects.filter(
-    writer=request.user,
-    is_delete=False
-).order_by("-pub_date")
+        is_delete=False
+    ).order_by("-pub_date")
 
     # 전체 고민 개수
     total_count = worries.count()
