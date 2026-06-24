@@ -73,14 +73,13 @@ def home(request, source="DONT_CARE", epilogue_id=None):
     epilogue_han_madi = None
     popup_epilogue_id = None
 
-    session_epilogue_id = request.session.pop("show_epilogue_popup_id", None)
+    epilogue = Epilogue.objects.filter(
+        popup_users=request.user,
+        ep_is_delete=False
+    ).order_by("ep_pub_date", "id").first()
 
-    if (
-        source == "post_epilogue"
-        and epilogue_id is not None
-        and session_epilogue_id == epilogue_id
-    ):
-        epilogue = get_object_or_404(Epilogue, pk=epilogue_id, ep_is_delete=False)
+    if epilogue is not None:
+        epilogue.popup_users.remove(request.user)
         
         show_epilogue_popup = True
         epilogue_han_madi = epilogue.ep_han_madi
