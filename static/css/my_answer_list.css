@@ -87,22 +87,19 @@
     line-height: 120%;
 }
 
-/* 리스트 */
+
 .reply-list-wrap {
     width: 370px;
-    flex: 1;
-    min-height: 0;
+    height: 482px;
+    flex: 0 0 482px;
+    min-height: 482px;
+    max-height: 482px;
 
     display: flex;
     flex-direction: column;
     gap: 10px;
-
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding-bottom: 4px;
-
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+    overflow: hidden;
+    padding-bottom: 0;
 }
 
 .reply-list-wrap::-webkit-scrollbar {
@@ -348,4 +345,8 @@
     font-size: 13px;
     text-align: center;
     margin-top: 40px;
+}
+
+.hidden-card {
+    display: none;
 }
