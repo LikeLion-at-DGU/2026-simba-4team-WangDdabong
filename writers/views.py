@@ -185,7 +185,7 @@ def my_answer_list(request):
     if not request.user.is_authenticated:
         return redirect("accounts:login")
 
-    answers_per_page = 6    # 한 페이지 당 보여줄 고민 개수
+    answers_per_page = 100    # 한 페이지 당 보여줄 답변 개수
     page = request.GET.get("page", "1") # 현재 페이지 번호 가져오기
 
     if page.isdigit():
